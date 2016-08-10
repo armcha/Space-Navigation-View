@@ -71,11 +71,6 @@ public class SpaceNavigationView extends RelativeLayout {
         setLayoutParams(params);
     }
 
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        super.onLayout(changed, l, t, r, b);
-
-    }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -146,6 +141,8 @@ public class SpaceNavigationView extends RelativeLayout {
 
         addView(centreContent, centreContentParams);
         addView(mainContent, mainContentParams);
+
+        postRequestLayout();
     }
 
     /**
