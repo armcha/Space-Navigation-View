@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SpaceNavigationView">
+        <!-- If text will be enabled for the tabs, defaulted to true -->
+        <attr name="snv_with_text" format="boolean" />
+        <!-- If there will be a shadow on the view, default is true -->
+        <attr name="snv_shadow" format="boolean" />
+        <!-- If the view should be set up for a tablet, default is false -->
+        <attr name="snv_tablet" format="boolean" />
+        <!-- Disable or enable the background color, default is true -->
+        <attr name="snv_colored_background" format="boolean" />
+        <!-- If a supplied ViewPager will have a slide animation, default is true -->
+        <attr name="bnv_viewpager_slide" format="boolean" />
+        <!-- Text size for the active tab, default size is 14sp -->
+        <attr name="bnv_active_text_size" format="dimension" />
+        <!-- Text size for an inactive tab, default size is 12sp -->
+        <attr name="bnv_inactive_text_size" format="dimension" />
+        <!-- The color of an activated tab. Will only be considered if bnv_colored_background is false, no default is set -->
+        <attr name="bnv_active_color" format="color" />
+    </declare-styleable>
+
+</resources>
