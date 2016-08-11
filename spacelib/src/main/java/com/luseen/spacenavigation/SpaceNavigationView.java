@@ -80,8 +80,8 @@ public class SpaceNavigationView extends RelativeLayout {
          * Layouts initializations
          */
         RelativeLayout mainContent = new RelativeLayout(context);
-        RelativeLayout centreContent = new RelativeLayout(context);
         LinearLayout leftContent = new LinearLayout(context);
+        BezierView centreContent = buildBezierView();
         LinearLayout rightContent = new LinearLayout(context);
         FloatingActionButton fab = new FloatingActionButton(context);
         fab.setSize(FloatingActionButton.SIZE_AUTO);
@@ -127,7 +127,7 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Adding view to centreContent
          */
-        centreContent.addView(fab, fabParams);
+        //centreContent.addView(fab, fabParams);
 
         /**
          * Adding views to mainContent
@@ -145,6 +145,13 @@ public class SpaceNavigationView extends RelativeLayout {
         postRequestLayout();
     }
 
+    private BezierView buildBezierView(){
+        BezierView bezierView = new BezierView(context);
+        bezierView
+
+        return bezierView;
+    }
+
     /**
      * Indicate event queue that we have changed the View hierarchy during a layout pass
      */
@@ -156,5 +163,4 @@ public class SpaceNavigationView extends RelativeLayout {
             }
         });
     }
-
 }
