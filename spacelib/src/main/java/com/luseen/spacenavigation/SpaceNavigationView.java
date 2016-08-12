@@ -66,7 +66,7 @@ public class SpaceNavigationView extends RelativeLayout {
         ViewGroup.LayoutParams params = getLayoutParams();
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = spaceNavigationHeight;
-        setBackgroundColor(ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.background_color));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.transparent));
         // setClickable(false); // FIXME: 10.08.2016
         setLayoutParams(params);
     }
@@ -127,7 +127,7 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Adding view to centreContent
          */
-        //centreContent.addView(fab, fabParams);
+        centreContent.addView(fab, fabParams);
 
         /**
          * Adding views to mainContent
@@ -145,9 +145,9 @@ public class SpaceNavigationView extends RelativeLayout {
         postRequestLayout();
     }
 
-    private BezierView buildBezierView(){
+    private BezierView buildBezierView() {
         BezierView bezierView = new BezierView(context);
-        bezierView.build(centreContentWight);
+        bezierView.build(centreContentWight, spaceNavigationHeight - mainContentHeight);
 
         return bezierView;
     }

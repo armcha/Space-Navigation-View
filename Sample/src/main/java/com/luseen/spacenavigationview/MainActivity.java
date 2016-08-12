@@ -18,12 +18,12 @@ public class MainActivity extends AppCompatActivity {
 
         final BezierView centreContent = new BezierView(this);
 
-        FrameLayout r = (FrameLayout) findViewById(R.id.activity_main);
-        FrameLayout.LayoutParams mainContentParams =
-                new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        centreContent.setBackgroundColor(ContextCompat.getColor(this, R.color.neee));
-        mainContentParams.setMargins(0, 0, 0, 0);
-        r.addView(centreContent, mainContentParams);
+//        FrameLayout r = (FrameLayout) findViewById(R.id.activity_main);
+//        FrameLayout.LayoutParams mainContentParams =
+//                new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//        centreContent.setBackgroundColor(ContextCompat.getColor(this, R.color.neee));
+//        mainContentParams.setMargins(0, 0, 0, 0);
+//        r.addView(centreContent, mainContentParams);
 
     }
 }
