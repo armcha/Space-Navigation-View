@@ -83,6 +83,7 @@ public class SpaceNavigationView extends RelativeLayout {
         LinearLayout leftContent = new LinearLayout(context);
         BezierView centreContent = buildBezierView();
         LinearLayout rightContent = new LinearLayout(context);
+        RelativeLayout centreBackgroundView = new RelativeLayout(context);
         FloatingActionButton fab = new FloatingActionButton(context);
         fab.setSize(FloatingActionButton.SIZE_AUTO);
 
@@ -106,6 +107,13 @@ public class SpaceNavigationView extends RelativeLayout {
         centreContentParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
         /**
+         * Centre Background View content size and position
+         */
+        LayoutParams centreBackgroundViewParams = new LayoutParams(centreContentWight, mainContentHeight);
+        centreBackgroundViewParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        centreBackgroundViewParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+        /**
          * Left content size
          */
         LayoutParams leftContentParams = new LayoutParams((w - spaceNavigationHeight) / 2, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -120,9 +128,9 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Adding views background colors
          */
-        leftContent.setBackgroundColor(ContextCompat.getColor(context, R.color.white1));
+        leftContent.setBackgroundColor(ContextCompat.getColor(context, R.color.white2));
         rightContent.setBackgroundColor(ContextCompat.getColor(context, R.color.white2));
-        centreContent.setBackgroundColor(ContextCompat.getColor(context, R.color.white3));
+        centreBackgroundView.setBackgroundColor(ContextCompat.getColor(context, R.color.white2));
 
         /**
          * Adding view to centreContent
@@ -138,7 +146,7 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Adding views to mainView
          */
-
+        addView(centreBackgroundView, centreBackgroundViewParams);
         addView(centreContent, centreContentParams);
         addView(mainContent, mainContentParams);
 

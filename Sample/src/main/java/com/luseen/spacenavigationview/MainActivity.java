@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final BezierView centreContent = new BezierView(this);
+       // final BezierView centreContent = new BezierView(this);
 
 //        FrameLayout r = (FrameLayout) findViewById(R.id.activity_main);
 //        FrameLayout.LayoutParams mainContentParams =

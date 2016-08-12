@@ -2,14 +2,9 @@ package com.luseen.spacenavigation;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.icu.math.BigDecimal;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 /**
@@ -32,19 +27,24 @@ public class BezierView extends RelativeLayout {
         this.context = context;
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         path = new Path();
-        paint.setColor(Color.WHITE);
-        paint.setStrokeWidth(3);
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(ContextCompat.getColor(context, R.color.white2));
+        paint.setStrokeWidth(0);
+        paint.setStyle(Paint.Style.FILL);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        //setBackgroundColor(ContextCompat.getColor(context, R.color.white1));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.transparent));
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
+
+        /**
+         * Reset path before drawing
+         */
+        path.reset();
 
         /**
          * Start point for drawing
@@ -54,12 +54,7 @@ public class BezierView extends RelativeLayout {
         /**
          * Seth half path of bezier view
          */
-        path.cubicTo(bezierHeight, bezierHeight, bezierHeight, 0, bezierWidth / 2, 0);
-
-        /**
-         * Move draw start path to first bezier view end path
-         */
-        path.moveTo(bezierWidth / 2, 0);
+        path.cubicTo(bezierWidth / 4, bezierHeight, bezierWidth / 4, 0, bezierWidth / 2, 0);
 
         /**
          * Seth second part of bezier view
