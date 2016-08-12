@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
  * Created by Chatikyan on 10.08.2016-15:19.
  */
 
-public class BezierView extends RelativeLayout {
+class BezierView extends RelativeLayout {
 
     private Paint paint;
 
@@ -22,12 +22,12 @@ public class BezierView extends RelativeLayout {
     private Context context;
 
 
-    public BezierView(Context context) {
+    public BezierView(Context context, int backgroundColor) {
         super(context);
         this.context = context;
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         path = new Path();
-        paint.setColor(ContextCompat.getColor(context, R.color.white2));
+        paint.setColor(backgroundColor);
         paint.setStrokeWidth(0);
         paint.setStyle(Paint.Style.FILL);
     }
@@ -65,11 +65,6 @@ public class BezierView extends RelativeLayout {
          * Draw our bezier view
          */
         canvas.drawPath(path, paint);
-
-        /**
-         * Draw line to connect bezier view start and end points
-         */
-        canvas.drawLine(bezierWidth, bezierHeight, 0, bezierHeight, paint);
     }
 
     public void build(int bezierWidth, int bezierHeight) {

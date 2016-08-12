@@ -1,6 +1,7 @@
 package com.luseen.spacenavigation;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +10,8 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import static android.net.sip.SipSession.State.NOT_DEFINED;
 
 /**
  * Created by Chatikyan on 10.08.2016-11:38.
@@ -25,6 +28,12 @@ public class SpaceNavigationView extends RelativeLayout {
     private final int mainContentHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.main_content_height);
 
     private final int centreContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.centre_content_width);
+
+    private int spaceBackgroundColor = NOT_DEFINED;
+
+    private int centreButtonColor = NOT_DEFINED;
+
+    private int centreButtonIcon = NOT_DEFINED;
 
 
     public SpaceNavigationView(Context context) {
@@ -63,6 +72,13 @@ public class SpaceNavigationView extends RelativeLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
+        if (spaceBackgroundColor == NOT_DEFINED)
+            spaceBackgroundColor = ContextCompat.getColor(context, R.color.default_color);
+        if (centreButtonColor == NOT_DEFINED)
+            centreButtonColor = ContextCompat.getColor(context, R.color.centre_button_color);
+        if (centreButtonIcon == NOT_DEFINED)
+            centreButtonIcon = android.R.drawable.stat_notify_call_mute;
+
         ViewGroup.LayoutParams params = getLayoutParams();
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = spaceNavigationHeight;
@@ -77,15 +93,25 @@ public class SpaceNavigationView extends RelativeLayout {
         super.onSizeChanged(w, h, oldw, oldh);
 
         /**
+         * Removing all view for not being duplicated
+         */
+        removeAllViews();
+
+        /**
          * Layouts initializations
          */
         RelativeLayout mainContent = new RelativeLayout(context);
-        LinearLayout leftContent = new LinearLayout(context);
-        BezierView centreContent = buildBezierView();
-        LinearLayout rightContent = new LinearLayout(context);
         RelativeLayout centreBackgroundView = new RelativeLayout(context);
+
+        LinearLayout leftContent = new LinearLayout(context);
+        LinearLayout rightContent = new LinearLayout(context);
+
+        BezierView centreContent = buildBezierView();
+
         FloatingActionButton fab = new FloatingActionButton(context);
         fab.setSize(FloatingActionButton.SIZE_AUTO);
+        fab.setBackgroundTintList(ColorStateList.valueOf(centreButtonColor));
+        fab.setImageResource(centreButtonIcon);
 
         /**
          * Set fab layout params
@@ -128,9 +154,9 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Adding views background colors
          */
-        leftContent.setBackgroundColor(ContextCompat.getColor(context, R.color.white2));
-        rightContent.setBackgroundColor(ContextCompat.getColor(context, R.color.white2));
-        centreBackgroundView.setBackgroundColor(ContextCompat.getColor(context, R.color.white2));
+        leftContent.setBackgroundColor(spaceBackgroundColor);
+        rightContent.setBackgroundColor(spaceBackgroundColor);
+        centreBackgroundView.setBackgroundColor(spaceBackgroundColor);
 
         /**
          * Adding view to centreContent
@@ -153,8 +179,13 @@ public class SpaceNavigationView extends RelativeLayout {
         postRequestLayout();
     }
 
+    /**
+     * Creating bezier view with params
+     *
+     * @return created bezier view
+     */
     private BezierView buildBezierView() {
-        BezierView bezierView = new BezierView(context);
+        BezierView bezierView = new BezierView(context, spaceBackgroundColor);
         bezierView.build(centreContentWight, spaceNavigationHeight - mainContentHeight);
 
         return bezierView;
@@ -170,5 +201,33 @@ public class SpaceNavigationView extends RelativeLayout {
                 requestLayout();
             }
         });
+    }
+
+
+    /**
+     * Set centre circle button background color
+     *
+     * @param centreButtonColor target color
+     */
+    public void setCentreButtonColor(int centreButtonColor) {
+        this.centreButtonColor = centreButtonColor;
+    }
+
+    /**
+     * Set main background color
+     *
+     * @param spaceBackgroundColor target color
+     */
+    public void setSpaceBackgroundColor(int spaceBackgroundColor) {
+        this.spaceBackgroundColor = spaceBackgroundColor;
+    }
+
+    /**
+     * Set centre button icon
+     *
+     * @param centreButtonIcon target icon
+     */
+    public void setCentreButtonIcon(int centreButtonIcon) {
+        this.centreButtonIcon = centreButtonIcon;
     }
 }

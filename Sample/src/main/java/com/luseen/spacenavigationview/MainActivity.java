@@ -1,22 +1,21 @@
 package com.luseen.spacenavigationview;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
-import com.luseen.spacenavigation.BezierView;
+import com.luseen.spacenavigation.SpaceNavigationView;
+
 
 public class MainActivity extends AppCompatActivity {
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-       // final BezierView centreContent = new BezierView(this);
+        SpaceNavigationView spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
+//        spaceNavigationView.setSpaceBackgroundColor(ContextCompat.getColor(this,android.R.color.holo_green_dark));
+//        spaceNavigationView.setCentreButtonColor(ContextCompat.getColor(this,android.R.color.holo_orange_light));
+        //spaceNavigationView.setCentreButtonIcon(android.R.drawable.sym_call_incoming);
 
 //        FrameLayout r = (FrameLayout) findViewById(R.id.activity_main);
 //        FrameLayout.LayoutParams mainContentParams =

@@ -1,6 +1,6 @@
 <resources>
     <dimen name="space_navigation_height">70dp</dimen>
-    <dimen name="main_content_height">45dp</dimen>
+    <dimen name="main_content_height">50dp</dimen>
     <dimen name="fab_margin">7dp</dimen>
     <dimen name="centre_content_width">110dp</dimen>
 </resources>
