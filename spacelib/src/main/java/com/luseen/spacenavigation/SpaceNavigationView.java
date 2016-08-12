@@ -147,7 +147,7 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private BezierView buildBezierView(){
         BezierView bezierView = new BezierView(context);
-        bezierView
+        bezierView.build(centreContentWight);
 
         return bezierView;
     }

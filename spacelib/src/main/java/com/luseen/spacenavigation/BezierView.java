@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -19,6 +20,7 @@ public class BezierView extends View {
 
     private int bezierWidth;
 
+
     public BezierView(Context context) {
         super(context);
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -30,10 +32,28 @@ public class BezierView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        Log.e("onDraw ", "b " + bezierWidth);
+
+        /**
+         * Start point for drawing
+         */
         path.moveTo(0, 100);
-        path.cubicTo(100, 100, 100, 25, 200, 20);
-        path.moveTo(200, 20);
-        path.cubicTo(300, 20, 300, 100, 400, 100);
+
+        /**
+         * Draw half bezier view
+         */
+        path.cubicTo(100, 100, 100, 25, 200, 0);
+
+        /**
+         * Move draw start path to first bezier view end path
+         */
+        path.moveTo(200, 0);
+
+        /**
+         * Draw second part of bezier view
+         */
+        path.cubicTo(300, 0, 300, 100, 400, 100);
+
         canvas.drawLine(400, 100, 0, 100, paint);
         canvas.drawPath(path, paint);
     }
