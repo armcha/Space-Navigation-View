@@ -3,7 +3,12 @@
     <color name="background_color">#757575</color>
     <color name="transparent">#00000000</color>
     <color name="white">#ffffff</color>
-    <color name="default_color">#505050</color>
-    <color name="centre_button_color">#304ffe</color>
+    <color name="default_color">#2A3137</color>
+    <color name="centre_button_color">#4285F4</color>
+    <color name="default_active_item_color">#B0BEC5</color>
+    <color name="ccc">#ffe100</color>
+    <color name="selected_item_color">#3fffffff</color>
 
+    <color name="white_with_alpha">#d0ffffff</color>
+    <color name="colorBackgroundHighlightWhite">#8dffffff</color>
 </resources>

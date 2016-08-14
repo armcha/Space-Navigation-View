@@ -2,9 +2,11 @@ package com.luseen.spacenavigationview;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
+import com.luseen.spacenavigation.SpaceOnClickListener;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -14,8 +16,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SpaceNavigationView spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
-        spaceNavigationView.addSpaceItem(new SpaceItem("Test1",android.R.drawable.presence_busy));
-        spaceNavigationView.addSpaceItem(new SpaceItem("Test2",android.R.drawable.presence_away));
+        spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
+        spaceNavigationView.addSpaceItem(new SpaceItem("CALL", R.drawable.bell));
+        //spaceNavigationView.addSpaceItem(new SpaceItem("NEWS", R.drawable.home));
+        //spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
+        //spaceNavigationView.showIconOnly();
+
+        spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
+            @Override
+            public void onCentreButtonClick() {
+                Log.e("onCentreButtonClick ", "onCentreButtonClick");
+            }
+
+            @Override
+            public void onItemClick(int itemIndex) {
+                Log.e("onItemClick ", "" + itemIndex);
+            }
+        });
+
+
         //spaceNavigationView.addSpaceItem(new SpaceItem("Test2",android.R.drawable.presence_away));
         //spaceNavigationView.addSpaceItem(new SpaceItem("Test2",android.R.drawable.presence_away));
 //        spaceNavigationView.setSpaceBackgroundColor(ContextCompat.getColor(this,android.R.color.holo_green_dark));

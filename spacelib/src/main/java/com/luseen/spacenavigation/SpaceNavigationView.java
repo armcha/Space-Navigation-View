@@ -7,7 +7,6 @@ import android.content.res.TypedArray;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,17 +19,21 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.luseen.spacenavigation.SpaceStatus.NOT_DEFINED;
-
 /**
  * Created by Chatikyan on 10.08.2016-11:38.
  */
 
 public class SpaceNavigationView extends RelativeLayout {
 
+    private static final int NOT_DEFINED = -1;
+
     private Context context;
 
+    private SpaceOnClickListener spaceOnClickListener;
+
     private List<SpaceItem> spaceItems = new ArrayList<>();
+
+    private List<View> spaceItemList = new ArrayList<>();
 
     private final int spaceNavigationHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_navigation_height);
 
@@ -40,11 +43,25 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private final int centreContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.centre_content_width);
 
-    private int spaceBackgroundColor = NOT_DEFINED.getStatus();
+    private final int itemIconSize = (int) getResources().getDimension(R.dimen.space_item_icon_default_size);
 
-    private int centreButtonColor = NOT_DEFINED.getStatus();
+    private final int itemIconOnlySize = (int) getResources().getDimension(R.dimen.space_item_icon_only_size);
 
-    private int centreButtonIcon = NOT_DEFINED.getStatus();
+    private int spaceBackgroundColor = NOT_DEFINED;
+
+    private int centreButtonColor = NOT_DEFINED;
+
+    private int centreButtonIcon = NOT_DEFINED;
+
+    private int activeSpaceItemColor = NOT_DEFINED;
+
+    private int inActiveSpaceItemColor = NOT_DEFINED;
+
+    private int currentSelectedItem = 0;
+
+    private boolean textOnly = false;
+
+    private boolean iconOnly = false;
 
 
     public SpaceNavigationView(Context context) {
@@ -83,35 +100,43 @@ public class SpaceNavigationView extends RelativeLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        if (spaceBackgroundColor == NOT_DEFINED.getStatus())
+        /**
+         * Set default colors
+         */
+        if (spaceBackgroundColor == NOT_DEFINED)
             spaceBackgroundColor = ContextCompat.getColor(context, R.color.default_color);
-        if (centreButtonColor == NOT_DEFINED.getStatus())
+        if (centreButtonColor == NOT_DEFINED)
             centreButtonColor = ContextCompat.getColor(context, R.color.centre_button_color);
-        if (centreButtonIcon == NOT_DEFINED.getStatus())
-            centreButtonIcon = android.R.drawable.stat_notify_call_mute;
+        if (centreButtonIcon == NOT_DEFINED)
+            centreButtonIcon = R.drawable.near_me;
+        if (activeSpaceItemColor == NOT_DEFINED)
+            activeSpaceItemColor = R.color.white;
+        if (inActiveSpaceItemColor == NOT_DEFINED)
+            inActiveSpaceItemColor = R.color.default_active_item_color;
 
+        /**
+         * Set main layout size and color
+         */
         ViewGroup.LayoutParams params = getLayoutParams();
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = spaceNavigationHeight;
         setBackgroundColor(ContextCompat.getColor(context, R.color.transparent));
-        // setClickable(false); // FIXME: 10.08.2016
         setLayoutParams(params);
     }
-
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
-//        if (spaceItems.size() < 2) {
-//            throw new NullPointerException("Your space item count must be greater 2 ," +
-//                    " your current items count is" + spaceItems.size());
-//        }
-//
-//        if (spaceItems.size() > 4) {
-//            throw new IndexOutOfBoundsException("Your items count maximum can be 4," +
-//                    " your current count is " + spaceItems.size());
-//        }
+        if (spaceItems.size() < 2) {
+            throw new NullPointerException("Your space item count must be greater than 2 ," +
+                    " your current items count is : " + spaceItems.size());
+        }
+
+        if (spaceItems.size() > 4) {
+            throw new IndexOutOfBoundsException("Your items count maximum can be 4," +
+                    " your current items count is : " + spaceItems.size());
+        }
 
         /**
          * Removing all view for not being duplicated
@@ -119,7 +144,7 @@ public class SpaceNavigationView extends RelativeLayout {
         removeAllViews();
 
         /**
-         * Layouts initializations
+         * Views initializations and customizing
          */
         RelativeLayout mainContent = new RelativeLayout(context);
         RelativeLayout centreBackgroundView = new RelativeLayout(context);
@@ -133,6 +158,13 @@ public class SpaceNavigationView extends RelativeLayout {
         fab.setSize(FloatingActionButton.SIZE_AUTO);
         fab.setBackgroundTintList(ColorStateList.valueOf(centreButtonColor));
         fab.setImageResource(centreButtonIcon);
+        fab.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (spaceOnClickListener != null)
+                    spaceOnClickListener.onCentreButtonClick();
+            }
+        });
 
         /**
          * Set fab layout params
@@ -177,8 +209,7 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Adding views background colors
          */
-        // FIXME: 13.08.2016 
-        leftContent.setBackgroundColor(ContextCompat.getColor(context, R.color.centre_button_color));
+        leftContent.setBackgroundColor(spaceBackgroundColor);
         rightContent.setBackgroundColor(spaceBackgroundColor);
         centreBackgroundView.setBackgroundColor(spaceBackgroundColor);
 
@@ -205,9 +236,18 @@ public class SpaceNavigationView extends RelativeLayout {
          */
         addSpaceItems(leftContent, rightContent);
 
+        /**
+         * Redraw main view to make subviews visible
+         */
         postRequestLayout();
     }
 
+    /**
+     * Adding given space items to content
+     *
+     * @param leftContent  to left content
+     * @param rightContent and right content
+     */
     private void addSpaceItems(LinearLayout leftContent, LinearLayout rightContent) {
 
         /**
@@ -218,20 +258,51 @@ public class SpaceNavigationView extends RelativeLayout {
             rightContent.removeAllViews();
         }
 
+        /**
+         * Clear spaceItemList for not being duplicated
+         */
+        spaceItemList.clear();
+
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        for (SpaceItem spaceItem : spaceItems) {
+        for (int i = 0; i < spaceItems.size(); i++) {
+            final int index = i;
+
             LinearLayout.LayoutParams textAndIconContainerParams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, mainContentHeight, Gravity.CENTER);
-
             LinearLayout textAndIconContainer = (LinearLayout) inflater.inflate(R.layout.space_item_view, this, false);
             textAndIconContainer.setLayoutParams(textAndIconContainerParams);
 
             ImageView spaceItemIcon = (ImageView) textAndIconContainer.getChildAt(0);
             TextView spaceItemText = (TextView) textAndIconContainer.getChildAt(1);
-            spaceItemIcon.setImageResource(spaceItem.getItemIcon());
-            spaceItemText.setText(spaceItem.getItemName());
+            spaceItemIcon.setImageResource(spaceItems.get(i).getItemIcon());
+            spaceItemText.setText(spaceItems.get(i).getItemName());
 
+            /**
+             * Hide item icon and show only text
+             */
+            if (textOnly)
+                Utils.changeViewVisibilityGone(spaceItemIcon);
+
+            /**
+             * Hide item text and show only icon
+             */
+            if (iconOnly) {
+                ViewGroup.LayoutParams iconParams = spaceItemIcon.getLayoutParams();
+                iconParams.height = itemIconOnlySize;
+                iconParams.width = itemIconOnlySize;
+                spaceItemIcon.setLayoutParams(iconParams);
+                Utils.changeViewVisibilityGone(spaceItemText);
+            }
+
+            /**
+             * Adding space items to item list for future
+             */
+            spaceItemList.add(textAndIconContainer);
+
+            /**
+             * Adding sub views to left and right sides
+             */
             if (spaceItems.size() == 2 && leftContent.getChildCount() == 1) {
                 rightContent.addView(textAndIconContainer, textAndIconContainerParams);
             } else if (spaceItems.size() > 2 && leftContent.getChildCount() == 2) {
@@ -239,7 +310,68 @@ public class SpaceNavigationView extends RelativeLayout {
             } else {
                 leftContent.addView(textAndIconContainer, textAndIconContainerParams);
             }
+
+            /**
+             * Changing current selected item tint
+             */
+            if (i == currentSelectedItem) {
+                spaceItemText.setTextColor(ContextCompat.getColor(context, activeSpaceItemColor));
+                Utils.changeImageViewTint(context, spaceItemIcon, activeSpaceItemColor);
+            } else {
+                spaceItemText.setTextColor(ContextCompat.getColor(context, inActiveSpaceItemColor));
+                Utils.changeImageViewTint(context, spaceItemIcon, inActiveSpaceItemColor);
+            }
+
+            textAndIconContainer.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    updateSpaceItems(index);
+                }
+            });
         }
+    }
+
+    /**
+     * Update selected item and change it's and non selected item tint
+     *
+     * @param selectedIndex item in index
+     */
+    private void updateSpaceItems(final int selectedIndex) {
+
+        if (currentSelectedItem == selectedIndex)
+            return;
+
+        /**
+         * Change active and inactive icon and text color
+         */
+        for (int i = 0; i < spaceItemList.size(); i++) {
+            if (i == selectedIndex) {
+                LinearLayout textAndIconContainer = (LinearLayout) spaceItemList.get(selectedIndex);
+                ImageView spaceItemIcon = (ImageView) textAndIconContainer.getChildAt(0);
+                TextView spaceItemText = (TextView) textAndIconContainer.getChildAt(1);
+                spaceItemText.setTextColor(ContextCompat.getColor(context, activeSpaceItemColor));
+                Utils.changeImageViewTint(context, spaceItemIcon, activeSpaceItemColor);
+            } else if (i == currentSelectedItem) {
+                LinearLayout textAndIconContainer = (LinearLayout) spaceItemList.get(i);
+                ImageView spaceItemIcon = (ImageView) textAndIconContainer.getChildAt(0);
+                TextView spaceItemText = (TextView) textAndIconContainer.getChildAt(1);
+                spaceItemText.setTextColor(ContextCompat.getColor(context, inActiveSpaceItemColor));
+                Utils.changeImageViewTint(context, spaceItemIcon, inActiveSpaceItemColor);
+            }
+        }
+
+        /**
+         * Set a listener that gets fired when the selected item changes
+         *
+         * @param listener a listener for monitoring changes in item selection
+         */
+        if (spaceOnClickListener != null)
+            spaceOnClickListener.onItemClick(selectedIndex);
+
+        /**
+         * Change current selected item index
+         */
+        currentSelectedItem = selectedIndex;
     }
 
     /**
@@ -295,11 +427,52 @@ public class SpaceNavigationView extends RelativeLayout {
     }
 
     /**
+     * Set active item text color
+     *
+     * @param activeSpaceItemColor color to change
+     */
+    public void setActiveSpaceItemColor(int activeSpaceItemColor) {
+        this.activeSpaceItemColor = activeSpaceItemColor;
+    }
+
+    /**
+     * Set inactive item text color
+     *
+     * @param inActiveSpaceItemColor color to change
+     */
+    public void setInActiveSpaceItemColor(int inActiveSpaceItemColor) {
+        this.inActiveSpaceItemColor = inActiveSpaceItemColor;
+    }
+
+    /**
+     * Show only text in item
+     */
+    public void showTextOnly() {
+        textOnly = true;
+    }
+
+    /**
+     * Show only icon in item
+     */
+    public void showIconOnly() {
+        iconOnly = true;
+    }
+
+    /**
      * Add space item to navigation
      *
      * @param spaceItem item to add
      */
     public void addSpaceItem(SpaceItem spaceItem) {
         spaceItems.add(spaceItem);
+    }
+
+    /**
+     * Set item and centre click
+     *
+     * @param spaceOnClickListener space click listener
+     */
+    public void setSpaceOnClickListener(SpaceOnClickListener spaceOnClickListener) {
+        this.spaceOnClickListener = spaceOnClickListener;
     }
 }

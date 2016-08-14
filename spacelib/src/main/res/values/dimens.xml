@@ -3,4 +3,6 @@
     <dimen name="main_content_height">50dp</dimen>
     <dimen name="fab_margin">7dp</dimen>
     <dimen name="centre_content_width">110dp</dimen>
+    <dimen name="space_item_icon_default_size">18dp</dimen>
+    <dimen name="space_item_icon_only_size">25dp</dimen>
 </resources>
