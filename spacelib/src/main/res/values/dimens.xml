@@ -5,4 +5,5 @@
     <dimen name="centre_content_width">110dp</dimen>
     <dimen name="space_item_icon_default_size">18dp</dimen>
     <dimen name="space_item_icon_only_size">25dp</dimen>
+    <dimen name="space_item_text_default_size">14sp</dimen>
 </resources>

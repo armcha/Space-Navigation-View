@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="10dp"
+        android:textSize="@dimen/space_item_text_default_size"
         android:gravity="center"
         android:lines="1"
         tools:text="Label One" />

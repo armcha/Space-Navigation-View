@@ -18,9 +18,15 @@ public class MainActivity extends AppCompatActivity {
         SpaceNavigationView spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
         spaceNavigationView.addSpaceItem(new SpaceItem("CALL", R.drawable.bell));
-        //spaceNavigationView.addSpaceItem(new SpaceItem("NEWS", R.drawable.home));
+        spaceNavigationView.addSpaceItem(new SpaceItem("NEWS", R.drawable.home));
+        spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
         //spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
-        //spaceNavigationView.showIconOnly();
+//        spaceNavigationView.showIconOnly();
+//
+        //spaceNavigationView.setSpaceItemIconSize((int) getResources().getDimension(R.dimen.space_item_icon_only_size));
+//        spaceNavigationView.setSpaceItemIconSizeInOnlyIconMode(200);
+        //spaceNavigationView.setSpaceItemTextSize((int) getResources().getDimension(R.dimen.space_item_text_default_sizsssssssssssse));
+
 
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
@@ -29,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onItemClick(int itemIndex) {
-                Log.e("onItemClick ", "" + itemIndex);
+            public void onItemClick(int itemIndex, String itemName) {
+                Log.e("onItemClick ", "" + itemIndex + " " + itemName);
             }
         });
 

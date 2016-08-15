@@ -1,3 +1,19 @@
+/*
+ * Space Navigation library for Android
+ * Copyright (c) 2016 Arman Chatikyan (https://github.com/armcha/Space-Navigation-View).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.luseen.spacenavigation;
 
 import android.content.Context;
@@ -7,6 +23,7 @@ import android.content.res.TypedArray;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,9 +60,11 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private final int centreContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.centre_content_width);
 
-    private final int itemIconSize = (int) getResources().getDimension(R.dimen.space_item_icon_default_size);
+    private int spaceItemIconSize = NOT_DEFINED;
 
-    private final int itemIconOnlySize = (int) getResources().getDimension(R.dimen.space_item_icon_only_size);
+    private int spaceItemIconOnlySize = NOT_DEFINED;
+
+    private int spaceItemTextSize = NOT_DEFINED;
 
     private int spaceBackgroundColor = NOT_DEFINED;
 
@@ -101,7 +120,7 @@ public class SpaceNavigationView extends RelativeLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         /**
-         * Set default colors
+         * Set default colors and sizes
          */
         if (spaceBackgroundColor == NOT_DEFINED)
             spaceBackgroundColor = ContextCompat.getColor(context, R.color.default_color);
@@ -113,6 +132,12 @@ public class SpaceNavigationView extends RelativeLayout {
             activeSpaceItemColor = R.color.white;
         if (inActiveSpaceItemColor == NOT_DEFINED)
             inActiveSpaceItemColor = R.color.default_active_item_color;
+        if (spaceItemTextSize == NOT_DEFINED)
+            spaceItemTextSize = (int) getResources().getDimension(R.dimen.space_item_text_default_size);
+        if (spaceItemIconSize == NOT_DEFINED)
+            spaceItemIconSize = (int) getResources().getDimension(R.dimen.space_item_icon_default_size);
+        if (spaceItemIconOnlySize == NOT_DEFINED)
+            spaceItemIconOnlySize = (int) getResources().getDimension(R.dimen.space_item_icon_only_size);
 
         /**
          * Set main layout size and color
@@ -128,8 +153,11 @@ public class SpaceNavigationView extends RelativeLayout {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
 
+        /**
+         * Trow exceptions if items size is greater than 4 or lesser than 2
+         */
         if (spaceItems.size() < 2) {
-            throw new NullPointerException("Your space item count must be greater than 2 ," +
+            throw new NullPointerException("Your space item count must be greater than 1 ," +
                     " your current items count is : " + spaceItems.size());
         }
 
@@ -239,7 +267,7 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Redraw main view to make subviews visible
          */
-        postRequestLayout();
+        Utils.postRequestLayout(this);
     }
 
     /**
@@ -277,6 +305,7 @@ public class SpaceNavigationView extends RelativeLayout {
             TextView spaceItemText = (TextView) textAndIconContainer.getChildAt(1);
             spaceItemIcon.setImageResource(spaceItems.get(i).getItemIcon());
             spaceItemText.setText(spaceItems.get(i).getItemName());
+            spaceItemText.setTextSize(TypedValue.COMPLEX_UNIT_PX, spaceItemTextSize);
 
             /**
              * Hide item icon and show only text
@@ -285,14 +314,18 @@ public class SpaceNavigationView extends RelativeLayout {
                 Utils.changeViewVisibilityGone(spaceItemIcon);
 
             /**
-             * Hide item text and show only icon
+             * Hide item text and change icon size
              */
+            ViewGroup.LayoutParams iconParams = spaceItemIcon.getLayoutParams();
             if (iconOnly) {
-                ViewGroup.LayoutParams iconParams = spaceItemIcon.getLayoutParams();
-                iconParams.height = itemIconOnlySize;
-                iconParams.width = itemIconOnlySize;
+                iconParams.height = spaceItemIconOnlySize;
+                iconParams.width = spaceItemIconOnlySize;
                 spaceItemIcon.setLayoutParams(iconParams);
                 Utils.changeViewVisibilityGone(spaceItemText);
+            } else {
+                iconParams.height = spaceItemIconSize;
+                iconParams.width = spaceItemIconSize;
+                spaceItemIcon.setLayoutParams(iconParams);
             }
 
             /**
@@ -338,6 +371,9 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     private void updateSpaceItems(final int selectedIndex) {
 
+        /**
+         * return if item already selected
+         */
         if (currentSelectedItem == selectedIndex)
             return;
 
@@ -366,7 +402,7 @@ public class SpaceNavigationView extends RelativeLayout {
          * @param listener a listener for monitoring changes in item selection
          */
         if (spaceOnClickListener != null)
-            spaceOnClickListener.onItemClick(selectedIndex);
+            spaceOnClickListener.onItemClick(selectedIndex, spaceItems.get(selectedIndex).getItemName());
 
         /**
          * Change current selected item index
@@ -385,19 +421,6 @@ public class SpaceNavigationView extends RelativeLayout {
 
         return bezierView;
     }
-
-    /**
-     * Indicate event queue that we have changed the View hierarchy during a layout pass
-     */
-    private void postRequestLayout() {
-        getHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                requestLayout();
-            }
-        });
-    }
-
 
     /**
      * Set centre circle button background color
@@ -442,6 +465,33 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void setInActiveSpaceItemColor(int inActiveSpaceItemColor) {
         this.inActiveSpaceItemColor = inActiveSpaceItemColor;
+    }
+
+    /**
+     * Set item icon size
+     *
+     * @param spaceItemIconSize target size
+     */
+    public void setSpaceItemIconSize(int spaceItemIconSize) {
+        this.spaceItemIconSize = spaceItemIconSize;
+    }
+
+    /**
+     * Set item icon size if showIconOnly() called
+     *
+     * @param spaceItemIconOnlySize target size
+     */
+    public void setSpaceItemIconSizeInOnlyIconMode(int spaceItemIconOnlySize) {
+        this.spaceItemIconOnlySize = spaceItemIconOnlySize;
+    }
+
+    /**
+     * Set item text size
+     *
+     * @param spaceItemTextSize target size
+     */
+    public void setSpaceItemTextSize(int spaceItemTextSize) {
+        this.spaceItemTextSize = spaceItemTextSize;
     }
 
     /**
