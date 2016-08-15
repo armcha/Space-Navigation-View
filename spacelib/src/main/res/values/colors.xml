@@ -5,10 +5,10 @@
     <color name="white">#ffffff</color>
     <color name="default_color">#2A3137</color>
     <color name="centre_button_color">#4285F4</color>
-    <color name="default_active_item_color">#B0BEC5</color>
+    <color name="default_inactive_item_color">#c2cfd6</color>
     <color name="ccc">#ffe100</color>
     <color name="selected_item_color">#3fffffff</color>
 
-    <color name="white_with_alpha">#d0ffffff</color>
+    <color name="white_with_alpha">#bfffffff</color>
     <color name="colorBackgroundHighlightWhite">#8dffffff</color>
 </resources>

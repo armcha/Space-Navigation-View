@@ -14,4 +14,12 @@
         android:gravity="bottom"
         android:layout_alignParentBottom="true" />
 
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:id="@+id/button" />
+
 </FrameLayout>

@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.support.annotation.ColorInt;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -129,9 +130,9 @@ public class SpaceNavigationView extends RelativeLayout {
         if (centreButtonIcon == NOT_DEFINED)
             centreButtonIcon = R.drawable.near_me;
         if (activeSpaceItemColor == NOT_DEFINED)
-            activeSpaceItemColor = R.color.white;
+            activeSpaceItemColor = ContextCompat.getColor(context, R.color.white);
         if (inActiveSpaceItemColor == NOT_DEFINED)
-            inActiveSpaceItemColor = R.color.default_active_item_color;
+            inActiveSpaceItemColor = ContextCompat.getColor(context, R.color.default_inactive_item_color);
         if (spaceItemTextSize == NOT_DEFINED)
             spaceItemTextSize = (int) getResources().getDimension(R.dimen.space_item_text_default_size);
         if (spaceItemIconSize == NOT_DEFINED)
@@ -348,10 +349,10 @@ public class SpaceNavigationView extends RelativeLayout {
              * Changing current selected item tint
              */
             if (i == currentSelectedItem) {
-                spaceItemText.setTextColor(ContextCompat.getColor(context, activeSpaceItemColor));
+                spaceItemText.setTextColor(activeSpaceItemColor);
                 Utils.changeImageViewTint(context, spaceItemIcon, activeSpaceItemColor);
             } else {
-                spaceItemText.setTextColor(ContextCompat.getColor(context, inActiveSpaceItemColor));
+                spaceItemText.setTextColor(inActiveSpaceItemColor);
                 Utils.changeImageViewTint(context, spaceItemIcon, inActiveSpaceItemColor);
             }
 
@@ -385,13 +386,13 @@ public class SpaceNavigationView extends RelativeLayout {
                 LinearLayout textAndIconContainer = (LinearLayout) spaceItemList.get(selectedIndex);
                 ImageView spaceItemIcon = (ImageView) textAndIconContainer.getChildAt(0);
                 TextView spaceItemText = (TextView) textAndIconContainer.getChildAt(1);
-                spaceItemText.setTextColor(ContextCompat.getColor(context, activeSpaceItemColor));
+                spaceItemText.setTextColor(activeSpaceItemColor);
                 Utils.changeImageViewTint(context, spaceItemIcon, activeSpaceItemColor);
             } else if (i == currentSelectedItem) {
                 LinearLayout textAndIconContainer = (LinearLayout) spaceItemList.get(i);
                 ImageView spaceItemIcon = (ImageView) textAndIconContainer.getChildAt(0);
                 TextView spaceItemText = (TextView) textAndIconContainer.getChildAt(1);
-                spaceItemText.setTextColor(ContextCompat.getColor(context, inActiveSpaceItemColor));
+                spaceItemText.setTextColor(inActiveSpaceItemColor);
                 Utils.changeImageViewTint(context, spaceItemIcon, inActiveSpaceItemColor);
             }
         }
@@ -427,7 +428,7 @@ public class SpaceNavigationView extends RelativeLayout {
      *
      * @param centreButtonColor target color
      */
-    public void setCentreButtonColor(int centreButtonColor) {
+    public void setCentreButtonColor(@ColorInt int centreButtonColor) {
         this.centreButtonColor = centreButtonColor;
     }
 
@@ -436,7 +437,7 @@ public class SpaceNavigationView extends RelativeLayout {
      *
      * @param spaceBackgroundColor target color
      */
-    public void setSpaceBackgroundColor(int spaceBackgroundColor) {
+    public void setSpaceBackgroundColor(@ColorInt int spaceBackgroundColor) {
         this.spaceBackgroundColor = spaceBackgroundColor;
     }
 
@@ -454,7 +455,7 @@ public class SpaceNavigationView extends RelativeLayout {
      *
      * @param activeSpaceItemColor color to change
      */
-    public void setActiveSpaceItemColor(int activeSpaceItemColor) {
+    public void setActiveSpaceItemColor(@ColorInt int activeSpaceItemColor) {
         this.activeSpaceItemColor = activeSpaceItemColor;
     }
 
@@ -463,7 +464,7 @@ public class SpaceNavigationView extends RelativeLayout {
      *
      * @param inActiveSpaceItemColor color to change
      */
-    public void setInActiveSpaceItemColor(int inActiveSpaceItemColor) {
+    public void setInActiveSpaceItemColor(@ColorInt int inActiveSpaceItemColor) {
         this.inActiveSpaceItemColor = inActiveSpaceItemColor;
     }
 
@@ -524,5 +525,17 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void setSpaceOnClickListener(SpaceOnClickListener spaceOnClickListener) {
         this.spaceOnClickListener = spaceOnClickListener;
+    }
+
+    /**
+     * Change current selected item to given index
+     *
+     * @param indexToChange given index
+     */
+    public void changeCurrentItem(int indexToChange) {
+        if (indexToChange < 0 || indexToChange > spaceItems.size())
+            throw new ArrayIndexOutOfBoundsException("Please be more careful, we do't have such item : " + indexToChange);
+        else
+            updateSpaceItems(indexToChange);
     }
 }

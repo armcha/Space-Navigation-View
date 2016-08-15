@@ -19,6 +19,9 @@ package com.luseen.spacenavigation;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +41,7 @@ class Utils {
      * @param color     tint color
      */
     static void changeImageViewTint(Context context, ImageView imageView, int color) {
-        imageView.setColorFilter(ContextCompat.getColor(context, color));
+        imageView.setColorFilter(color);
     }
 
     /**
@@ -81,4 +84,35 @@ class Utils {
             }
         });
     }
+
+    // TODO: 15.08.2016 add ripple effect programmatically
+//    public static RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor)
+//    {
+//        return new RippleDrawable(getPressedColorSelector(normalColor, pressedColor), getColorDrawableFromColor(normalColor), null);
+//    }
+//
+//    public static ColorStateList getPressedColorSelector(int normalColor, int pressedColor)
+//    {
+//        return new ColorStateList(
+//                new int[][]
+//                        {
+//                                new int[]{android.R.attr.state_pressed},
+//                                new int[]{android.R.attr.state_focused},
+//                                new int[]{android.R.attr.state_activated},
+//                                new int[]{}
+//                        },
+//                new int[]
+//                        {
+//                                pressedColor,
+//                                pressedColor,
+//                                pressedColor,
+//                                normalColor
+//                        }
+//        );
+//    }
+//
+//    public static ColorDrawable getColorDrawableFromColor(int color)
+//    {
+//        return new ColorDrawable(color);
+//    }
 }

@@ -1,8 +1,10 @@
 package com.luseen.spacenavigationview;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
@@ -15,16 +17,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SpaceNavigationView spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
+        final SpaceNavigationView spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
         spaceNavigationView.addSpaceItem(new SpaceItem("CALL", R.drawable.bell));
-        spaceNavigationView.addSpaceItem(new SpaceItem("NEWS", R.drawable.home));
-        spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
+//        spaceNavigationView.addSpaceItem(new SpaceItem("NEWS", R.drawable.home));
+//       spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
         //spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
 //        spaceNavigationView.showIconOnly();
 //
         //spaceNavigationView.setSpaceItemIconSize((int) getResources().getDimension(R.dimen.space_item_icon_only_size));
-//        spaceNavigationView.setSpaceItemIconSizeInOnlyIconMode(200);
         //spaceNavigationView.setSpaceItemTextSize((int) getResources().getDimension(R.dimen.space_item_text_default_sizsssssssssssse));
 
 
@@ -40,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                spaceNavigationView.changeCurrentItem(3);
+            }
+        });
 
         //spaceNavigationView.addSpaceItem(new SpaceItem("Test2",android.R.drawable.presence_away));
         //spaceNavigationView.addSpaceItem(new SpaceItem("Test2",android.R.drawable.presence_away));
