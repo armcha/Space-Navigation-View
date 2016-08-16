@@ -45,6 +45,7 @@ class BezierView extends RelativeLayout {
         path = new Path();
         paint.setColor(backgroundColor);
         paint.setStrokeWidth(0);
+        paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
     }
 

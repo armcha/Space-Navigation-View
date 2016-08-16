@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.drawable.ShapeDrawable;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -307,6 +308,14 @@ public class SpaceNavigationView extends RelativeLayout {
             spaceItemIcon.setImageResource(spaceItems.get(i).getItemIcon());
             spaceItemText.setText(spaceItems.get(i).getItemName());
             spaceItemText.setTextSize(TypedValue.COMPLEX_UNIT_PX, spaceItemTextSize);
+
+
+            BadgeView badgeView = new BadgeView(context, centreButtonColor, "23");
+            int height = mainContentHeight/3;
+            RelativeLayout.LayoutParams badgeParams = new RelativeLayout.LayoutParams(
+                    height, height);
+            badgeParams.addRule(ALIGN_PARENT_RIGHT|ALIGN_PARENT_TOP);
+            badgeView.build(height/2, height/2, height, height);
 
             /**
              * Hide item icon and show only text

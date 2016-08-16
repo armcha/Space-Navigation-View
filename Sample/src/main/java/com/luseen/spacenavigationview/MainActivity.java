@@ -1,7 +1,6 @@
 package com.luseen.spacenavigationview;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,14 +16,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         final SpaceNavigationView spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
         spaceNavigationView.addSpaceItem(new SpaceItem("CALL", R.drawable.bell));
-//        spaceNavigationView.addSpaceItem(new SpaceItem("NEWS", R.drawable.home));
-//       spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
+        spaceNavigationView.addSpaceItem(new SpaceItem("NEWS", R.drawable.home));
+        spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
         //spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
-//        spaceNavigationView.showIconOnly();
-//
+
         //spaceNavigationView.setSpaceItemIconSize((int) getResources().getDimension(R.dimen.space_item_icon_only_size));
         //spaceNavigationView.setSpaceItemTextSize((int) getResources().getDimension(R.dimen.space_item_text_default_sizsssssssssssse));
 
@@ -55,11 +54,12 @@ public class MainActivity extends AppCompatActivity {
         //spaceNavigationView.setCentreButtonIcon(android.R.drawable.sym_call_incoming);
 
 //        FrameLayout r = (FrameLayout) findViewById(R.id.activity_main);
+//        BadgeView badgeView = new BadgeView(this,ContextCompat.getColor(this,android.R.color.holo_orange_light),"23");
 //        FrameLayout.LayoutParams mainContentParams =
-//                new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        centreContent.setBackgroundColor(ContextCompat.getColor(this, R.color.neee));
+//                new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//
 //        mainContentParams.setMargins(0, 0, 0, 0);
-//        r.addView(centreContent, mainContentParams);
+//        r.addView(badgeView, mainContentParams);
 
     }
 }
