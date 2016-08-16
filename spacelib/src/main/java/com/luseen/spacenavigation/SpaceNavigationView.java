@@ -20,13 +20,12 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.drawable.ShapeDrawable;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +45,8 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private static final int NOT_DEFINED = -1;
 
+    private static final String TAG = "SpaceNavigationView";
+
     private Context context;
 
     private SpaceOnClickListener spaceOnClickListener;
@@ -54,6 +55,8 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private List<View> spaceItemList = new ArrayList<>();
 
+    private List<RelativeLayout> badgeList = new ArrayList<>();
+
     private final int spaceNavigationHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_navigation_height);
 
     private final int centreContentMargin = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.fab_margin);
@@ -61,6 +64,8 @@ public class SpaceNavigationView extends RelativeLayout {
     private final int mainContentHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.main_content_height);
 
     private final int centreContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.centre_content_width);
+
+    private final int badgeLeftMargin = (int) getResources().getDimension(R.dimen.badge_left_margin);
 
     private int spaceItemIconSize = NOT_DEFINED;
 
@@ -79,6 +84,8 @@ public class SpaceNavigationView extends RelativeLayout {
     private int inActiveSpaceItemColor = NOT_DEFINED;
 
     private int currentSelectedItem = 0;
+
+    private int contentWidth;
 
     private boolean textOnly = false;
 
@@ -169,6 +176,11 @@ public class SpaceNavigationView extends RelativeLayout {
         }
 
         /**
+         * Get left or right content width
+         */
+        contentWidth = (w - spaceNavigationHeight) / 2;
+
+        /**
          * Removing all view for not being duplicated
          */
         removeAllViews();
@@ -185,7 +197,7 @@ public class SpaceNavigationView extends RelativeLayout {
         BezierView centreContent = buildBezierView();
 
         FloatingActionButton fab = new FloatingActionButton(context);
-        fab.setSize(FloatingActionButton.SIZE_AUTO);
+        fab.setSize(FloatingActionButton.SIZE_NORMAL);
         fab.setBackgroundTintList(ColorStateList.valueOf(centreButtonColor));
         fab.setImageResource(centreButtonIcon);
         fab.setOnClickListener(new OnClickListener() {
@@ -199,7 +211,7 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Set fab layout params
          */
-        LayoutParams fabParams = new LayoutParams(spaceNavigationHeight, ViewGroup.LayoutParams.MATCH_PARENT);
+        LayoutParams fabParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         fabParams.addRule(RelativeLayout.CENTER_IN_PARENT);
         fabParams.setMargins(centreContentMargin, centreContentMargin, centreContentMargin, centreContentMargin);
 
@@ -225,14 +237,14 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Left content size
          */
-        LayoutParams leftContentParams = new LayoutParams((w - spaceNavigationHeight) / 2, ViewGroup.LayoutParams.MATCH_PARENT);
+        LayoutParams leftContentParams = new LayoutParams(contentWidth, ViewGroup.LayoutParams.MATCH_PARENT);
         leftContentParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         leftContentParams.addRule(LinearLayout.HORIZONTAL);
 
         /**
          * Right content size
          */
-        LayoutParams rightContentParams = new LayoutParams((w - spaceNavigationHeight) / 2, ViewGroup.LayoutParams.MATCH_PARENT);
+        LayoutParams rightContentParams = new LayoutParams(contentWidth, ViewGroup.LayoutParams.MATCH_PARENT);
         rightContentParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         rightContentParams.addRule(LinearLayout.HORIZONTAL);
 
@@ -289,33 +301,35 @@ public class SpaceNavigationView extends RelativeLayout {
         }
 
         /**
-         * Clear spaceItemList for not being duplicated
+         * Clear spaceItemList and badgeList for not being duplicated
          */
         spaceItemList.clear();
+        badgeList.clear();
 
+        /**
+         * Getting LayoutInflater to inflate space item view from XML
+         */
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         for (int i = 0; i < spaceItems.size(); i++) {
             final int index = i;
+            int targetWidth;
+            if (spaceItems.size() > 2)
+                targetWidth = contentWidth / 2;
+            else
+                targetWidth = contentWidth;
 
-            LinearLayout.LayoutParams textAndIconContainerParams = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, mainContentHeight, Gravity.CENTER);
-            LinearLayout textAndIconContainer = (LinearLayout) inflater.inflate(R.layout.space_item_view, this, false);
+            RelativeLayout.LayoutParams textAndIconContainerParams = new RelativeLayout.LayoutParams(
+                    targetWidth, mainContentHeight);
+            RelativeLayout textAndIconContainer = (RelativeLayout) inflater.inflate(R.layout.space_item_view, this, false);
             textAndIconContainer.setLayoutParams(textAndIconContainerParams);
 
-            ImageView spaceItemIcon = (ImageView) textAndIconContainer.getChildAt(0);
-            TextView spaceItemText = (TextView) textAndIconContainer.getChildAt(1);
+            ImageView spaceItemIcon = (ImageView) textAndIconContainer.findViewById(R.id.space_icon);
+            TextView spaceItemText = (TextView) textAndIconContainer.findViewById(R.id.space_text);
+            RelativeLayout badgeContainer = (RelativeLayout) textAndIconContainer.findViewById(R.id.badge_container);
             spaceItemIcon.setImageResource(spaceItems.get(i).getItemIcon());
             spaceItemText.setText(spaceItems.get(i).getItemName());
             spaceItemText.setTextSize(TypedValue.COMPLEX_UNIT_PX, spaceItemTextSize);
-
-
-            BadgeView badgeView = new BadgeView(context, centreButtonColor, "23");
-            int height = mainContentHeight/3;
-            RelativeLayout.LayoutParams badgeParams = new RelativeLayout.LayoutParams(
-                    height, height);
-            badgeParams.addRule(ALIGN_PARENT_RIGHT|ALIGN_PARENT_TOP);
-            badgeView.build(height/2, height/2, height, height);
 
             /**
              * Hide item icon and show only text
@@ -342,6 +356,11 @@ public class SpaceNavigationView extends RelativeLayout {
              * Adding space items to item list for future
              */
             spaceItemList.add(textAndIconContainer);
+
+            /**
+             * Adding badge items to badge list for future
+             */
+            badgeList.add(badgeContainer);
 
             /**
              * Adding sub views to left and right sides
@@ -392,15 +411,15 @@ public class SpaceNavigationView extends RelativeLayout {
          */
         for (int i = 0; i < spaceItemList.size(); i++) {
             if (i == selectedIndex) {
-                LinearLayout textAndIconContainer = (LinearLayout) spaceItemList.get(selectedIndex);
-                ImageView spaceItemIcon = (ImageView) textAndIconContainer.getChildAt(0);
-                TextView spaceItemText = (TextView) textAndIconContainer.getChildAt(1);
+                RelativeLayout textAndIconContainer = (RelativeLayout) spaceItemList.get(selectedIndex);
+                ImageView spaceItemIcon = (ImageView) textAndIconContainer.findViewById(R.id.space_icon);
+                TextView spaceItemText = (TextView) textAndIconContainer.findViewById(R.id.space_text);
                 spaceItemText.setTextColor(activeSpaceItemColor);
                 Utils.changeImageViewTint(context, spaceItemIcon, activeSpaceItemColor);
             } else if (i == currentSelectedItem) {
-                LinearLayout textAndIconContainer = (LinearLayout) spaceItemList.get(i);
-                ImageView spaceItemIcon = (ImageView) textAndIconContainer.getChildAt(0);
-                TextView spaceItemText = (TextView) textAndIconContainer.getChildAt(1);
+                RelativeLayout textAndIconContainer = (RelativeLayout) spaceItemList.get(i);
+                ImageView spaceItemIcon = (ImageView) textAndIconContainer.findViewById(R.id.space_icon);
+                TextView spaceItemText = (TextView) textAndIconContainer.findViewById(R.id.space_text);
                 spaceItemText.setTextColor(inActiveSpaceItemColor);
                 Utils.changeImageViewTint(context, spaceItemIcon, inActiveSpaceItemColor);
             }
@@ -546,5 +565,44 @@ public class SpaceNavigationView extends RelativeLayout {
             throw new ArrayIndexOutOfBoundsException("Please be more careful, we do't have such item : " + indexToChange);
         else
             updateSpaceItems(indexToChange);
+    }
+
+    /**
+     * Show badge at index
+     *
+     * @param itemIndex index
+     * @param badgeText badge count text
+     */
+    public void showBadgeAtIndex(int itemIndex, int badgeText) {
+        if (itemIndex < 0 || itemIndex > spaceItems.size()) { // FIXME: 16.08.2016 
+            throw new ArrayIndexOutOfBoundsException("Your item index can't be greater or lesser than space item size," +
+                    " your items size is " + spaceItems.size() + ", your current index is :" + itemIndex);
+        } else {
+            RelativeLayout badgeView = badgeList.get(itemIndex);
+            Utils.showBadge(badgeView, badgeText);
+        }
+    }
+
+    /**
+     * Hide badge at index
+     *
+     * @param index badge index
+     */
+    public void hideBudgeAtIndex(final int index) {
+        if (badgeList.get(index).getVisibility() == GONE) {
+            Log.d(TAG, "Budge at index: " + index + " already hidden");
+        } else {
+            Utils.hideBadge(badgeList.get(index));
+        }
+    }
+
+    /**
+     * Hiding all available badges
+     */
+    public void hideAllBudges() {
+        for (RelativeLayout badge : badgeList) {
+            if (badge.getVisibility() == VISIBLE)
+                Utils.hideBadge(badge);
+        }
     }
 }

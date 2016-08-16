@@ -5,9 +5,10 @@
     <color name="white">#ffffff</color>
     <color name="default_color">#2A3137</color>
     <color name="centre_button_color">#4285F4</color>
-    <color name="default_inactive_item_color">#c2cfd6</color>
+    <color name="default_inactive_item_color">#b3b3b3</color>
     <color name="ccc">#ffe100</color>
     <color name="selected_item_color">#3fffffff</color>
+    <color name="badge_background_color">#f44336</color>
 
     <color name="white_with_alpha">#bfffffff</color>
     <color name="colorBackgroundHighlightWhite">#8dffffff</color>

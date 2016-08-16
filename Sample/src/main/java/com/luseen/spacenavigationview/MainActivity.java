@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.addSpaceItem(new SpaceItem("CALL", R.drawable.bell));
         spaceNavigationView.addSpaceItem(new SpaceItem("NEWS", R.drawable.home));
         spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
+        spaceNavigationView.showIconOnly();
         //spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
 
         //spaceNavigationView.setSpaceItemIconSize((int) getResources().getDimension(R.dimen.space_item_icon_only_size));
@@ -43,7 +44,16 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                spaceNavigationView.changeCurrentItem(3);
+                //spaceNavigationView.changeCurrentItem(3);
+                spaceNavigationView.showBadgeAtIndex(1,233);
+            }
+        });
+
+        findViewById(R.id.button2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //spaceNavigationView.changeCurrentItem(3);
+                spaceNavigationView.hideBudgeAtIndex(1);
             }
         });
 

@@ -19,13 +19,12 @@ package com.luseen.spacenavigation;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.RippleDrawable;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 /**
  * Created by Chatikyan on 14.08.2016-21:56.
@@ -52,6 +51,16 @@ class Utils {
     static void changeViewVisibilityGone(View view) {
         if (view != null && view.getVisibility() == View.VISIBLE)
             view.setVisibility(View.GONE);
+    }
+
+    /**
+     * Change view visibility
+     *
+     * @param view target view
+     */
+    static void changeViewVisibilityVisible(View view) {
+        if (view != null && view.getVisibility() == View.GONE)
+            view.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -84,6 +93,60 @@ class Utils {
             }
         });
     }
+
+    /**
+     * Show badge
+     *
+     * @param view       target badge
+     * @param badgeCount badge count text
+     */
+    static void showBadge(RelativeLayout view, int badgeCount) {
+
+        changeViewVisibilityVisible(view);
+        TextView badgeTextView = (TextView) view.findViewById(R.id.badge_text_view);
+
+        String badgeText;
+        if (badgeCount > 9)
+            badgeText = 9 + "+";
+        else
+            badgeText = String.valueOf(badgeCount);
+        badgeTextView.setText(badgeText);
+
+        view.setScaleX(0);
+        view.setScaleY(0);
+
+        ViewCompat.animate(view)
+                .setDuration(200)
+                .scaleX(1)
+                .scaleY(1)
+                .setListener(new SimpleViewAnimatorListener() {
+                    @Override
+                    public void onAnimationEnd(View view) {
+                        changeViewVisibilityVisible(view);
+                    }
+                })
+                .start();
+    }
+
+    /**
+     * Show badge
+     *
+     * @param view target badge
+     */
+    static void hideBadge(View view) {
+        ViewCompat.animate(view)
+                .setDuration(200)
+                .scaleX(0)
+                .scaleY(0)
+                .setListener(new SimpleViewAnimatorListener() {
+                    @Override
+                    public void onAnimationEnd(final View view) {
+                        changeViewVisibilityGone(view);
+                    }
+                })
+                .start();
+    }
+
 
     // TODO: 15.08.2016 add ripple effect programmatically
 //    public static RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor)

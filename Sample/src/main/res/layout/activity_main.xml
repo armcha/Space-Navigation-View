@@ -12,7 +12,9 @@
         android:layout_gravity="bottom"
         android:id="@+id/space"
         android:gravity="bottom"
-        android:layout_alignParentBottom="true" />
+        android:layout_alignParentBottom="true" >
+
+    </com.luseen.spacenavigation.SpaceNavigationView>
 
     <Button
         android:text="Button"
@@ -21,5 +23,14 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:id="@+id/button" />
+
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+        android:id="@+id/button2" />
 
 </FrameLayout>
