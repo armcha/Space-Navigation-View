@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.FloatingActionButton;
@@ -63,9 +64,11 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private List<RelativeLayout> badgeList = new ArrayList<>();
 
-    private HashMap<Integer, Integer> badgeSaveInstance = new HashMap<>();
+    private HashMap<Integer, Integer> badgeSaveInstanceHashMap = new HashMap<>();
 
     private Bundle savedInstanceState;
+
+    private Typeface customFont;
 
     private final int spaceNavigationHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_navigation_height);
 
@@ -98,6 +101,8 @@ public class SpaceNavigationView extends RelativeLayout {
     private boolean textOnly = false;
 
     private boolean iconOnly = false;
+
+    private boolean isCustomFont = false;
 
 
     public SpaceNavigationView(Context context) {
@@ -352,6 +357,12 @@ public class SpaceNavigationView extends RelativeLayout {
             spaceItemText.setTextSize(TypedValue.COMPLEX_UNIT_PX, spaceItemTextSize);
 
             /**
+             * Set custom font to space item textView
+             */
+            if (isCustomFont)
+                spaceItemText.setTypeface(customFont);
+
+            /**
              * Hide item icon and show only text
              */
             if (textOnly)
@@ -398,10 +409,10 @@ public class SpaceNavigationView extends RelativeLayout {
              */
             if (i == currentSelectedItem) {
                 spaceItemText.setTextColor(activeSpaceItemColor);
-                Utils.changeImageViewTint(context, spaceItemIcon, activeSpaceItemColor);
+                Utils.changeImageViewTint(spaceItemIcon, activeSpaceItemColor);
             } else {
                 spaceItemText.setTextColor(inActiveSpaceItemColor);
-                Utils.changeImageViewTint(context, spaceItemIcon, inActiveSpaceItemColor);
+                Utils.changeImageViewTint(spaceItemIcon, inActiveSpaceItemColor);
             }
 
             textAndIconContainer.setOnClickListener(new OnClickListener() {
@@ -440,13 +451,13 @@ public class SpaceNavigationView extends RelativeLayout {
                 ImageView spaceItemIcon = (ImageView) textAndIconContainer.findViewById(R.id.space_icon);
                 TextView spaceItemText = (TextView) textAndIconContainer.findViewById(R.id.space_text);
                 spaceItemText.setTextColor(activeSpaceItemColor);
-                Utils.changeImageViewTint(context, spaceItemIcon, activeSpaceItemColor);
+                Utils.changeImageViewTint(spaceItemIcon, activeSpaceItemColor);
             } else if (i == currentSelectedItem) {
                 RelativeLayout textAndIconContainer = (RelativeLayout) spaceItemList.get(i);
                 ImageView spaceItemIcon = (ImageView) textAndIconContainer.findViewById(R.id.space_icon);
                 TextView spaceItemText = (TextView) textAndIconContainer.findViewById(R.id.space_text);
                 spaceItemText.setTextColor(inActiveSpaceItemColor);
-                Utils.changeImageViewTint(context, spaceItemIcon, inActiveSpaceItemColor);
+                Utils.changeImageViewTint(spaceItemIcon, inActiveSpaceItemColor);
             }
         }
 
@@ -483,11 +494,10 @@ public class SpaceNavigationView extends RelativeLayout {
         Bundle restoredBundle = savedInstanceState;
         if (restoredBundle != null) {
             if (restoredBundle.containsKey(BUDGES_STATUS_BUNDLE_KEY)) {
-                badgeSaveInstance.clear();
-                badgeSaveInstance = (HashMap<Integer, Integer>) savedInstanceState.getSerializable(BUDGES_STATUS_BUNDLE_KEY);
-                if (badgeSaveInstance != null) {
-                    for (Integer integer : badgeSaveInstance.keySet()) {
-                        Utils.forceShowBadge(badgeList.get(integer), badgeSaveInstance.get(integer));
+                badgeSaveInstanceHashMap = (HashMap<Integer, Integer>) savedInstanceState.getSerializable(BUDGES_STATUS_BUNDLE_KEY);
+                if (badgeSaveInstanceHashMap != null) {
+                    for (Integer integer : badgeSaveInstanceHashMap.keySet()) {
+                        Utils.forceShowBadge(badgeList.get(integer), badgeSaveInstanceHashMap.get(integer));
                     }
                 }
             }
@@ -511,7 +521,7 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(CURRENT_SELECTED_ITEM_BUNDLE_KEY, currentSelectedItem);
-        outState.putSerializable(BUDGES_STATUS_BUNDLE_KEY, badgeSaveInstance);
+        outState.putSerializable(BUDGES_STATUS_BUNDLE_KEY, badgeSaveInstanceHashMap);
     }
 
     /**
@@ -655,7 +665,7 @@ public class SpaceNavigationView extends RelativeLayout {
         } else {
             RelativeLayout badgeView = badgeList.get(itemIndex);
             Utils.showBadge(badgeView, badgeText);
-            badgeSaveInstance.put(itemIndex, badgeText);
+            badgeSaveInstanceHashMap.put(itemIndex, badgeText);
         }
     }
 
@@ -669,7 +679,7 @@ public class SpaceNavigationView extends RelativeLayout {
             Log.d(TAG, "Budge at index: " + index + " already hidden");
         } else {
             Utils.hideBadge(badgeList.get(index));
-            badgeSaveInstance.remove(index);
+            badgeSaveInstanceHashMap.remove(index);
         }
     }
 
@@ -680,7 +690,28 @@ public class SpaceNavigationView extends RelativeLayout {
         for (RelativeLayout badge : badgeList) {
             if (badge.getVisibility() == VISIBLE)
                 Utils.hideBadge(badge);
-            badgeSaveInstance.clear();
+            badgeSaveInstanceHashMap.clear();
         }
+    }
+
+    /**
+     * Change badge text at index
+     *
+     * @param badgeIndex target index
+     * @param badgeText  badge count text to change
+     */
+    public void changeBadgeTextAtIndex(int badgeIndex, int badgeText) {
+        if (badgeSaveInstanceHashMap.get(badgeIndex) != null && badgeSaveInstanceHashMap.get(badgeIndex) != badgeText)
+            Utils.forceShowBadge(badgeList.get(badgeIndex), badgeText);
+    }
+
+    /**
+     * Set custom font for space item textView
+     *
+     * @param customFont custom font
+     */
+    public void setFont(Typeface customFont) {
+        isCustomFont = true;
+        this.customFont = customFont;
     }
 }

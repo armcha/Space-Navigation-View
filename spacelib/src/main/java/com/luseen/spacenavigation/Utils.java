@@ -18,7 +18,6 @@ package com.luseen.spacenavigation;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +34,10 @@ class Utils {
     /**
      * Change given image view tint
      *
-     * @param context   current context
      * @param imageView target image view
      * @param color     tint color
      */
-    static void changeImageViewTint(Context context, ImageView imageView, int color) {
+    static void changeImageViewTint(ImageView imageView, int color) {
         imageView.setColorFilter(color);
     }
 

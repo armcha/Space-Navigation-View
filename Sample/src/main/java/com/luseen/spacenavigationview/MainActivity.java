@@ -1,5 +1,6 @@
 package com.luseen.spacenavigationview;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         //spaceNavigationView.addSpaceItem(new SpaceItem("NEWS", R.drawable.home));
         spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
         spaceNavigationView.showIconOnly();
+        //spaceNavigationView.setFont(Typeface.createFromAsset(getAssets(), "fonts/NotoSans-Regular.ttf"));
         //spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
 
         //spaceNavigationView.setSpaceItemIconSize((int) getResources().getDimension(R.dimen.space_item_icon_only_size));
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCentreButtonClick() {
                 Log.e("onCentreButtonClick ", "onCentreButtonClick");
+                spaceNavigationView.changeBadgeTextAtIndex(0, 7 );
             }
 
             @Override
