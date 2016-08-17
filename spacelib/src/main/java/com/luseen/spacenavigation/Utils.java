@@ -18,12 +18,12 @@ package com.luseen.spacenavigation;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.support.v4.view.ViewCompat;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 /**
  * Created by Chatikyan on 14.08.2016-21:56.
@@ -91,78 +91,6 @@ class Utils {
             }
         });
     }
-
-    /**
-     * Show badge
-     *
-     * @param view       target badge
-     * @param badgeCount badge count text
-     */
-    static void showBadge(RelativeLayout view, int badgeCount) {
-
-        changeViewVisibilityVisible(view);
-        TextView badgeTextView = (TextView) view.findViewById(R.id.badge_text_view);
-
-        String badgeText;
-        if (badgeCount > 9)
-            badgeText = 9 + "+";
-        else
-            badgeText = String.valueOf(badgeCount);
-        badgeTextView.setText(badgeText);
-
-        view.setScaleX(0);
-        view.setScaleY(0);
-
-        ViewCompat.animate(view)
-                .setDuration(200)
-                .scaleX(1)
-                .scaleY(1)
-                .setListener(new SimpleViewAnimatorListener() {
-                    @Override
-                    public void onAnimationEnd(View view) {
-                        changeViewVisibilityVisible(view);
-                    }
-                })
-                .start();
-    }
-
-    /**
-     * Show badge
-     *
-     * @param view target badge
-     */
-    static void hideBadge(View view) {
-        ViewCompat.animate(view)
-                .setDuration(200)
-                .scaleX(0)
-                .scaleY(0)
-                .setListener(new SimpleViewAnimatorListener() {
-                    @Override
-                    public void onAnimationEnd(final View view) {
-                        changeViewVisibilityGone(view);
-                    }
-                })
-                .start();
-    }
-
-    /**
-     * Force show badge without animation
-     *
-     * @param view       target budge
-     * @param badgeCount badge count text
-     */
-    static void forceShowBadge(RelativeLayout view, int badgeCount) {
-        changeViewVisibilityVisible(view);
-        TextView badgeTextView = (TextView) view.findViewById(R.id.badge_text_view);
-
-        String badgeText;
-        if (badgeCount > 9)
-            badgeText = 9 + "+";
-        else
-            badgeText = String.valueOf(badgeCount);
-        badgeTextView.setText(badgeText);
-    }
-
 
     // TODO: 15.08.2016 add ripple effect programmatically
 //    public static RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor)

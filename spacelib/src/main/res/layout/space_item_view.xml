@@ -31,13 +31,13 @@
 
     <RelativeLayout
         android:id="@+id/badge_container"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="@dimen/badge_left_margin"
         android:layout_marginTop="3dp"
+        android:layout_marginRight="2dp"
         android:layout_toRightOf="@+id/main_content"
-        android:background="@drawable/circle_bg"
         android:visibility="gone">
 
         <TextView

@@ -1,7 +1,7 @@
 package com.luseen.spacenavigationview;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,9 +24,10 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
         spaceNavigationView.addSpaceItem(new SpaceItem("CALL", R.drawable.bell));
-        //spaceNavigationView.addSpaceItem(new SpaceItem("NEWS", R.drawable.home));
+        spaceNavigationView.addSpaceItem(new SpaceItem("NEWS", R.drawable.home));
         spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
         spaceNavigationView.showIconOnly();
+
         //spaceNavigationView.setFont(Typeface.createFromAsset(getAssets(), "fonts/NotoSans-Regular.ttf"));
         //spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
 
@@ -38,12 +39,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCentreButtonClick() {
                 Log.e("onCentreButtonClick ", "onCentreButtonClick");
-                spaceNavigationView.changeBadgeTextAtIndex(0, 7 );
+                spaceNavigationView.changeBadgeTextAtIndex(0, 79);
             }
 
             @Override
             public void onItemClick(int itemIndex, String itemName) {
                 Log.e("onItemClick ", "" + itemIndex + " " + itemName);
+                spaceNavigationView.hideAllBudges();
             }
         });
 
@@ -51,8 +53,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //spaceNavigationView.changeCurrentItem(3);
-                spaceNavigationView.showBadgeAtIndex(1, 233);
-                spaceNavigationView.showBadgeAtIndex(0, 8);
+                spaceNavigationView.showBadgeAtIndex(1, 233, ContextCompat.getColor(MainActivity.this, android.R.color.holo_orange_light));
+                spaceNavigationView.showBadgeAtIndex(0, 8, ContextCompat.getColor(MainActivity.this, android.R.color.holo_green_dark));
+                spaceNavigationView.showBadgeAtIndex(2, 4, ContextCompat.getColor(MainActivity.this, android.R.color.holo_blue_light));
+                spaceNavigationView.showBadgeAtIndex(3, 3, ContextCompat.getColor(MainActivity.this, android.R.color.holo_red_dark));
             }
         });
 

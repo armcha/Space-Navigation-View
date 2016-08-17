@@ -52,11 +52,7 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private static final String CURRENT_SELECTED_ITEM_BUNDLE_KEY = "currentItem";
 
-    private static final String BUDGES_STATUS_BUNDLE_KEY = "budgeStatus";
-
-    private Context context;
-
-    private SpaceOnClickListener spaceOnClickListener;
+    private static final String BUDGES_ITEM_BUNDLE_KEY = "budgeItem";
 
     private List<SpaceItem> spaceItems = new ArrayList<>();
 
@@ -64,11 +60,15 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private List<RelativeLayout> badgeList = new ArrayList<>();
 
-    private HashMap<Integer, Integer> badgeSaveInstanceHashMap = new HashMap<>();
+    private HashMap<Integer, Object> badgeSaveInstanceHashMap = new HashMap<>();
+
+    private SpaceOnClickListener spaceOnClickListener;
 
     private Bundle savedInstanceState;
 
     private Typeface customFont;
+
+    private Context context;
 
     private final int spaceNavigationHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_navigation_height);
 
@@ -121,19 +121,19 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private void init(AttributeSet attrs) {
         if (attrs != null) {
-            Resources res = getResources();
+            Resources resources = getResources();
 
-            TypedArray array = context.obtainStyledAttributes(attrs, com.luseen.spacenavigation.R.styleable.SpaceNavigationView);
-//            withText = array.getBoolean(R.styleable.BottomNavigationView_bnv_with_text, true);
-//            coloredBackground = array.getBoolean(R.styleable.BottomNavigationView_bnv_colored_background, true);
-//            disableShadow = array.getBoolean(R.styleable.BottomNavigationView_bnv_shadow, false);
-//            isTablet = array.getBoolean(R.styleable.BottomNavigationView_bnv_tablet, false);
-//            viewPagerSlide = array.getBoolean(R.styleable.BottomNavigationView_bnv_viewpager_slide, true);
-//            itemActiveColorWithoutColoredBackground = array.getColor(R.styleable.BottomNavigationView_bnv_active_color, -1);
-//            textActiveSize = array.getDimensionPixelSize(R.styleable.BottomNavigationView_bnv_active_text_size, res.getDimensionPixelSize(R.dimen.bottom_navigation_text_size_active));
-//            textInactiveSize = array.getDimensionPixelSize(R.styleable.BottomNavigationView_bnv_inactive_text_size, res.getDimensionPixelSize(R.dimen.bottom_navigation_text_size_inactive));
+            TypedArray typedArray = context.obtainStyledAttributes(attrs, com.luseen.spacenavigation.R.styleable.SpaceNavigationView);
+            spaceItemIconSize = typedArray.getDimensionPixelSize(R.styleable.SpaceNavigationView_space_item_icon_size, resources.getDimensionPixelSize(R.dimen.space_item_icon_default_size));
+            spaceItemIconOnlySize = typedArray.getDimensionPixelSize(R.styleable.SpaceNavigationView_space_item_icon_only_size, resources.getDimensionPixelSize(R.dimen.space_item_icon_only_size));
+            spaceItemTextSize = typedArray.getDimensionPixelSize(R.styleable.SpaceNavigationView_space_item_text_size, resources.getDimensionPixelSize(R.dimen.space_item_text_default_size));
+            spaceItemIconOnlySize = typedArray.getDimensionPixelSize(R.styleable.SpaceNavigationView_space_item_icon_only_size, resources.getDimensionPixelSize(R.dimen.space_item_icon_only_size));
+            spaceBackgroundColor = typedArray.getColor(R.styleable.SpaceNavigationView_space_background_color, resources.getColor(R.color.default_color));
+            centreButtonColor = typedArray.getColor(R.styleable.SpaceNavigationView_centre_button_color, resources.getColor(R.color.centre_button_color));
+            activeSpaceItemColor = typedArray.getColor(R.styleable.SpaceNavigationView_active_item_color, resources.getColor(R.color.white));
+            inActiveSpaceItemColor = typedArray.getColor(R.styleable.SpaceNavigationView_inactive_item_color, resources.getColor(R.color.default_inactive_item_color));
 
-            array.recycle();
+            typedArray.recycle();
         }
     }
 
@@ -183,7 +183,7 @@ public class SpaceNavigationView extends RelativeLayout {
         super.onSizeChanged(w, h, oldw, oldh);
 
         /**
-         * Restore current item index from saveInstance
+         * Restore current item index from savedInstance
          */
         restoreCurrentItem();
 
@@ -476,7 +476,7 @@ public class SpaceNavigationView extends RelativeLayout {
     }
 
     /**
-     * Restore current item index from saveInstance
+     * Restore current item index from savedInstance
      */
     private void restoreCurrentItem() {
         Bundle restoredBundle = savedInstanceState;
@@ -492,16 +492,27 @@ public class SpaceNavigationView extends RelativeLayout {
     @SuppressWarnings("unchecked")
     private void restoreBadges() {
         Bundle restoredBundle = savedInstanceState;
-        if (restoredBundle != null) {
-            if (restoredBundle.containsKey(BUDGES_STATUS_BUNDLE_KEY)) {
-                badgeSaveInstanceHashMap = (HashMap<Integer, Integer>) savedInstanceState.getSerializable(BUDGES_STATUS_BUNDLE_KEY);
-                if (badgeSaveInstanceHashMap != null) {
-                    for (Integer integer : badgeSaveInstanceHashMap.keySet()) {
-                        Utils.forceShowBadge(badgeList.get(integer), badgeSaveInstanceHashMap.get(integer));
-                    }
+        if (restoredBundle != null && restoredBundle.containsKey(BUDGES_ITEM_BUNDLE_KEY)) {
+            badgeSaveInstanceHashMap = (HashMap<Integer, Object>) savedInstanceState.getSerializable(BUDGES_ITEM_BUNDLE_KEY);
+            if (badgeSaveInstanceHashMap != null) {
+                for (Integer integer : badgeSaveInstanceHashMap.keySet()) {
+                    BadgeHelper.forceShowBadge(badgeList.get(integer), (BadgeItem) badgeSaveInstanceHashMap.get(integer));
                 }
             }
         }
+    }
+
+
+    /**
+     * Creating bezier view with params
+     *
+     * @return created bezier view
+     */
+    private BezierView buildBezierView() {
+        BezierView bezierView = new BezierView(context, spaceBackgroundColor);
+        bezierView.build(centreContentWight, spaceNavigationHeight - mainContentHeight);
+
+        return bezierView;
     }
 
     /**
@@ -521,19 +532,7 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(CURRENT_SELECTED_ITEM_BUNDLE_KEY, currentSelectedItem);
-        outState.putSerializable(BUDGES_STATUS_BUNDLE_KEY, badgeSaveInstanceHashMap);
-    }
-
-    /**
-     * Creating bezier view with params
-     *
-     * @return created bezier view
-     */
-    private BezierView buildBezierView() {
-        BezierView bezierView = new BezierView(context, spaceBackgroundColor);
-        bezierView.build(centreContentWight, spaceNavigationHeight - mainContentHeight);
-
-        return bezierView;
+        outState.putSerializable(BUDGES_ITEM_BUNDLE_KEY, badgeSaveInstanceHashMap);
     }
 
     /**
@@ -658,14 +657,21 @@ public class SpaceNavigationView extends RelativeLayout {
      * @param itemIndex index
      * @param badgeText badge count text
      */
-    public void showBadgeAtIndex(int itemIndex, int badgeText) {
-        if (itemIndex < 0 || itemIndex > spaceItems.size()) { // FIXME: 16.08.2016 
-            throw new ArrayIndexOutOfBoundsException("Your item index can't be greater or lesser than space item size," +
+    public void showBadgeAtIndex(int itemIndex, int badgeText, @ColorInt int badgeColor) {
+        if (itemIndex < 0 || itemIndex > spaceItems.size()) {
+            throw new ArrayIndexOutOfBoundsException("Your item index can't be 0 or greater than space item size," +
                     " your items size is " + spaceItems.size() + ", your current index is :" + itemIndex);
         } else {
             RelativeLayout badgeView = badgeList.get(itemIndex);
-            Utils.showBadge(badgeView, badgeText);
-            badgeSaveInstanceHashMap.put(itemIndex, badgeText);
+
+            /**
+             * Set circle background to badge view
+             */
+            badgeView.setBackground(BadgeHelper.makeShapeDrawable(badgeColor));
+
+            BadgeItem badgeItem = new BadgeItem(itemIndex, badgeText, badgeColor);
+            BadgeHelper.showBadge(badgeView, badgeItem);
+            badgeSaveInstanceHashMap.put(itemIndex, badgeItem);
         }
     }
 
@@ -678,7 +684,7 @@ public class SpaceNavigationView extends RelativeLayout {
         if (badgeList.get(index).getVisibility() == GONE) {
             Log.d(TAG, "Budge at index: " + index + " already hidden");
         } else {
-            Utils.hideBadge(badgeList.get(index));
+            BadgeHelper.hideBadge(badgeList.get(index));
             badgeSaveInstanceHashMap.remove(index);
         }
     }
@@ -689,9 +695,9 @@ public class SpaceNavigationView extends RelativeLayout {
     public void hideAllBudges() {
         for (RelativeLayout badge : badgeList) {
             if (badge.getVisibility() == VISIBLE)
-                Utils.hideBadge(badge);
-            badgeSaveInstanceHashMap.clear();
+                BadgeHelper.hideBadge(badge);
         }
+        badgeSaveInstanceHashMap.clear();
     }
 
     /**
@@ -701,8 +707,13 @@ public class SpaceNavigationView extends RelativeLayout {
      * @param badgeText  badge count text to change
      */
     public void changeBadgeTextAtIndex(int badgeIndex, int badgeText) {
-        if (badgeSaveInstanceHashMap.get(badgeIndex) != null && badgeSaveInstanceHashMap.get(badgeIndex) != badgeText)
-            Utils.forceShowBadge(badgeList.get(badgeIndex), badgeText);
+        if (badgeSaveInstanceHashMap.get(badgeIndex) != null &&
+                (((BadgeItem) badgeSaveInstanceHashMap.get(badgeIndex)).getIntBadgeText() != badgeText)) {
+            BadgeItem currentBadgeItem = (BadgeItem) badgeSaveInstanceHashMap.get(badgeIndex);
+            BadgeItem badgeItemForSave = new BadgeItem(badgeIndex, badgeText, currentBadgeItem.getBadgeColor());
+            BadgeHelper.forceShowBadge(badgeList.get(badgeIndex), badgeItemForSave);
+            badgeSaveInstanceHashMap.put(badgeIndex, badgeItemForSave);
+        }
     }
 
     /**
