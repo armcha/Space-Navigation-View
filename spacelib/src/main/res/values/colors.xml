@@ -6,6 +6,7 @@
     <color name="default_color">#2A3137</color>
     <color name="centre_button_color">#4285F4</color>
     <color name="default_inactive_item_color">#9e9e9e</color>
+    <color name="default_active_item_color">#262626</color>
     <color name="selected_item_color">#3fffffff</color>
     <color name="badge_background_color">#f44336</color>
 

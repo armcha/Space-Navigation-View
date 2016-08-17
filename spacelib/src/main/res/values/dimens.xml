@@ -7,4 +7,6 @@
     <dimen name="space_item_icon_only_size">25dp</dimen>
     <dimen name="space_item_text_default_size">14sp</dimen>
     <dimen name="badge_left_margin">5dp</dimen>
+
+    <dimen name="view_bottom_margin">50dp</dimen>
 </resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative_layout"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:layout_margin="3dp"
+    android:elevation="8dp"
+    tools:context="com.luseen.spacenavigationview.MainActivity">
+
+</RelativeLayout>

@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -104,7 +105,9 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private boolean isCustomFont = false;
 
-
+    /**
+     * Constructors
+     */
     public SpaceNavigationView(Context context) {
         this(context, null);
     }
@@ -128,9 +131,9 @@ public class SpaceNavigationView extends RelativeLayout {
             spaceItemIconOnlySize = typedArray.getDimensionPixelSize(R.styleable.SpaceNavigationView_space_item_icon_only_size, resources.getDimensionPixelSize(R.dimen.space_item_icon_only_size));
             spaceItemTextSize = typedArray.getDimensionPixelSize(R.styleable.SpaceNavigationView_space_item_text_size, resources.getDimensionPixelSize(R.dimen.space_item_text_default_size));
             spaceItemIconOnlySize = typedArray.getDimensionPixelSize(R.styleable.SpaceNavigationView_space_item_icon_only_size, resources.getDimensionPixelSize(R.dimen.space_item_icon_only_size));
-            spaceBackgroundColor = typedArray.getColor(R.styleable.SpaceNavigationView_space_background_color, resources.getColor(R.color.default_color));
+            spaceBackgroundColor = typedArray.getColor(R.styleable.SpaceNavigationView_space_background_color, resources.getColor(R.color.white));
             centreButtonColor = typedArray.getColor(R.styleable.SpaceNavigationView_centre_button_color, resources.getColor(R.color.centre_button_color));
-            activeSpaceItemColor = typedArray.getColor(R.styleable.SpaceNavigationView_active_item_color, resources.getColor(R.color.white));
+            activeSpaceItemColor = typedArray.getColor(R.styleable.SpaceNavigationView_active_item_color, resources.getColor(R.color.default_active_item_color));
             inActiveSpaceItemColor = typedArray.getColor(R.styleable.SpaceNavigationView_inactive_item_color, resources.getColor(R.color.default_inactive_item_color));
 
             typedArray.recycle();
@@ -145,7 +148,7 @@ public class SpaceNavigationView extends RelativeLayout {
          * Set default colors and sizes
          */
         if (spaceBackgroundColor == NOT_DEFINED)
-            spaceBackgroundColor = ContextCompat.getColor(context, R.color.default_color);
+            spaceBackgroundColor = ContextCompat.getColor(context, R.color.white);
 
         if (centreButtonColor == NOT_DEFINED)
             centreButtonColor = ContextCompat.getColor(context, R.color.centre_button_color);
@@ -154,7 +157,7 @@ public class SpaceNavigationView extends RelativeLayout {
             centreButtonIcon = R.drawable.near_me;
 
         if (activeSpaceItemColor == NOT_DEFINED)
-            activeSpaceItemColor = ContextCompat.getColor(context, R.color.white);
+            activeSpaceItemColor = ContextCompat.getColor(context, R.color.default_active_item_color);
 
         if (inActiveSpaceItemColor == NOT_DEFINED)
             inActiveSpaceItemColor = ContextCompat.getColor(context, R.color.default_inactive_item_color);
@@ -511,7 +514,6 @@ public class SpaceNavigationView extends RelativeLayout {
     private BezierView buildBezierView() {
         BezierView bezierView = new BezierView(context, spaceBackgroundColor);
         bezierView.build(centreContentWight, spaceNavigationHeight - mainContentHeight);
-
         return bezierView;
     }
 

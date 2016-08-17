@@ -16,11 +16,13 @@
  */
 package com.luseen.spacenavigation;
 
+import java.io.Serializable;
+
 /**
  * Created by Chatikyan on 17.08.2016-18:07.
  */
 
-class BadgeItem {
+class BadgeItem implements Serializable{
 
     private int badgeIndex;
 

@@ -6,32 +6,32 @@
     android:layout_height="match_parent"
     tools:context="com.luseen.spacenavigationview.MainActivity">
 
-    <com.luseen.spacenavigation.SpaceNavigationView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/view_bottom_margin" />
+
+    <com.luseen.spacenavigation.SpaceNavigationView
         android:id="@+id/space"
-        android:gravity="bottom"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_alignParentBottom="true" >
-
-    </com.luseen.spacenavigation.SpaceNavigationView>
-
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:id="@+id/button" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:gravity="bottom" />
 
     <Button
-        android:text="Button"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginTop="50dp"
-        android:id="@+id/button2" />
+        android:layout_gravity="top|left"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:text="Button" />
 
 </FrameLayout>

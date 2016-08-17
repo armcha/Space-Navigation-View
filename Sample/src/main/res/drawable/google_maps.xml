@@ -1,0 +1,8 @@
+<!-- drawable/google_maps.xml -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="24dp"
+    android:width="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path android:fillColor="#fff" android:pathData="M5,4A2,2 0 0,0 3,6V16.29L11.18,8.11C11.06,7.59 11,7.07 11,6.53C11,5.62 11.2,4.76 11.59,4H5M18,21A2,2 0 0,0 20,19V11.86C19.24,13 18.31,14.21 17.29,15.5L16.5,16.5L15.72,15.5C14.39,13.85 13.22,12.32 12.39,10.91C12.05,10.33 11.76,9.76 11.53,9.18L7.46,13.25L15.21,21H18M3,19A2,2 0 0,0 5,21H13.79L6.75,13.96L3,17.71V19M16.5,15C19.11,11.63 21,9.1 21,6.57C21,4.05 19,2 16.5,2C14,2 12,4.05 12,6.57C12,9.1 13.87,11.63 16.5,15M18.5,6.5A2,2 0 0,1 16.5,8.5A2,2 0 0,1 14.5,6.5A2,2 0 0,1 16.5,4.5A2,2 0 0,1 18.5,6.5Z" />
+</vector>
