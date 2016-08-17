@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -35,6 +36,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -47,6 +49,10 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private static final String TAG = "SpaceNavigationView";
 
+    private static final String CURRENT_SELECTED_ITEM_BUNDLE_KEY = "currentItem";
+
+    private static final String BUDGES_STATUS_BUNDLE_KEY = "budgeStatus";
+
     private Context context;
 
     private SpaceOnClickListener spaceOnClickListener;
@@ -57,6 +63,10 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private List<RelativeLayout> badgeList = new ArrayList<>();
 
+    private HashMap<Integer, Integer> badgeSaveInstance = new HashMap<>();
+
+    private Bundle savedInstanceState;
+
     private final int spaceNavigationHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_navigation_height);
 
     private final int centreContentMargin = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.fab_margin);
@@ -64,8 +74,6 @@ public class SpaceNavigationView extends RelativeLayout {
     private final int mainContentHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.main_content_height);
 
     private final int centreContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.centre_content_width);
-
-    private final int badgeLeftMargin = (int) getResources().getDimension(R.dimen.badge_left_margin);
 
     private int spaceItemIconSize = NOT_DEFINED;
 
@@ -133,18 +141,25 @@ public class SpaceNavigationView extends RelativeLayout {
          */
         if (spaceBackgroundColor == NOT_DEFINED)
             spaceBackgroundColor = ContextCompat.getColor(context, R.color.default_color);
+
         if (centreButtonColor == NOT_DEFINED)
             centreButtonColor = ContextCompat.getColor(context, R.color.centre_button_color);
+
         if (centreButtonIcon == NOT_DEFINED)
             centreButtonIcon = R.drawable.near_me;
+
         if (activeSpaceItemColor == NOT_DEFINED)
             activeSpaceItemColor = ContextCompat.getColor(context, R.color.white);
+
         if (inActiveSpaceItemColor == NOT_DEFINED)
             inActiveSpaceItemColor = ContextCompat.getColor(context, R.color.default_inactive_item_color);
+
         if (spaceItemTextSize == NOT_DEFINED)
             spaceItemTextSize = (int) getResources().getDimension(R.dimen.space_item_text_default_size);
+
         if (spaceItemIconSize == NOT_DEFINED)
             spaceItemIconSize = (int) getResources().getDimension(R.dimen.space_item_icon_default_size);
+
         if (spaceItemIconOnlySize == NOT_DEFINED)
             spaceItemIconOnlySize = (int) getResources().getDimension(R.dimen.space_item_icon_only_size);
 
@@ -161,6 +176,11 @@ public class SpaceNavigationView extends RelativeLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+
+        /**
+         * Restore current item index from saveInstance
+         */
+        restoreCurrentItem();
 
         /**
          * Trow exceptions if items size is greater than 4 or lesser than 2
@@ -391,6 +411,11 @@ public class SpaceNavigationView extends RelativeLayout {
                 }
             });
         }
+
+        /**
+         * Restore available badges from saveInstance
+         */
+        restoreBadges();
     }
 
     /**
@@ -437,6 +462,56 @@ public class SpaceNavigationView extends RelativeLayout {
          * Change current selected item index
          */
         currentSelectedItem = selectedIndex;
+    }
+
+    /**
+     * Restore current item index from saveInstance
+     */
+    private void restoreCurrentItem() {
+        Bundle restoredBundle = savedInstanceState;
+        if (restoredBundle != null) {
+            if (restoredBundle.containsKey(CURRENT_SELECTED_ITEM_BUNDLE_KEY))
+                currentSelectedItem = restoredBundle.getInt(CURRENT_SELECTED_ITEM_BUNDLE_KEY, 0);
+        }
+    }
+
+    /**
+     * Restore available badges from saveInstance
+     */
+    @SuppressWarnings("unchecked")
+    private void restoreBadges() {
+        Bundle restoredBundle = savedInstanceState;
+        if (restoredBundle != null) {
+            if (restoredBundle.containsKey(BUDGES_STATUS_BUNDLE_KEY)) {
+                badgeSaveInstance.clear();
+                badgeSaveInstance = (HashMap<Integer, Integer>) savedInstanceState.getSerializable(BUDGES_STATUS_BUNDLE_KEY);
+                if (badgeSaveInstance != null) {
+                    for (Integer integer : badgeSaveInstance.keySet()) {
+                        Utils.forceShowBadge(badgeList.get(integer), badgeSaveInstance.get(integer));
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Initialization with savedInstanceState to save current selected
+     * position and current budges
+     *
+     * @param savedInstanceState bundle to saveInstance
+     */
+    public void initWithSaveInstanceState(Bundle savedInstanceState) {
+        this.savedInstanceState = savedInstanceState;
+    }
+
+    /**
+     * Save budges and current position
+     *
+     * @param outState bundle to saveInstance
+     */
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(CURRENT_SELECTED_ITEM_BUNDLE_KEY, currentSelectedItem);
+        outState.putSerializable(BUDGES_STATUS_BUNDLE_KEY, badgeSaveInstance);
     }
 
     /**
@@ -580,6 +655,7 @@ public class SpaceNavigationView extends RelativeLayout {
         } else {
             RelativeLayout badgeView = badgeList.get(itemIndex);
             Utils.showBadge(badgeView, badgeText);
+            badgeSaveInstance.put(itemIndex, badgeText);
         }
     }
 
@@ -593,6 +669,7 @@ public class SpaceNavigationView extends RelativeLayout {
             Log.d(TAG, "Budge at index: " + index + " already hidden");
         } else {
             Utils.hideBadge(badgeList.get(index));
+            badgeSaveInstance.remove(index);
         }
     }
 
@@ -603,6 +680,7 @@ public class SpaceNavigationView extends RelativeLayout {
         for (RelativeLayout badge : badgeList) {
             if (badge.getVisibility() == VISIBLE)
                 Utils.hideBadge(badge);
+            badgeSaveInstance.clear();
         }
     }
 }

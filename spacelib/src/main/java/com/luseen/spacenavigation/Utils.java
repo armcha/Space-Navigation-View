@@ -147,6 +147,24 @@ class Utils {
                 .start();
     }
 
+    /**
+     * Force show badge without animation
+     *
+     * @param view       target budge
+     * @param badgeCount badge count text
+     */
+    static void forceShowBadge(RelativeLayout view, int badgeCount) {
+        changeViewVisibilityVisible(view);
+        TextView badgeTextView = (TextView) view.findViewById(R.id.badge_text_view);
+
+        String badgeText;
+        if (badgeCount > 9)
+            badgeText = 9 + "+";
+        else
+            badgeText = String.valueOf(badgeCount);
+        badgeTextView.setText(badgeText);
+    }
+
 
     // TODO: 15.08.2016 add ripple effect programmatically
 //    public static RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor)

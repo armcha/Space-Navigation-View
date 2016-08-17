@@ -12,15 +12,18 @@ import com.luseen.spacenavigation.SpaceOnClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
+    private SpaceNavigationView spaceNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final SpaceNavigationView spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
+        spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
+        spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
         spaceNavigationView.addSpaceItem(new SpaceItem("CALL", R.drawable.bell));
-        spaceNavigationView.addSpaceItem(new SpaceItem("NEWS", R.drawable.home));
+        //spaceNavigationView.addSpaceItem(new SpaceItem("NEWS", R.drawable.home));
         spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
         spaceNavigationView.showIconOnly();
         //spaceNavigationView.addSpaceItem(new SpaceItem("MAP", R.drawable.bell));
@@ -45,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //spaceNavigationView.changeCurrentItem(3);
-                spaceNavigationView.showBadgeAtIndex(1,233);
+                spaceNavigationView.showBadgeAtIndex(1, 233);
+                spaceNavigationView.showBadgeAtIndex(0, 8);
             }
         });
 
@@ -71,5 +75,11 @@ public class MainActivity extends AppCompatActivity {
 //        mainContentParams.setMargins(0, 0, 0, 0);
 //        r.addView(badgeView, mainContentParams);
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        spaceNavigationView.onSaveInstanceState(outState);
     }
 }

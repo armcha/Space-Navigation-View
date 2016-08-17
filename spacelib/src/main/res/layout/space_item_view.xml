@@ -7,10 +7,10 @@
     android:clickable="true">
 
     <LinearLayout
+        android:id="@+id/main_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:id="@+id/main_content"
         android:orientation="horizontal">
 
         <ImageView
@@ -33,22 +33,22 @@
         android:id="@+id/badge_container"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_marginLeft="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/badge_left_margin"
         android:layout_marginTop="3dp"
         android:layout_toRightOf="@+id/main_content"
-        android:layout_alignParentTop="true"
         android:background="@drawable/circle_bg"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
+            android:id="@+id/badge_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/badge_text_view"
             android:layout_centerInParent="true"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
             android:text="3"
-            android:textSize="10sp" />
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 </RelativeLayout>
