@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
@@ -47,7 +46,7 @@ import java.util.List;
 
 public class SpaceNavigationView extends RelativeLayout {
 
-    private static final int NOT_DEFINED = -1;
+    private static final int NOT_DEFINED = -777;
 
     private static final String TAG = "SpaceNavigationView";
 
@@ -122,19 +121,23 @@ public class SpaceNavigationView extends RelativeLayout {
         init(attrs);
     }
 
+    /**
+     * Init custom attributes
+     * @param attrs attributes
+     */
     private void init(AttributeSet attrs) {
         if (attrs != null) {
             Resources resources = getResources();
 
             TypedArray typedArray = context.obtainStyledAttributes(attrs, com.luseen.spacenavigation.R.styleable.SpaceNavigationView);
-            spaceItemIconSize = typedArray.getDimensionPixelSize(R.styleable.SpaceNavigationView_space_item_icon_size, resources.getDimensionPixelSize(R.dimen.space_item_icon_default_size));
-            spaceItemIconOnlySize = typedArray.getDimensionPixelSize(R.styleable.SpaceNavigationView_space_item_icon_only_size, resources.getDimensionPixelSize(R.dimen.space_item_icon_only_size));
-            spaceItemTextSize = typedArray.getDimensionPixelSize(R.styleable.SpaceNavigationView_space_item_text_size, resources.getDimensionPixelSize(R.dimen.space_item_text_default_size));
-            spaceItemIconOnlySize = typedArray.getDimensionPixelSize(R.styleable.SpaceNavigationView_space_item_icon_only_size, resources.getDimensionPixelSize(R.dimen.space_item_icon_only_size));
-            spaceBackgroundColor = typedArray.getColor(R.styleable.SpaceNavigationView_space_background_color, resources.getColor(R.color.white));
-            centreButtonColor = typedArray.getColor(R.styleable.SpaceNavigationView_centre_button_color, resources.getColor(R.color.centre_button_color));
-            activeSpaceItemColor = typedArray.getColor(R.styleable.SpaceNavigationView_active_item_color, resources.getColor(R.color.default_active_item_color));
-            inActiveSpaceItemColor = typedArray.getColor(R.styleable.SpaceNavigationView_inactive_item_color, resources.getColor(R.color.default_inactive_item_color));
+            spaceItemIconSize = typedArray.getDimensionPixelSize(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_space_item_icon_size, resources.getDimensionPixelSize(com.luseen.spacenavigation.R.dimen.space_item_icon_default_size));
+            spaceItemIconOnlySize = typedArray.getDimensionPixelSize(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_space_item_icon_only_size, resources.getDimensionPixelSize(com.luseen.spacenavigation.R.dimen.space_item_icon_only_size));
+            spaceItemTextSize = typedArray.getDimensionPixelSize(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_space_item_text_size, resources.getDimensionPixelSize(com.luseen.spacenavigation.R.dimen.space_item_text_default_size));
+            spaceItemIconOnlySize = typedArray.getDimensionPixelSize(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_space_item_icon_only_size, resources.getDimensionPixelSize(com.luseen.spacenavigation.R.dimen.space_item_icon_only_size));
+            spaceBackgroundColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_space_background_color, resources.getColor(com.luseen.spacenavigation.R.color.default_color));
+            centreButtonColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_centre_button_color, resources.getColor(com.luseen.spacenavigation.R.color.centre_button_color));
+            activeSpaceItemColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_active_item_color, resources.getColor(com.luseen.spacenavigation.R.color.white));
+            inActiveSpaceItemColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_inactive_item_color, resources.getColor(com.luseen.spacenavigation.R.color.default_inactive_item_color));
 
             typedArray.recycle();
         }
@@ -148,28 +151,28 @@ public class SpaceNavigationView extends RelativeLayout {
          * Set default colors and sizes
          */
         if (spaceBackgroundColor == NOT_DEFINED)
-            spaceBackgroundColor = ContextCompat.getColor(context, R.color.white);
+            spaceBackgroundColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.default_color);
 
         if (centreButtonColor == NOT_DEFINED)
-            centreButtonColor = ContextCompat.getColor(context, R.color.centre_button_color);
+            centreButtonColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.centre_button_color);
 
         if (centreButtonIcon == NOT_DEFINED)
             centreButtonIcon = R.drawable.near_me;
 
         if (activeSpaceItemColor == NOT_DEFINED)
-            activeSpaceItemColor = ContextCompat.getColor(context, R.color.default_active_item_color);
+            activeSpaceItemColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.white);
 
         if (inActiveSpaceItemColor == NOT_DEFINED)
-            inActiveSpaceItemColor = ContextCompat.getColor(context, R.color.default_inactive_item_color);
+            inActiveSpaceItemColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.default_inactive_item_color);
 
         if (spaceItemTextSize == NOT_DEFINED)
-            spaceItemTextSize = (int) getResources().getDimension(R.dimen.space_item_text_default_size);
+            spaceItemTextSize = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_item_text_default_size);
 
         if (spaceItemIconSize == NOT_DEFINED)
-            spaceItemIconSize = (int) getResources().getDimension(R.dimen.space_item_icon_default_size);
+            spaceItemIconSize = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_item_icon_default_size);
 
         if (spaceItemIconOnlySize == NOT_DEFINED)
-            spaceItemIconOnlySize = (int) getResources().getDimension(R.dimen.space_item_icon_only_size);
+            spaceItemIconOnlySize = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_item_icon_only_size);
 
         /**
          * Set main layout size and color

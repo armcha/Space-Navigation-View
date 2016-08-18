@@ -9,7 +9,6 @@
         <attr name="centre_button_color" format="color" />
         <attr name="active_item_color" format="color" />
         <attr name="inactive_item_color" format="color" />
-        <attr name="centre_button_icon" format="integer" />
     </declare-styleable>
 
 </resources>
