@@ -2,7 +2,7 @@
 
 ##Introduction
 ------------
-Space Navigation is a library allowing easily integrate fully customizable Google [Spaces][1] like navigation to your app with.
+Space Navigation is a library allowing easily integrate fully customizable Google [Spaces][1] like navigation to your app.
 [1]: https://play.google.com/store/apps/details?id=com.google.android.apps.social.spaces
 
 ![](screens/mainGif.gif)
@@ -21,7 +21,7 @@ Download simple [apk][7]
 [Demo 2][3]
 [3]: https://www.youtube.com/watch?v=rA1NMMLJ4TE
 
-##Download this magic lib
+##Download magic
 -----------------------
 
 
