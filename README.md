@@ -72,8 +72,8 @@ Add Space Navigation items.
 ```java
    SpaceNavigationView spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
    spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-   spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
-   spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.magnify));
+   spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.yourDrawable));
+   spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.yourDrawable));
 ```
 Use ```initWithSaveInstanceState(savedInstanceState)``` and override ```onSaveInstanceState``` 
 if you want to keep selected item position and badge on device rotation
@@ -132,42 +132,42 @@ Customize with xml
 
 Change space navigation background
 ```java
- spaceNavigationView.setSpaceBackgroundColor(ContextCompat.getColor(this, R.color.white));
+ spaceNavigationView.setSpaceBackgroundColor(ContextCompat.getColor(this, R.color.yourColor));
 ```
 
 Change centre button icon 
 ```java
- spaceNavigationView.setCentreButtonIcon(R.drawable.camera);
+ spaceNavigationView.setCentreButtonIcon(R.drawable.yourDrawable);
 ```
 
 Change centre button background color 
 ```java
- spaceNavigationView.setCentreButtonColor(ContextCompat.getColor(this, R.color.centre_color));
+ spaceNavigationView.setCentreButtonColor(ContextCompat.getColor(this, R.color.yourColor));
 ```
 
 Change selected item text and icon color
 ```java
- spaceNavigationView.setActiveSpaceItemColor(ContextCompat.getColor(this, R.color.centre_color));
+ spaceNavigationView.setActiveSpaceItemColor(ContextCompat.getColor(this, R.color.yourColor));
 ```
 
 Change unselected item text and icon color
 ```java
-  spaceNavigationView.setInActiveSpaceItemColor(ContextCompat.getColor(this, R.color.inactive_color));
+  spaceNavigationView.setInActiveSpaceItemColor(ContextCompat.getColor(this, R.color.yourColor));
 ```
 
 Change space item icon size
 ```java
-  spaceNavigationView.setSpaceItemIconSize((int) getResources().getDimension(R.dimen.space_item_icon_only_size));
+  spaceNavigationView.setSpaceItemIconSize((int) getResources().getDimension(R.dimen.yourDimen));
 ```
 
 Change space item icon size when ```showIconOnly();``` mode activated
 ```java
-  spaceNavigationView.setSpaceItemIconSizeInOnlyIconMode((int) getResources().getDimension(R.dimen.space_item_icon_only_size));
+  spaceNavigationView.setSpaceItemIconSizeInOnlyIconMode((int) getResources().getDimension(R.dimen.yourDimen));
 ```
 
 Change space item text size
 ```java
-  spaceNavigationView.setSpaceItemTextSize((int) getResources().getDimension(R.dimen.space_item_text_default_sizsssssssssssse));
+  spaceNavigationView.setSpaceItemTextSize((int) getResources().getDimension(R.dimen.yourDimen));
 ```
 
 Hide items text and show only icons
