@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 24
@@ -13,6 +14,7 @@ android {
     }
     buildTypes {
         release {
+            tasks.withType(Javadoc).all { enabled = false }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -24,4 +26,13 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:support-v4:24.1.1'
     compile 'com.android.support:design:24.1.1'
+}
+
+publish {
+    groupId = 'com.github.armcha'
+    artifactId = 'SpaceNavigationView'
+    publishVersion = '1.0.0'
+    desc = 'Spaces Navigation View'
+    licences = ['MIT']
+    website = 'https://github.com/armcha/Space-Navigation-View'
 }
