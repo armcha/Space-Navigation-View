@@ -1,10 +1,8 @@
 # Space-Navigation-View
 
-Space Navigation view
-
 ##Introduction
 ------------
-Space Navigation is a library allows you easily add Google [Spaces][1] navigation to your app with fully customization.
+Space Navigation is a library allowing easily integrate fully customizable Google [Spaces][1] like navigation to your app with.
 [1]: https://play.google.com/store/apps/details?id=com.google.android.apps.social.spaces
 
 ![](screens/mainGif.gif)
@@ -23,14 +21,24 @@ The current minSDK version is API level 16 Android 4.1 (JELLY BEAN).
 ##Download this magic lib
 -----------------------
 
+
 Gradle:
 ```groovy
-compile ''
+repositories {
+    maven {
+        url 'https://dl.bintray.com/armcha/maven'
+    }
+}
+
+compile 'com.github.armcha:SpaceNavigationView:1.0.0'
 ```
 Maven:
 ```xml
 <dependency>
-  
+  <groupId>com.github.armcha</groupId>
+  <artifactId>SpaceNavigationView</artifactId>
+  <version>1.0.0</version>
+  <type>pom</type>
 </dependency>
 ```
 
@@ -212,9 +220,7 @@ Set your custom font
 1.0.0 - Initial release
 
 ##Apps using the Space Navigation View
-Right now we do not have any apps...
-
-Please feel free to send me new projects
+Kindly please let me know if you used or planning to use the library in your projects
 
 ## Contact 
 
