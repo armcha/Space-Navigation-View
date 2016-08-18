@@ -11,6 +11,9 @@ Space Navigation is a library allowing easily integrate fully customizable Googl
 
 The current minSDK version is API level 16 Android 4.1 (JELLY BEAN).
 
+Download simple [apk][7]
+[7]: https://github.com/armcha/Space-Navigation-View/raw/master/SpaceNavigationView.apk
+
 #Youtube demos 
 
 [Demo 1][2]
@@ -225,7 +228,6 @@ Kindly please let me know if you used or planning to use the library in your pro
 ## Contact 
 
 Pull requests are more than welcome.
-
 Please fell free to contact me if there is any problem when using the library.
 
 - **Email**: armcha01@gmail.com
