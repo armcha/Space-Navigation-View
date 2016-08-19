@@ -123,6 +123,7 @@ public class SpaceNavigationView extends RelativeLayout {
 
     /**
      * Init custom attributes
+     *
      * @param attrs attributes
      */
     private void init(AttributeSet attrs) {
