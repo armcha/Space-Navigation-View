@@ -27,12 +27,6 @@ Download simple [apk][7]
 
 Gradle:
 ```groovy
-repositories {
-    maven {
-        url 'https://dl.bintray.com/armcha/maven'
-    }
-}
-
 compile 'com.github.armcha:SpaceNavigationView:1.0.0'
 ```
 Maven:
@@ -224,6 +218,10 @@ Set your custom font
 
 ##Apps using the Space Navigation View
 Kindly please let me know if you used or planning to use the library in your projects
+
+##Project development
+Some crazy [pics][8]
+[8]: https://github.com/armcha/Space-Navigation-View/tree/master/development
 
 ## Contact 
 
