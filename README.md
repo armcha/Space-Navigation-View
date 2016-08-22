@@ -18,7 +18,7 @@ Download sample [apk][7]
 #YouTube demos 
 
 ##Demo 1    
-[![Demo 1](https://img.youtube.com/vi/LY-7abfJV2o/2.jpg)](https://www.youtube.com/watch?v=rLY-7abfJV2o)    
+[![Demo 1](https://img.youtube.com/vi/LY-7abfJV2o/2.jpg)](https://www.youtube.com/watch?v=LY-7abfJV2o)    
 ##Demo 2     
 [![Demo 2](https://img.youtube.com/vi/rA1NMMLJ4TE/2.jpg)](https://www.youtube.com/watch?v=rA1NMMLJ4TE)      
 
