@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.SparseArrayCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -47,13 +46,17 @@ import java.util.List;
 
 public class SpaceNavigationView extends RelativeLayout {
 
-    private static final int NOT_DEFINED = -777;
-
     private static final String TAG = "SpaceNavigationView";
+
+    private static final int NOT_DEFINED = -777; // random number
+
+    private static final int CENTRE_BUTTON_KEY = 55; // random number
 
     private static final String CURRENT_SELECTED_ITEM_BUNDLE_KEY = "currentItem";
 
     private static final String BUDGES_ITEM_BUNDLE_KEY = "budgeItem";
+
+    private static final String CHANGED_ICON_AND_TEXT_BUNDLE_KEY = "changedIconAndText";
 
     private List<SpaceItem> spaceItems = new ArrayList<>();
 
@@ -63,7 +66,7 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private HashMap<Integer, Object> badgeSaveInstanceHashMap = new HashMap<>();
 
-    private ParcelableSparseArray sparseArray = new ParcelableSparseArray();
+    private HashMap<Integer, SpaceItem> changedItemAndIconHashMap = new HashMap<>();
 
     private SpaceOnClickListener spaceOnClickListener;
 
@@ -200,6 +203,11 @@ public class SpaceNavigationView extends RelativeLayout {
         restoreCurrentItem();
 
         /**
+         * Restore changed icons and texts from savedInstance
+         */
+        restoreChangedIconsAndTexts();
+
+        /**
          * Trow exceptions if items size is greater than 4 or lesser than 2
          */
         if (spaceItems.size() < 2) {
@@ -322,6 +330,8 @@ public class SpaceNavigationView extends RelativeLayout {
          */
         postRequestLayout(this);
     }
+
+    //private methods
 
     /**
      * Adding given space items to content
@@ -531,6 +541,24 @@ public class SpaceNavigationView extends RelativeLayout {
         }
     }
 
+    /**
+     * Restore changed icons and texts from saveInstance
+     */
+    @SuppressWarnings("unchecked")
+    private void restoreChangedIconsAndTexts() {
+        Bundle restoredBundle = savedInstanceState;
+        if (restoredBundle != null && restoredBundle.containsKey(CHANGED_ICON_AND_TEXT_BUNDLE_KEY)) {
+            changedItemAndIconHashMap = (HashMap<Integer, SpaceItem>) restoredBundle.getSerializable(CHANGED_ICON_AND_TEXT_BUNDLE_KEY);
+            if (changedItemAndIconHashMap != null) {
+                SpaceItem spaceItem;
+                for (int i = 0; i < changedItemAndIconHashMap.size(); i++) {
+                    spaceItem = changedItemAndIconHashMap.get(i);
+                    spaceItems.get(i).setItemIcon(spaceItem.getItemIcon());
+                    spaceItems.get(i).setItemName(spaceItem.getItemName());
+                }
+            }
+        }
+    }
 
     /**
      * Creating bezier view with params
@@ -542,6 +570,18 @@ public class SpaceNavigationView extends RelativeLayout {
         bezierView.build(centreContentWight, spaceNavigationHeight - mainContentHeight);
         return bezierView;
     }
+
+    /**
+     * Throw Array Index Out Of Bounds Exception
+     *
+     * @param itemIndex item index to show on logs
+     */
+    private void throwArrayIndexOutOfBoundsException(int itemIndex) {
+        throw new ArrayIndexOutOfBoundsException("Your item index can't be 0 or greater than space item size," +
+                " your items size is " + spaceItems.size() + ", your current index is :" + itemIndex);
+    }
+
+    //public methods
 
     /**
      * Initialization with savedInstanceState to save current selected
@@ -560,7 +600,11 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(CURRENT_SELECTED_ITEM_BUNDLE_KEY, currentSelectedItem);
-        outState.putSerializable(BUDGES_ITEM_BUNDLE_KEY, badgeSaveInstanceHashMap);
+
+        if (badgeSaveInstanceHashMap.size() > 0)
+            outState.putSerializable(BUDGES_ITEM_BUNDLE_KEY, badgeSaveInstanceHashMap);
+        if (changedItemAndIconHashMap.size() > 0)
+            outState.putSerializable(CHANGED_ICON_AND_TEXT_BUNDLE_KEY, changedItemAndIconHashMap);
     }
 
     /**
@@ -675,8 +719,9 @@ public class SpaceNavigationView extends RelativeLayout {
     public void changeCurrentItem(int indexToChange) {
         if (indexToChange < 0 || indexToChange > spaceItems.size())
             throw new ArrayIndexOutOfBoundsException("Please be more careful, we do't have such item : " + indexToChange);
-        else
+        else {
             updateSpaceItems(indexToChange);
+        }
     }
 
     /**
@@ -687,8 +732,7 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void showBadgeAtIndex(int itemIndex, int badgeText, @ColorInt int badgeColor) {
         if (itemIndex < 0 || itemIndex > spaceItems.size()) {
-            throw new ArrayIndexOutOfBoundsException("Your item index can't be 0 or greater than space item size," +
-                    " your items size is " + spaceItems.size() + ", your current index is :" + itemIndex);
+            throwArrayIndexOutOfBoundsException(itemIndex);
         } else {
             RelativeLayout badgeView = badgeList.get(itemIndex);
 
@@ -761,12 +805,44 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void changeCenterButtonIcon(int icon) {
         fab.setImageResource(icon);
+        //changedItemAndIconHashMap.put(CENTRE_BUTTON_KEY, icon);
     }
 
-    public void changeItemIconAtPosition(int position,int newIcon){
-        RelativeLayout textAndIconContainer = (RelativeLayout) spaceItemList.get(position);
-        ImageView spaceItemIcon = (ImageView) textAndIconContainer.findViewById(R.id.space_icon);
-        spaceItemIcon.setImageResource(newIcon);
-        spaceItems.get(position).setItemIcon(newIcon);
+    /**
+     * Change item icon if space navigation already set up
+     *
+     * @param itemIndex Target position
+     * @param newIcon   Icon to change
+     */
+    public void changeItemIconAtPosition(int itemIndex, int newIcon) {
+        if (itemIndex < 0 || itemIndex > spaceItems.size()) {
+            throwArrayIndexOutOfBoundsException(itemIndex);
+        } else {
+            SpaceItem spaceItem = spaceItems.get(itemIndex);
+            RelativeLayout textAndIconContainer = (RelativeLayout) spaceItemList.get(itemIndex);
+            ImageView spaceItemIcon = (ImageView) textAndIconContainer.findViewById(R.id.space_icon);
+            spaceItemIcon.setImageResource(newIcon);
+            spaceItem.setItemIcon(newIcon);
+            changedItemAndIconHashMap.put(itemIndex, spaceItem);
+        }
+    }
+
+    /**
+     * Change item text if space navigation already set up
+     *
+     * @param itemIndex Target position
+     * @param newText   Text to change
+     */
+    public void changeItemTextAtPosition(int itemIndex, String newText) {
+        if (itemIndex < 0 || itemIndex > spaceItems.size()) {
+            throwArrayIndexOutOfBoundsException(itemIndex);
+        } else {
+            SpaceItem spaceItem = spaceItems.get(itemIndex);
+            RelativeLayout textAndIconContainer = (RelativeLayout) spaceItemList.get(itemIndex);
+            TextView spaceItemIcon = (TextView) textAndIconContainer.findViewById(R.id.space_text);
+            spaceItemIcon.setText(newText);
+            spaceItem.setItemName(newText);
+            changedItemAndIconHashMap.put(itemIndex, spaceItem);
+        }
     }
 }

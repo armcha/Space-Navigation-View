@@ -32,14 +32,17 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.addSpaceItem(new SpaceItem("LIKE", R.drawable.bell));
         spaceNavigationView.addSpaceItem(new SpaceItem("ACCOUNT", R.drawable.account));
         //spaceNavigationView.setCentreButtonIcon(R.drawable.testfab);
-        spaceNavigationView.showIconOnly();
-
+        //spaceNavigationView.showIconOnly();
 
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
             public void onCentreButtonClick() {
                 spaceNavigationView.changeCenterButtonIcon(R.drawable.audiobook);
                 Log.d("onCentreButtonClick ", "onCentreButtonClick");
+                spaceNavigationView.changeItemTextAtPosition(0,"A");
+                spaceNavigationView.changeItemTextAtPosition(1,"B");
+                spaceNavigationView.changeItemTextAtPosition(2,"C");
+                spaceNavigationView.changeItemTextAtPosition(3,"D");
             }
 
             @Override
@@ -51,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemReselected(int itemIndex, String itemName) {
                 Log.e("onItemReselected ", "resel");
                 spaceNavigationView.changeItemIconAtPosition(0,R.drawable.account);
+                spaceNavigationView.changeItemIconAtPosition(1,R.drawable.audiobook);
+                spaceNavigationView.changeItemIconAtPosition(2,R.drawable.camera);
+                spaceNavigationView.changeItemIconAtPosition(3,R.drawable.google_maps);
             }
         });
 
