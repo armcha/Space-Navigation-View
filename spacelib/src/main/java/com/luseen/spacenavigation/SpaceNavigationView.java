@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.SparseArrayCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -61,6 +62,8 @@ public class SpaceNavigationView extends RelativeLayout {
     private List<RelativeLayout> badgeList = new ArrayList<>();
 
     private HashMap<Integer, Object> badgeSaveInstanceHashMap = new HashMap<>();
+
+    private ParcelableSparseArray sparseArray = new ParcelableSparseArray();
 
     private SpaceOnClickListener spaceOnClickListener;
 
@@ -103,6 +106,8 @@ public class SpaceNavigationView extends RelativeLayout {
     private boolean iconOnly = false;
 
     private boolean isCustomFont = false;
+
+    private FloatingActionButton fab;
 
     /**
      * Constructors
@@ -228,8 +233,10 @@ public class SpaceNavigationView extends RelativeLayout {
 
         BezierView centreContent = buildBezierView();
 
-        FloatingActionButton fab = new FloatingActionButton(context);
-        fab.setSize(FloatingActionButton.SIZE_NORMAL);
+        int fabMinAndMaxSize = spaceNavigationHeight - (centreContentMargin * 2);
+
+        fab = new FloatingActionButton(context);
+        fab.setSize(FloatingActionButton.SIZE_AUTO);
         fab.setBackgroundTintList(ColorStateList.valueOf(centreButtonColor));
         fab.setImageResource(centreButtonIcon);
         fab.setOnClickListener(new OnClickListener() {
@@ -313,7 +320,7 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Redraw main view to make subviews visible
          */
-        Utils.postRequestLayout(this);
+        postRequestLayout(this);
     }
 
     /**
@@ -446,8 +453,11 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * return if item already selected
          */
-        if (currentSelectedItem == selectedIndex)
+        if (currentSelectedItem == selectedIndex) {
+            if (spaceOnClickListener != null)
+                spaceOnClickListener.onItemReselected(selectedIndex, spaceItems.get(selectedIndex).getItemName());
             return;
+        }
 
         /**
          * Change active and inactive icon and text color
@@ -480,6 +490,18 @@ public class SpaceNavigationView extends RelativeLayout {
          * Change current selected item index
          */
         currentSelectedItem = selectedIndex;
+    }
+
+    /**
+     * Indicate event queue that we have changed the View hierarchy during a layout pass
+     */
+    private void postRequestLayout(final ViewGroup viewGroup) {
+        viewGroup.getHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                viewGroup.requestLayout();
+            }
+        });
     }
 
     /**
@@ -730,5 +752,21 @@ public class SpaceNavigationView extends RelativeLayout {
     public void setFont(Typeface customFont) {
         isCustomFont = true;
         this.customFont = customFont;
+    }
+
+    /**
+     * Change centre button icon if space navigation already set up
+     *
+     * @param icon Target icon to change
+     */
+    public void changeCenterButtonIcon(int icon) {
+        fab.setImageResource(icon);
+    }
+
+    public void changeItemIconAtPosition(int position,int newIcon){
+        RelativeLayout textAndIconContainer = (RelativeLayout) spaceItemList.get(position);
+        ImageView spaceItemIcon = (ImageView) textAndIconContainer.findViewById(R.id.space_icon);
+        spaceItemIcon.setImageResource(newIcon);
+        spaceItems.get(position).setItemIcon(newIcon);
     }
 }

@@ -19,30 +19,38 @@ public class MainActivity extends AppCompatActivity {
 
     private SpaceNavigationView spaceNavigationView;
 
-    private RecyclerView recyclerView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
-        //spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.magnify));
-        //spaceNavigationView.addSpaceItem(new SpaceItem("LIKE", R.drawable.bell));
+        spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.magnify));
+        spaceNavigationView.addSpaceItem(new SpaceItem("LIKE", R.drawable.bell));
         spaceNavigationView.addSpaceItem(new SpaceItem("ACCOUNT", R.drawable.account));
+        //spaceNavigationView.setCentreButtonIcon(R.drawable.testfab);
+        spaceNavigationView.showIconOnly();
+
 
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
             public void onCentreButtonClick() {
+                spaceNavigationView.changeCenterButtonIcon(R.drawable.audiobook);
                 Log.d("onCentreButtonClick ", "onCentreButtonClick");
             }
 
             @Override
             public void onItemClick(int itemIndex, String itemName) {
                 Log.d("onItemClick ", "" + itemIndex + " " + itemName);
+            }
+
+            @Override
+            public void onItemReselected(int itemIndex, String itemName) {
+                Log.e("onItemReselected ", "resel");
+                spaceNavigationView.changeItemIconAtPosition(0,R.drawable.account);
             }
         });
 

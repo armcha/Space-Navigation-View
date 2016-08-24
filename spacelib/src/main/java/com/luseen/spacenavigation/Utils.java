@@ -81,18 +81,6 @@ class Utils {
         imageTintChangeAnimation.start();
     }
 
-    /**
-     * Indicate event queue that we have changed the View hierarchy during a layout pass
-     */
-    static void postRequestLayout(final ViewGroup viewGroup) {
-        viewGroup.getHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                viewGroup.requestLayout();
-            }
-        });
-    }
-
     // TODO: 15.08.2016 add ripple effect programmatically
 //    public static RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor)
 //    {
