@@ -28,14 +28,14 @@ Download sample [apk][7]
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:SpaceNavigationView:1.0.0'
+compile 'com.github.armcha:SpaceNavigationView:1.1.0'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>SpaceNavigationView</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -94,6 +94,11 @@ Set onClick listener
             @Override
             public void onItemClick(int itemIndex, String itemName) {
                Toast.makeText(MainActivity.this, itemIndex + " " + itemName, Toast.LENGTH_SHORT).show();
+            }
+            
+             @Override
+             public void onItemReselected(int itemIndex, String itemName) {
+               Toast.makeText(MainActivity.this, itemIndex + " " + itemName, Toast.LENGTH_SHORT).show();           
             }
         });
 ```
@@ -209,13 +214,35 @@ Change badge text
 
 Set your custom font
 ```java
-   spaceNavigationView.setFont(Typeface.createFromAsset(getActivity().getAssets(), "your_cutom_font.ttf"));
+   spaceNavigationView.setFont(Typeface.createFromAsset(getAssets(), "your_cutom_font.ttf"));
+```
+
+Set centre button pressed state color
+```java
+      spaceNavigationView.setCentreButtonRippleColor(ContextCompat.getColor(this, R.color.yourColor));
+```
+
+Now you can change centre button icon if space navigation view already set up
+```java
+      spaceNavigationView.changeCenterButtonIcon(R.drawable.yourDrawable);
+```
+
+Also you can change item text and icon  if space navigation view already set up
+Now you can change centre button icon if space navigation view already set up
+```java
+      spaceNavigationView.changeItemTextAtPosition(0,"NEW TEXT");
+      spaceNavigationView.changeItemIconAtPosition(0,R.drawable.yourDrawable);
 ```
 
 
 ##Versions
 
-1.0.0 - Initial release
+##1.1.0 
+* Added ```changeItemTextAtPosition(), changeItemIconAtPosition(), changeCenterButtonIcon();``` methods
+* Now you can set onItemReselect listener
+
+##1.0.0
+* Initial release
 
 ##Apps using the Space Navigation View
 Kindly please let me know if you used or planning to use the library in your projects

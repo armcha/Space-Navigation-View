@@ -48,15 +48,15 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private static final String TAG = "SpaceNavigationView";
 
-    private static final int NOT_DEFINED = -777; // random number
-
-    private static final int CENTRE_BUTTON_KEY = 55; // random number
-
     private static final String CURRENT_SELECTED_ITEM_BUNDLE_KEY = "currentItem";
 
     private static final String BUDGES_ITEM_BUNDLE_KEY = "budgeItem";
 
     private static final String CHANGED_ICON_AND_TEXT_BUNDLE_KEY = "changedIconAndText";
+
+    private static final String CENTRE_BUTTON_KEY = "centreButtonKey";
+
+    private static final int NOT_DEFINED = -777; // random number
 
     private List<SpaceItem> spaceItems = new ArrayList<>();
 
@@ -71,6 +71,8 @@ public class SpaceNavigationView extends RelativeLayout {
     private SpaceOnClickListener spaceOnClickListener;
 
     private Bundle savedInstanceState;
+
+    private FloatingActionButton fab;
 
     private Typeface customFont;
 
@@ -100,6 +102,8 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private int inActiveSpaceItemColor = NOT_DEFINED;
 
+    private int centreButtonRippleColor = NOT_DEFINED;
+
     private int currentSelectedItem = 0;
 
     private int contentWidth;
@@ -109,8 +113,6 @@ public class SpaceNavigationView extends RelativeLayout {
     private boolean iconOnly = false;
 
     private boolean isCustomFont = false;
-
-    private FloatingActionButton fab;
 
     /**
      * Constructors
@@ -183,6 +185,9 @@ public class SpaceNavigationView extends RelativeLayout {
         if (spaceItemIconOnlySize == NOT_DEFINED)
             spaceItemIconOnlySize = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_item_icon_only_size);
 
+        if (centreButtonRippleColor == NOT_DEFINED)
+            centreButtonRippleColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.colorBackgroundHighlightWhite);
+
         /**
          * Set main layout size and color
          */
@@ -201,11 +206,6 @@ public class SpaceNavigationView extends RelativeLayout {
          * Restore current item index from savedInstance
          */
         restoreCurrentItem();
-
-        /**
-         * Restore changed icons and texts from savedInstance
-         */
-        restoreChangedIconsAndTexts();
 
         /**
          * Trow exceptions if items size is greater than 4 or lesser than 2
@@ -241,10 +241,10 @@ public class SpaceNavigationView extends RelativeLayout {
 
         BezierView centreContent = buildBezierView();
 
-        int fabMinAndMaxSize = spaceNavigationHeight - (centreContentMargin * 2);
-
         fab = new FloatingActionButton(context);
-        fab.setSize(FloatingActionButton.SIZE_AUTO);
+        fab.setSize(FloatingActionButton.SIZE_NORMAL);
+        fab.setUseCompatPadding(false);
+        fab.setRippleColor(centreButtonRippleColor);
         fab.setBackgroundTintList(ColorStateList.valueOf(centreButtonColor));
         fab.setImageResource(centreButtonIcon);
         fab.setOnClickListener(new OnClickListener() {
@@ -319,6 +319,11 @@ public class SpaceNavigationView extends RelativeLayout {
         addView(centreBackgroundView, centreBackgroundViewParams);
         addView(centreContent, centreContentParams);
         addView(mainContent, mainContentParams);
+
+        /**
+         * Restore changed icons and texts from savedInstance
+         */
+        restoreChangedIconsAndTexts();
 
         /**
          * Adding current space items to left and right content
@@ -547,15 +552,22 @@ public class SpaceNavigationView extends RelativeLayout {
     @SuppressWarnings("unchecked")
     private void restoreChangedIconsAndTexts() {
         Bundle restoredBundle = savedInstanceState;
-        if (restoredBundle != null && restoredBundle.containsKey(CHANGED_ICON_AND_TEXT_BUNDLE_KEY)) {
-            changedItemAndIconHashMap = (HashMap<Integer, SpaceItem>) restoredBundle.getSerializable(CHANGED_ICON_AND_TEXT_BUNDLE_KEY);
-            if (changedItemAndIconHashMap != null) {
-                SpaceItem spaceItem;
-                for (int i = 0; i < changedItemAndIconHashMap.size(); i++) {
-                    spaceItem = changedItemAndIconHashMap.get(i);
-                    spaceItems.get(i).setItemIcon(spaceItem.getItemIcon());
-                    spaceItems.get(i).setItemName(spaceItem.getItemName());
+        if (restoredBundle != null) {
+            if(restoredBundle.containsKey(CHANGED_ICON_AND_TEXT_BUNDLE_KEY)){
+                changedItemAndIconHashMap = (HashMap<Integer, SpaceItem>) restoredBundle.getSerializable(CHANGED_ICON_AND_TEXT_BUNDLE_KEY);
+                if (changedItemAndIconHashMap != null) {
+                    SpaceItem spaceItem;
+                    for (int i = 0; i < changedItemAndIconHashMap.size(); i++) {
+                        spaceItem = changedItemAndIconHashMap.get(i);
+                        spaceItems.get(i).setItemIcon(spaceItem.getItemIcon());
+                        spaceItems.get(i).setItemName(spaceItem.getItemName());
+                    }
                 }
+            }
+
+            if(restoredBundle.containsKey(CENTRE_BUTTON_KEY)){
+                centreButtonIcon = restoredBundle.getInt(CENTRE_BUTTON_KEY);
+                fab.setImageResource(centreButtonIcon);
             }
         }
     }
@@ -600,6 +612,7 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(CURRENT_SELECTED_ITEM_BUNDLE_KEY, currentSelectedItem);
+        outState.putInt(CENTRE_BUTTON_KEY,centreButtonIcon);
 
         if (badgeSaveInstanceHashMap.size() > 0)
             outState.putSerializable(BUDGES_ITEM_BUNDLE_KEY, badgeSaveInstanceHashMap);
@@ -677,6 +690,14 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void setSpaceItemTextSize(int spaceItemTextSize) {
         this.spaceItemTextSize = spaceItemTextSize;
+    }
+
+    /**
+     * Set centre button pressed state color
+     * @param centreButtonRippleColor Target color
+     */
+    public void setCentreButtonRippleColor(int centreButtonRippleColor) {
+        this.centreButtonRippleColor = centreButtonRippleColor;
     }
 
     /**
@@ -805,7 +826,7 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void changeCenterButtonIcon(int icon) {
         fab.setImageResource(icon);
-        //changedItemAndIconHashMap.put(CENTRE_BUTTON_KEY, icon);
+        centreButtonIcon = icon;
     }
 
     /**
