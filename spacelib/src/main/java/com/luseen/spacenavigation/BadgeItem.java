@@ -54,6 +54,7 @@ class BadgeItem implements Serializable{
             badgeStringText = 9 + "+";
         else
             badgeStringText = String.valueOf(badgeText);
+
         return badgeStringText;
     }
 }

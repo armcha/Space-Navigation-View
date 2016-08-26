@@ -553,7 +553,7 @@ public class SpaceNavigationView extends RelativeLayout {
     private void restoreChangedIconsAndTexts() {
         Bundle restoredBundle = savedInstanceState;
         if (restoredBundle != null) {
-            if(restoredBundle.containsKey(CHANGED_ICON_AND_TEXT_BUNDLE_KEY)){
+            if (restoredBundle.containsKey(CHANGED_ICON_AND_TEXT_BUNDLE_KEY)) {
                 changedItemAndIconHashMap = (HashMap<Integer, SpaceItem>) restoredBundle.getSerializable(CHANGED_ICON_AND_TEXT_BUNDLE_KEY);
                 if (changedItemAndIconHashMap != null) {
                     SpaceItem spaceItem;
@@ -565,7 +565,7 @@ public class SpaceNavigationView extends RelativeLayout {
                 }
             }
 
-            if(restoredBundle.containsKey(CENTRE_BUTTON_KEY)){
+            if (restoredBundle.containsKey(CENTRE_BUTTON_KEY)) {
                 centreButtonIcon = restoredBundle.getInt(CENTRE_BUTTON_KEY);
                 fab.setImageResource(centreButtonIcon);
             }
@@ -612,7 +612,7 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(CURRENT_SELECTED_ITEM_BUNDLE_KEY, currentSelectedItem);
-        outState.putInt(CENTRE_BUTTON_KEY,centreButtonIcon);
+        outState.putInt(CENTRE_BUTTON_KEY, centreButtonIcon);
 
         if (badgeSaveInstanceHashMap.size() > 0)
             outState.putSerializable(BUDGES_ITEM_BUNDLE_KEY, badgeSaveInstanceHashMap);
@@ -694,6 +694,7 @@ public class SpaceNavigationView extends RelativeLayout {
 
     /**
      * Set centre button pressed state color
+     *
      * @param centreButtonRippleColor Target color
      */
     public void setCentreButtonRippleColor(int centreButtonRippleColor) {

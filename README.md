@@ -73,6 +73,7 @@ Add Space Navigation items.
    spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.yourDrawable));
    spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.yourDrawable));
 ```
+
 Use ```initWithSaveInstanceState(savedInstanceState)``` and override ```onSaveInstanceState``` 
 if you want to keep selected item position and badge on device rotation
 ```java
@@ -238,7 +239,7 @@ Now you can change centre button icon if space navigation view already set up
 ##Versions
 
 ##1.1.0 
-* Added ```changeItemTextAtPosition(), changeItemIconAtPosition(), changeCenterButtonIcon();``` methods
+* Added ```changeItemTextAtPosition, changeItemIconAtPosition, changeCenterButtonIcon,setCentreButtonRippleColor``` methods
 * Now you can set onItemReselect listener
 
 ##1.0.0

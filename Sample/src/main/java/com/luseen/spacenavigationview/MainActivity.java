@@ -29,15 +29,17 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
         spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.magnify));
-        spaceNavigationView.addSpaceItem(new SpaceItem("LIKE", R.drawable.bell));
-        spaceNavigationView.addSpaceItem(new SpaceItem("ACCOUNT", R.drawable.account));
-        //spaceNavigationView.setCentreButtonIcon(R.drawable.testfab);
-        spaceNavigationView.showIconOnly();
+        //spaceNavigationView.addSpaceItem(new SpaceItem("LIKE", R.drawable.bell));
+        //spaceNavigationView.addSpaceItem(new SpaceItem("ACCOUNT", R.drawable.account));
+        //spaceNavigationView.showIconOnly();
 
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
             public void onCentreButtonClick() {
                 Log.d("onCentreButtonClick ", "onCentreButtonClick");
+                spaceNavigationView.changeSpaceBackgroundColor(ContextCompat.getColor(MainActivity.this, com.luseen.spacenavigation.R.color.centre_button_color));
+                //spaceNavigationView.requestLayout();
+                //spaceNavigationView.invalidate();
             }
 
             @Override
@@ -59,14 +61,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(int position) {
                 if (position == 0) {
-                    //spaceNavigationView.changeCurrentItem(3);
                     spaceNavigationView.showBadgeAtIndex(1, 4, ContextCompat.getColor(MainActivity.this, R.color.badge_background_color));
-                    //spaceNavigationView.showBadgeAtIndex(2, 4, ContextCompat.getColor(MainActivity.this, R.color.badge_background_color));
-                    //spaceNavigationView.showBadgeAtIndex(2, 7, ContextCompat.getColor(MainActivity.this, android.R.color.holo_blue_light));
-                    //spaceNavigationView.showBadgeAtIndex(3, 3, ContextCompat.getColor(MainActivity.this, android.R.color.holo_red_dark));
-
                 } else if (position == 1) {
-                    //spaceNavigationView.changeCurrentItem(3);
                     spaceNavigationView.hideBudgeAtIndex(1);
                 }
             }

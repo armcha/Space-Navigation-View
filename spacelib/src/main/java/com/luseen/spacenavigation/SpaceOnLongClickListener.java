@@ -16,36 +16,13 @@
  */
 package com.luseen.spacenavigation;
 
-import java.io.Serializable;
-
 /**
- * Created by Chatikyan on 13.08.2016-21:10.
+ * Created by Chatikyan on 25.08.2016-21:41.
  */
 
-public class SpaceItem implements Serializable {
+public interface SpaceOnLongClickListener {
 
-    private String itemName;
+    void onCentreButtonLongClick();
 
-    private int itemIcon;
-
-    public SpaceItem(String itemName, int itemIcon) {
-        this.itemName = itemName;
-        this.itemIcon = itemIcon;
-    }
-
-    String getItemName() {
-        return itemName;
-    }
-
-    void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    int getItemIcon() {
-        return itemIcon;
-    }
-
-    void setItemIcon(int itemIcon) {
-        this.itemIcon = itemIcon;
-    }
+    void onItemLongClick(int itemIndex, String itemName);
 }
