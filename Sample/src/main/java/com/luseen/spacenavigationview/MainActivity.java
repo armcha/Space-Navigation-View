@@ -37,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCentreButtonClick() {
                 Log.d("onCentreButtonClick ", "onCentreButtonClick");
-                spaceNavigationView.changeSpaceBackgroundColor(ContextCompat.getColor(MainActivity.this, com.luseen.spacenavigation.R.color.centre_button_color));
-                //spaceNavigationView.requestLayout();
-                //spaceNavigationView.invalidate();
             }
 
             @Override
