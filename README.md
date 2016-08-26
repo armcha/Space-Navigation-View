@@ -229,7 +229,6 @@ Now you can change centre button icon if space navigation view already set up
 ```
 
 Also you can change item text and icon  if space navigation view already set up
-Now you can change centre button icon if space navigation view already set up
 ```java
       spaceNavigationView.changeItemTextAtPosition(0,"NEW TEXT");
       spaceNavigationView.changeItemIconAtPosition(0,R.drawable.yourDrawable);
