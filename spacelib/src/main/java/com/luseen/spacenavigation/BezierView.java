@@ -23,10 +23,6 @@ import android.graphics.Path;
 import android.support.v4.content.ContextCompat;
 import android.widget.RelativeLayout;
 
-/**
- * Created by Chatikyan on 10.08.2016-15:19.
- */
-
 class BezierView extends RelativeLayout {
 
     private Paint paint;

@@ -40,10 +40,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Chatikyan on 10.08.2016-11:38.
- */
-
 public class SpaceNavigationView extends RelativeLayout {
 
     private static final String TAG = "SpaceNavigationView";
@@ -56,7 +52,11 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private static final String CENTRE_BUTTON_KEY = "centreButtonKey";
 
-    private static final int NOT_DEFINED = -777; // random number
+    private static final int NOT_DEFINED = -777; //random number, not - 1 because it is Color.WHITE
+
+    private static final int MAX_SPACE_ITEM_SIZE = 4;
+
+    private static final int MIN_SPACE_ITEM_SIZE = 2;
 
     private List<SpaceItem> spaceItems = new ArrayList<>();
 
@@ -108,9 +108,9 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private int contentWidth;
 
-    private boolean textOnly = false;
+    private boolean isTextOnlyMode = false;
 
-    private boolean iconOnly = false;
+    private boolean isIconOnlyMode = false;
 
     private boolean isCustomFont = false;
 
@@ -199,8 +199,8 @@ public class SpaceNavigationView extends RelativeLayout {
     }
 
     @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
+    protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
+        super.onSizeChanged(width, height, oldWidth, oldHeight);
 
         /**
          * Restore current item index from savedInstance
@@ -210,12 +210,12 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Trow exceptions if items size is greater than 4 or lesser than 2
          */
-        if (spaceItems.size() < 2) {
+        if (spaceItems.size() < MIN_SPACE_ITEM_SIZE) {
             throw new NullPointerException("Your space item count must be greater than 1 ," +
                     " your current items count is : " + spaceItems.size());
         }
 
-        if (spaceItems.size() > 4) {
+        if (spaceItems.size() > MAX_SPACE_ITEM_SIZE) {
             throw new IndexOutOfBoundsException("Your items count maximum can be 4," +
                     " your current items count is : " + spaceItems.size());
         }
@@ -223,7 +223,7 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Get left or right content width
          */
-        contentWidth = (w - spaceNavigationHeight) / 2;
+        contentWidth = (width - spaceNavigationHeight) / 2;
 
         /**
          * Removing all view for not being duplicated
@@ -368,10 +368,12 @@ public class SpaceNavigationView extends RelativeLayout {
         for (int i = 0; i < spaceItems.size(); i++) {
             final int index = i;
             int targetWidth;
-            if (spaceItems.size() > 2)
+
+            if (spaceItems.size() > MIN_SPACE_ITEM_SIZE) {
                 targetWidth = contentWidth / 2;
-            else
+            } else {
                 targetWidth = contentWidth;
+            }
 
             RelativeLayout.LayoutParams textAndIconContainerParams = new RelativeLayout.LayoutParams(
                     targetWidth, mainContentHeight);
@@ -394,14 +396,14 @@ public class SpaceNavigationView extends RelativeLayout {
             /**
              * Hide item icon and show only text
              */
-            if (textOnly)
+            if (isTextOnlyMode)
                 Utils.changeViewVisibilityGone(spaceItemIcon);
 
             /**
              * Hide item text and change icon size
              */
             ViewGroup.LayoutParams iconParams = spaceItemIcon.getLayoutParams();
-            if (iconOnly) {
+            if (isIconOnlyMode) {
                 iconParams.height = spaceItemIconOnlySize;
                 iconParams.width = spaceItemIconOnlySize;
                 spaceItemIcon.setLayoutParams(iconParams);
@@ -425,9 +427,9 @@ public class SpaceNavigationView extends RelativeLayout {
             /**
              * Adding sub views to left and right sides
              */
-            if (spaceItems.size() == 2 && leftContent.getChildCount() == 1) {
+            if (spaceItems.size() == MIN_SPACE_ITEM_SIZE && leftContent.getChildCount() == 1) {
                 rightContent.addView(textAndIconContainer, textAndIconContainerParams);
-            } else if (spaceItems.size() > 2 && leftContent.getChildCount() == 2) {
+            } else if (spaceItems.size() > MIN_SPACE_ITEM_SIZE && leftContent.getChildCount() == 2) {
                 rightContent.addView(textAndIconContainer, textAndIconContainerParams);
             } else {
                 leftContent.addView(textAndIconContainer, textAndIconContainerParams);
@@ -471,6 +473,7 @@ public class SpaceNavigationView extends RelativeLayout {
         if (currentSelectedItem == selectedIndex) {
             if (spaceOnClickListener != null)
                 spaceOnClickListener.onItemReselected(selectedIndex, spaceItems.get(selectedIndex).getItemName());
+
             return;
         }
 
@@ -705,14 +708,14 @@ public class SpaceNavigationView extends RelativeLayout {
      * Show only text in item
      */
     public void showTextOnly() {
-        textOnly = true;
+        isTextOnlyMode = true;
     }
 
     /**
      * Show only icon in item
      */
     public void showIconOnly() {
-        iconOnly = true;
+        isIconOnlyMode = true;
     }
 
     /**

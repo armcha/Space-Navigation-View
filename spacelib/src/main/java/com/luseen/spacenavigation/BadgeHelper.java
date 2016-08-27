@@ -23,10 +23,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-/**
- * Created by Chatikyan on 17.08.2016-18:41.
- */
-
 class BadgeHelper {
 
     /**

@@ -16,10 +16,6 @@
  */
 package com.luseen.spacenavigation;
 
-/**
- * Created by Chatikyan on 25.08.2016-21:41.
- */
-
 public interface SpaceOnLongClickListener {
 
     void onCentreButtonLongClick();

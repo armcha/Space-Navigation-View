@@ -18,17 +18,12 @@ package com.luseen.spacenavigation;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
+import android.annotation.TargetApi;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-
-/**
- * Created by Chatikyan on 14.08.2016-21:56.
- */
 
 class Utils {
 
@@ -82,33 +77,27 @@ class Utils {
     }
 
     // TODO: 15.08.2016 add ripple effect programmatically
-//    public static RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor)
-//    {
-//        return new RippleDrawable(getPressedColorSelector(normalColor, pressedColor), getColorDrawableFromColor(normalColor), null);
-//    }
-//
-//    public static ColorStateList getPressedColorSelector(int normalColor, int pressedColor)
-//    {
-//        return new ColorStateList(
-//                new int[][]
-//                        {
-//                                new int[]{android.R.attr.state_pressed},
-//                                new int[]{android.R.attr.state_focused},
-//                                new int[]{android.R.attr.state_activated},
-//                                new int[]{}
-//                        },
-//                new int[]
-//                        {
-//                                pressedColor,
-//                                pressedColor,
-//                                pressedColor,
-//                                normalColor
-//                        }
-//        );
-//    }
-//
-//    public static ColorDrawable getColorDrawableFromColor(int color)
-//    {
-//        return new ColorDrawable(color);
-//    }
+    @TargetApi(21)
+    static RippleDrawable getPressedColorRippleDrawable(int normalColor, int pressedColor) {
+        return new RippleDrawable(getPressedColorSelector(normalColor, pressedColor), new ColorDrawable(normalColor), null);
+    }
+
+    private static ColorStateList getPressedColorSelector(int normalColor, int pressedColor) {
+        return new ColorStateList(
+                new int[][]
+                        {
+                                new int[]{android.R.attr.state_pressed},
+                                new int[]{android.R.attr.state_focused},
+                                new int[]{android.R.attr.state_activated},
+                                new int[]{}
+                        },
+                new int[]
+                        {
+                                pressedColor,
+                                pressedColor,
+                                pressedColor,
+                                normalColor
+                        }
+        );
+    }
 }

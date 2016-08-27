@@ -18,10 +18,6 @@ package com.luseen.spacenavigation;
 
 import java.io.Serializable;
 
-/**
- * Created by Chatikyan on 13.08.2016-21:10.
- */
-
 public class SpaceItem implements Serializable {
 
     private String itemName;
