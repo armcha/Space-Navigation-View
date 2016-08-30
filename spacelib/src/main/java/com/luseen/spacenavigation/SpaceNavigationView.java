@@ -80,7 +80,7 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private final int spaceNavigationHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_navigation_height);
 
-    private final int centreContentMargin = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.fab_margin);
+    private final int centreContentMargin = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_centre_button_margin);
 
     private final int mainContentHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.main_content_height);
 
