@@ -28,14 +28,14 @@ Download sample [apk][7]
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:SpaceNavigationView:1.1.0'
+compile 'com.github.armcha:SpaceNavigationView:1.2.0'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>SpaceNavigationView</artifactId>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -236,6 +236,10 @@ Also you can change item text and icon  if space navigation view already set up
 
 
 ##Versions
+
+##1.2.0
+* Fixed centre button issue
+* Added API 14+ support
 
 ##1.1.0 
 * Added ```changeItemTextAtPosition, changeItemIconAtPosition, changeCenterButtonIcon,setCentreButtonRippleColor``` methods

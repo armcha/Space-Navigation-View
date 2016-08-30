@@ -18,6 +18,7 @@ package com.luseen.spacenavigation;
 
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -80,7 +81,11 @@ class BadgeHelper {
      */
     static void forceShowBadge(RelativeLayout view, BadgeItem badgeItem) {
         Utils.changeViewVisibilityVisible(view);
-        view.setBackground(makeShapeDrawable(badgeItem.getBadgeColor()));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(makeShapeDrawable(badgeItem.getBadgeColor()));
+        } else {
+            view.setBackgroundDrawable(makeShapeDrawable(badgeItem.getBadgeColor()));
+        }
         TextView badgeTextView = (TextView) view.findViewById(R.id.badge_text_view);
         badgeTextView.setText(badgeItem.getBadgeText());
     }

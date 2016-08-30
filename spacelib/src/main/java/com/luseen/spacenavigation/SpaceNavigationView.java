@@ -21,6 +21,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.FloatingActionButton;
@@ -80,11 +81,11 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private final int spaceNavigationHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_navigation_height);
 
-    private final int centreContentMargin = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_centre_button_margin);
-
     private final int mainContentHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.main_content_height);
 
     private final int centreContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.centre_content_width);
+
+    private final int centreButtonSize = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_centre_button_default_size);
 
     private int spaceItemIconSize = NOT_DEFINED;
 
@@ -258,9 +259,8 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Set fab layout params
          */
-        LayoutParams fabParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LayoutParams fabParams = new LayoutParams(centreButtonSize, centreButtonSize);
         fabParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        fabParams.setMargins(centreContentMargin, centreContentMargin, centreContentMargin, centreContentMargin);
 
         /**
          * Main content size
@@ -764,7 +764,11 @@ public class SpaceNavigationView extends RelativeLayout {
             /**
              * Set circle background to badge view
              */
-            badgeView.setBackground(BadgeHelper.makeShapeDrawable(badgeColor));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                badgeView.setBackground(BadgeHelper.makeShapeDrawable(badgeColor));
+            } else {
+                badgeView.setBackgroundDrawable(BadgeHelper.makeShapeDrawable(badgeColor));
+            }
 
             BadgeItem badgeItem = new BadgeItem(itemIndex, badgeText, badgeColor);
             BadgeHelper.showBadge(badgeView, badgeItem);
@@ -869,5 +873,9 @@ public class SpaceNavigationView extends RelativeLayout {
             spaceItem.setItemName(newText);
             changedItemAndIconHashMap.put(itemIndex, spaceItem);
         }
+
+
     }
+
+
 }

@@ -6,7 +6,7 @@ android {
     buildToolsVersion "24.0.1"
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -32,7 +32,7 @@ dependencies {
 publish {
     groupId = 'com.github.armcha'
     artifactId = 'SpaceNavigationView'
-    publishVersion = '1.1.0'
+    publishVersion = '1.2.0'
     desc = 'Spaces Navigation View'
     licences = ['MIT']
     website = 'https://github.com/armcha/Space-Navigation-View'
