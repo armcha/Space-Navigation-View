@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
         spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.magnify));
-        spaceNavigationView.addSpaceItem(new SpaceItem("LIKE", R.drawable.bell));
-        spaceNavigationView.addSpaceItem(new SpaceItem("ACCOUNT", R.drawable.account));
-        spaceNavigationView.showIconOnly();
+        //spaceNavigationView.addSpaceItem(new SpaceItem("LIKE", R.drawable.bell));
+        //spaceNavigationView.addSpaceItem(new SpaceItem("ACCOUNT", R.drawable.account));
+        //spaceNavigationView.showIconOnly();
 
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
