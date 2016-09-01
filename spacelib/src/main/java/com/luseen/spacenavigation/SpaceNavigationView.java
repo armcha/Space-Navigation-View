@@ -51,7 +51,11 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private static final String CHANGED_ICON_AND_TEXT_BUNDLE_KEY = "changedIconAndText";
 
-    private static final String CENTRE_BUTTON_KEY = "centreButtonKey";
+    private static final String CENTRE_BUTTON_ICON_KEY = "centreButtonIconKey";
+
+    private static final String CENTRE_BUTTON_COLOR_KEY = "centreButtonColorKey";
+
+    private static final String SPACE_BACKGROUND_COLOR_KEY = "backgroundColorKey";
 
     private static final int NOT_DEFINED = -777; //random number, not - 1 because it is Color.WHITE
 
@@ -76,6 +80,12 @@ public class SpaceNavigationView extends RelativeLayout {
     private Bundle savedInstanceState;
 
     private FloatingActionButton fab;
+
+    private RelativeLayout centreBackgroundView;
+
+    private LinearLayout leftContent, rightContent;
+
+    private BezierView centreContent;
 
     private Typeface customFont;
 
@@ -241,7 +251,7 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Redraw main view to make subviews visible
          */
-        postRequestLayout(this);
+        postRequestLayout();
     }
 
     //private methods
@@ -252,12 +262,12 @@ public class SpaceNavigationView extends RelativeLayout {
     private void initAndAddViewsToMainView() {
 
         RelativeLayout mainContent = new RelativeLayout(context);
-        RelativeLayout centreBackgroundView = new RelativeLayout(context);
+        centreBackgroundView = new RelativeLayout(context);
 
-        LinearLayout leftContent = new LinearLayout(context);
-        LinearLayout rightContent = new LinearLayout(context);
+        leftContent = new LinearLayout(context);
+        rightContent = new LinearLayout(context);
 
-        BezierView centreContent = buildBezierView();
+        centreContent = buildBezierView();
 
         fab = new FloatingActionButton(context);
         fab.setSize(FloatingActionButton.SIZE_NORMAL);
@@ -324,9 +334,7 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Adding views background colors
          */
-        leftContent.setBackgroundColor(spaceBackgroundColor);
-        rightContent.setBackgroundColor(spaceBackgroundColor);
-        centreBackgroundView.setBackgroundColor(spaceBackgroundColor);
+        setBackgroundColors();
 
         /**
          * Adding view to centreContent
@@ -539,13 +547,22 @@ public class SpaceNavigationView extends RelativeLayout {
     }
 
     /**
+     * Set views background colors
+     */
+    private void setBackgroundColors() {
+        rightContent.setBackgroundColor(spaceBackgroundColor);
+        centreBackgroundView.setBackgroundColor(spaceBackgroundColor);
+        leftContent.setBackgroundColor(spaceBackgroundColor);
+    }
+
+    /**
      * Indicate event queue that we have changed the View hierarchy during a layout pass
      */
-    private void postRequestLayout(final ViewGroup viewGroup) {
-        viewGroup.getHandler().post(new Runnable() {
+    private void postRequestLayout() {
+        SpaceNavigationView.this.getHandler().post(new Runnable() {
             @Override
             public void run() {
-                viewGroup.requestLayout();
+                SpaceNavigationView.this.requestLayout();
             }
         });
     }
@@ -578,7 +595,7 @@ public class SpaceNavigationView extends RelativeLayout {
     }
 
     /**
-     * Restore changed icons and texts from saveInstance
+     * Restore changed icons,colors and texts from saveInstance
      */
     @SuppressWarnings("unchecked")
     private void restoreChangedIconsAndTexts() {
@@ -596,9 +613,14 @@ public class SpaceNavigationView extends RelativeLayout {
                 }
             }
 
-            if (restoredBundle.containsKey(CENTRE_BUTTON_KEY)) {
-                centreButtonIcon = restoredBundle.getInt(CENTRE_BUTTON_KEY);
+            if (restoredBundle.containsKey(CENTRE_BUTTON_ICON_KEY)) {
+                centreButtonIcon = restoredBundle.getInt(CENTRE_BUTTON_ICON_KEY);
                 fab.setImageResource(centreButtonIcon);
+            }
+
+            if (restoredBundle.containsKey(SPACE_BACKGROUND_COLOR_KEY)) {
+                int backgroundColor = restoredBundle.getInt(SPACE_BACKGROUND_COLOR_KEY);
+                changeSpaceBackgroundColor(backgroundColor);
             }
         }
     }
@@ -643,7 +665,8 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(CURRENT_SELECTED_ITEM_BUNDLE_KEY, currentSelectedItem);
-        outState.putInt(CENTRE_BUTTON_KEY, centreButtonIcon);
+        outState.putInt(CENTRE_BUTTON_ICON_KEY, centreButtonIcon);
+        outState.putInt(SPACE_BACKGROUND_COLOR_KEY, spaceBackgroundColor);
 
         if (badgeSaveInstanceHashMap.size() > 0)
             outState.putSerializable(BUDGES_ITEM_BUNDLE_KEY, badgeSaveInstanceHashMap);
@@ -766,6 +789,7 @@ public class SpaceNavigationView extends RelativeLayout {
 
     /**
      * Set space item and centre button long click
+     *
      * @param spaceOnLongClickListener space long click listener
      */
     public void setSpaceOnLongClickListener(SpaceOnLongClickListener spaceOnLongClickListener) {
@@ -869,8 +893,13 @@ public class SpaceNavigationView extends RelativeLayout {
      * @param icon Target icon to change
      */
     public void changeCenterButtonIcon(int icon) {
-        fab.setImageResource(icon);
-        centreButtonIcon = icon;
+        if (fab == null) {
+            Log.e(TAG, "You should call setCentreButtonIcon() instead, " +
+                    "changeCenterButtonIcon works if space navigation already set up");
+        } else {
+            fab.setImageResource(icon);
+            centreButtonIcon = icon;
+        }
     }
 
     /**
@@ -909,9 +938,21 @@ public class SpaceNavigationView extends RelativeLayout {
             spaceItem.setItemName(newText);
             changedItemAndIconHashMap.put(itemIndex, spaceItem);
         }
-
-
     }
 
+    /**
+     * Change space background color if space view already set up
+     *
+     * @param color Target color to change
+     */
+    public void changeSpaceBackgroundColor(@ColorInt int color) {
+        if (color == spaceBackgroundColor) {
+            Log.d(TAG, "changeSpaceBackgroundColor: color already changed");
+            return;
+        }
 
+        spaceBackgroundColor = color;
+        setBackgroundColors();
+        centreContent.changeBackgroundColor(color);
+    }
 }

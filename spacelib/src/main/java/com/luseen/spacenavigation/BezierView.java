@@ -16,6 +16,7 @@
  */
 package com.luseen.spacenavigation;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -23,6 +24,7 @@ import android.graphics.Path;
 import android.support.v4.content.ContextCompat;
 import android.widget.RelativeLayout;
 
+@SuppressLint("ViewConstructor")
 class BezierView extends RelativeLayout {
 
     private Paint paint;
@@ -31,15 +33,17 @@ class BezierView extends RelativeLayout {
 
     private int bezierWidth, bezierHeight;
 
+    private int backgroundColor;
+
     private Context context;
 
 
-    public BezierView(Context context, int backgroundColor) {
+    BezierView(Context context, int backgroundColor) {
         super(context);
         this.context = context;
+        this.backgroundColor = backgroundColor;
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         path = new Path();
-        paint.setColor(backgroundColor);
         paint.setStrokeWidth(0);
         paint.setAntiAlias(true);
         paint.setStyle(Paint.Style.FILL);
@@ -53,6 +57,11 @@ class BezierView extends RelativeLayout {
 
     @Override
     protected void onDraw(Canvas canvas) {
+
+        /**
+         * Set paint color to fill view
+         */
+        paint.setColor(backgroundColor);
 
         /**
          * Reset path before drawing
@@ -80,9 +89,25 @@ class BezierView extends RelativeLayout {
         canvas.drawPath(path, paint);
     }
 
+    /**
+     * Build bezier view with given width and height
+     *
+     * @param bezierWidth  Given width
+     * @param bezierHeight Given height
+     */
     void build(int bezierWidth, int bezierHeight) {
         this.bezierWidth = bezierWidth;
         this.bezierHeight = bezierHeight;
+    }
+
+    /**
+     * Change bezier view background color
+     *
+     * @param backgroundColor Target color
+     */
+    void changeBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+        invalidate();
     }
 }
 

@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
         spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.magnify));
+
+
         //spaceNavigationView.addSpaceItem(new SpaceItem("LIKE", R.drawable.bell));
         //spaceNavigationView.addSpaceItem(new SpaceItem("ACCOUNT", R.drawable.account));
         //spaceNavigationView.showIconOnly();
@@ -38,16 +40,19 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
             public void onCentreButtonClick() {
+                spaceNavigationView.changeSpaceBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.colorAccent));
                 Log.d("onCentreButtonClick ", "onCentreButtonClick");
             }
 
             @Override
             public void onItemClick(int itemIndex, String itemName) {
+                spaceNavigationView.changeCenterButtonIcon(R.drawable.magnify);
                 Log.d("onItemClick ", "" + itemIndex + " " + itemName);
             }
 
             @Override
             public void onItemReselected(int itemIndex, String itemName) {
+                spaceNavigationView.changeSpaceBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.colorPrimary));
                 Log.d("onItemReselected ", "" + itemIndex + " " + itemName);
             }
         });
