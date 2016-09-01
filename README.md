@@ -249,6 +249,8 @@ Also you can change item text and icon  if space navigation view already set up
 * Initial release
 
 ##Apps using the Space Navigation View
+* [WiFi FTP Server +File Transfer](https://play.google.com/store/apps/details?id=com.transfer.file)
+
 Kindly please let me know if you used or planning to use the library in your projects
 
 ##Project development
