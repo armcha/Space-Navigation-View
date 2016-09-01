@@ -28,14 +28,14 @@ Download sample [apk][7]
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:SpaceNavigationView:1.2.0'
+compile 'com.github.armcha:SpaceNavigationView:1.3.0'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>SpaceNavigationView</artifactId>
-  <version>1.2.0</version>
+  <version>1.3.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -100,6 +100,21 @@ Set onClick listener
              @Override
              public void onItemReselected(int itemIndex, String itemName) {
                Toast.makeText(MainActivity.this, itemIndex + " " + itemName, Toast.LENGTH_SHORT).show();           
+            }
+        });
+```
+
+Set onLongClick listener
+```java
+    spaceNavigationView.setSpaceOnLongClickListener(new SpaceOnLongClickListener() {
+            @Override
+            public void onCentreButtonLongClick() {
+                Toast.makeText(MainActivity.this,"onCentreButtonLongClick", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onItemLongClick(int itemIndex, String itemName) {
+                Toast.makeText(MainActivity.this, itemIndex + " " + itemName, Toast.LENGTH_SHORT).show();
             }
         });
 ```
@@ -236,6 +251,10 @@ Also you can change item text and icon  if space navigation view already set up
 
 
 ##Versions
+
+##1.3.0
+* Added SpaceOnLongClickListener
+* Fixed rendering problem when view is in edit mode
 
 ##1.2.0
 * Fixed centre button issue

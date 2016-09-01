@@ -71,6 +71,8 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private SpaceOnClickListener spaceOnClickListener;
 
+    private SpaceOnLongClickListener spaceOnLongClickListener;
+
     private Bundle savedInstanceState;
 
     private FloatingActionButton fab;
@@ -211,12 +213,12 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Trow exceptions if items size is greater than 4 or lesser than 2
          */
-        if (spaceItems.size() < MIN_SPACE_ITEM_SIZE) {
+        if (spaceItems.size() < MIN_SPACE_ITEM_SIZE && !isInEditMode()) {
             throw new NullPointerException("Your space item count must be greater than 1 ," +
-                    " your current items count is : " + spaceItems.size());
+                    " your current items count isa : " + spaceItems.size());
         }
 
-        if (spaceItems.size() > MAX_SPACE_ITEM_SIZE) {
+        if (spaceItems.size() > MAX_SPACE_ITEM_SIZE && !isInEditMode()) {
             throw new IndexOutOfBoundsException("Your items count maximum can be 4," +
                     " your current items count is : " + spaceItems.size());
         }
@@ -234,6 +236,21 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Views initializations and customizing
          */
+        initAndAddViewsToMainView();
+
+        /**
+         * Redraw main view to make subviews visible
+         */
+        postRequestLayout(this);
+    }
+
+    //private methods
+
+    /**
+     * Views initializations and customizing
+     */
+    private void initAndAddViewsToMainView() {
+
         RelativeLayout mainContent = new RelativeLayout(context);
         RelativeLayout centreBackgroundView = new RelativeLayout(context);
 
@@ -253,6 +270,15 @@ public class SpaceNavigationView extends RelativeLayout {
             public void onClick(View view) {
                 if (spaceOnClickListener != null)
                     spaceOnClickListener.onCentreButtonClick();
+            }
+        });
+        fab.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (spaceOnLongClickListener != null)
+                    spaceOnLongClickListener.onCentreButtonLongClick();
+
+                return true;
             }
         });
 
@@ -329,14 +355,7 @@ public class SpaceNavigationView extends RelativeLayout {
          * Adding current space items to left and right content
          */
         addSpaceItems(leftContent, rightContent);
-
-        /**
-         * Redraw main view to make subviews visible
-         */
-        postRequestLayout(this);
     }
-
-    //private methods
 
     /**
      * Adding given space items to content
@@ -450,6 +469,15 @@ public class SpaceNavigationView extends RelativeLayout {
                 @Override
                 public void onClick(View view) {
                     updateSpaceItems(index);
+                }
+            });
+
+            textAndIconContainer.setOnLongClickListener(new OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (spaceOnLongClickListener != null)
+                        spaceOnLongClickListener.onItemLongClick(index, spaceItems.get(index).getItemName());
+                    return true;
                 }
             });
         }
@@ -728,12 +756,20 @@ public class SpaceNavigationView extends RelativeLayout {
     }
 
     /**
-     * Set item and centre click
+     * Set space item and centre click
      *
      * @param spaceOnClickListener space click listener
      */
     public void setSpaceOnClickListener(SpaceOnClickListener spaceOnClickListener) {
         this.spaceOnClickListener = spaceOnClickListener;
+    }
+
+    /**
+     * Set space item and centre button long click
+     * @param spaceOnLongClickListener space long click listener
+     */
+    public void setSpaceOnLongClickListener(SpaceOnLongClickListener spaceOnLongClickListener) {
+        this.spaceOnLongClickListener = spaceOnLongClickListener;
     }
 
     /**
