@@ -245,15 +245,22 @@ Now you can change centre button icon if space navigation view already set up
 
 Also you can change item text and icon  if space navigation view already set up
 ```java
-      spaceNavigationView.changeItemTextAtPosition(0,"NEW TEXT");
-      spaceNavigationView.changeItemIconAtPosition(0,R.drawable.yourDrawable);
+      spaceNavigationView.changeItemTextAtPosition(0, "NEW TEXT");
+      spaceNavigationView.changeItemIconAtPosition(1, R.drawable.yourDrawable);
 ```
+
+Now you can change space navigation view background color if it already set up
+```java
+      spaceNavigationView.changeSpaceBackgroundColor(ContextCompat.getColor(context,R.color.yourColor));
+```
+![](screens/gif3.gif)
 
 
 ##Versions
 
 ##1.3.0
 * Added SpaceOnLongClickListener
+* Added changeSpaceBackgroundColor method
 * Fixed rendering problem when view is in edit mode
 
 ##1.2.0

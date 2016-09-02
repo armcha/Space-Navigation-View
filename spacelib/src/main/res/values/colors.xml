@@ -9,7 +9,6 @@
     <color name="default_active_item_color">#262626</color>
     <color name="selected_item_color">#3fffffff</color>
     <color name="badge_background_color">#f44336</color>
-
     <color name="white_with_alpha">#bfffffff</color>
     <color name="colorBackgroundHighlightWhite">#8dffffff</color>
 </resources>

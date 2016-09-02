@@ -20,6 +20,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Build;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,7 +46,7 @@ class BadgeHelper {
                 .setDuration(200)
                 .scaleX(1)
                 .scaleY(1)
-                .setListener(new SimpleViewAnimatorListener() {
+                .setListener(new ViewPropertyAnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(View view) {
                         Utils.changeViewVisibilityVisible(view);
@@ -64,7 +65,7 @@ class BadgeHelper {
                 .setDuration(200)
                 .scaleX(0)
                 .scaleY(0)
-                .setListener(new SimpleViewAnimatorListener() {
+                .setListener(new ViewPropertyAnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(final View view) {
                         Utils.changeViewVisibilityGone(view);

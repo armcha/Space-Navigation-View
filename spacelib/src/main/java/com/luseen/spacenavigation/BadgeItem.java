@@ -20,6 +20,8 @@ import java.io.Serializable;
 
 class BadgeItem implements Serializable {
 
+    private static final int BADGE_TEXT_MAX_NUMBER = 9;
+
     private int badgeIndex;
 
     private int badgeText;
@@ -46,10 +48,11 @@ class BadgeItem implements Serializable {
 
     String getBadgeText() {
         String badgeStringText;
-        if (badgeText > 9)
-            badgeStringText = 9 + "+";
-        else
+        if (badgeText > BADGE_TEXT_MAX_NUMBER) {
+            badgeStringText = BADGE_TEXT_MAX_NUMBER + "+";
+        } else {
             badgeStringText = String.valueOf(badgeText);
+        }
 
         return badgeStringText;
     }
