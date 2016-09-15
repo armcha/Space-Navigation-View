@@ -272,7 +272,7 @@ spaceNavigationView.setCentreButtonIconColor(ContextCompat.getColor(context,R.co
 ##Versions
 
 ##1.3.2
-* Added method centreButtonIconColor [#17][12]
+* Added method setCentreButtonIconColor [#17][12]
 
 ##1.3.1
 * Added method shouldShowFullBadgeText
