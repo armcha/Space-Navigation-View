@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         //spaceNavigationView.showIconOnly();
         spaceNavigationView.shouldShowFullBadgeText(true);
 
+        //spaceNavigationView.setCentreButtonIconColor(ContextCompat.getColor(this,R.color.colorPrimary));
+
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
             public void onCentreButtonClick() {

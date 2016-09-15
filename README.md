@@ -28,14 +28,14 @@ Download sample [apk][7]
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:SpaceNavigationView:1.3.1'
+compile 'com.github.armcha:SpaceNavigationView:1.3.2'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>SpaceNavigationView</artifactId>
-  <version>1.3.1</version>
+  <version>1.3.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -151,119 +151,128 @@ Customize with xml
 
 Change space navigation background
 ```java
- spaceNavigationView.setSpaceBackgroundColor(ContextCompat.getColor(this, R.color.yourColor));
+spaceNavigationView.setSpaceBackgroundColor(ContextCompat.getColor(this, R.color.yourColor));
 ```
 
 Change centre button icon 
 ```java
- spaceNavigationView.setCentreButtonIcon(R.drawable.yourDrawable);
+spaceNavigationView.setCentreButtonIcon(R.drawable.yourDrawable);
 ```
 
 Change centre button background color 
 ```java
- spaceNavigationView.setCentreButtonColor(ContextCompat.getColor(this, R.color.yourColor));
+spaceNavigationView.setCentreButtonColor(ContextCompat.getColor(this, R.color.yourColor));
 ```
 
 Change selected item text and icon color
 ```java
- spaceNavigationView.setActiveSpaceItemColor(ContextCompat.getColor(this, R.color.yourColor));
+spaceNavigationView.setActiveSpaceItemColor(ContextCompat.getColor(this, R.color.yourColor));
 ```
 
 Change unselected item text and icon color
 ```java
-  spaceNavigationView.setInActiveSpaceItemColor(ContextCompat.getColor(this, R.color.yourColor));
+spaceNavigationView.setInActiveSpaceItemColor(ContextCompat.getColor(this, R.color.yourColor));
 ```
 
 Change space item icon size
 ```java
-  spaceNavigationView.setSpaceItemIconSize((int) getResources().getDimension(R.dimen.yourDimen));
+spaceNavigationView.setSpaceItemIconSize((int) getResources().getDimension(R.dimen.yourDimen));
 ```
 
 Change space item icon size when ```showIconOnly();``` mode activated
 ```java
-  spaceNavigationView.setSpaceItemIconSizeInOnlyIconMode((int) getResources().getDimension(R.dimen.yourDimen));
+spaceNavigationView.setSpaceItemIconSizeInOnlyIconMode((int) getResources().getDimension(R.dimen.yourDimen));
 ```
 
 Change space item text size
 ```java
-  spaceNavigationView.setSpaceItemTextSize((int) getResources().getDimension(R.dimen.yourDimen));
+spaceNavigationView.setSpaceItemTextSize((int) getResources().getDimension(R.dimen.yourDimen));
 ```
 
 Hide items text and show only icons
 ```java
-  spaceNavigationView.showIconOnly();
+spaceNavigationView.showIconOnly();
 ```
 ![](screens/screen2.png)
 
 Hide items icon and show only texts
 ```java
-  spaceNavigationView.showTextOnly();
+spaceNavigationView.showTextOnly();
 ```
 ![](screens/screen5.png)
 
 You can change selected item programmatically
 ```java
-  spaceNavigationView.changeCurrentItem(int tabIndexToSelect);
+spaceNavigationView.changeCurrentItem(int tabIndexToSelect);
 ```
 
 Show badge
 ```java
-  spaceNavigationView.showBadgeAtIndex(int itemIndexToShowBadge, int badgeCountText, int badgeBackgroundColor);
+spaceNavigationView.showBadgeAtIndex(int itemIndexToShowBadge, int badgeCountText, int badgeBackgroundColor);
 ```
 ![](screens/gif1.gif)
 
 Hide badge at index
 ```java
-  spaceNavigationView.hideBudgeAtIndex(int itemIndexToHideBudge);
+spaceNavigationView.hideBudgeAtIndex(int itemIndexToHideBudge);
 ```
 ![](screens/gif2.gif)
 
 Hide all badges
 ```java
-  spaceNavigationView.hideAllBudges();
+spaceNavigationView.hideAllBudges();
 ```
 
 Change badge text
 ```java
-  spaceNavigationView.changeBadgeTextAtIndex(int itemIndexToChangeBadge, int badgeCountText);
+spaceNavigationView.changeBadgeTextAtIndex(int itemIndexToChangeBadge, int badgeCountText);
 ```
 
 Set your custom font
 ```java
-   spaceNavigationView.setFont(Typeface.createFromAsset(getAssets(), "your_cutom_font.ttf"));
+spaceNavigationView.setFont(Typeface.createFromAsset(getAssets(), "your_cutom_font.ttf"));
 ```
 
 Set centre button pressed state color
 ```java
-      spaceNavigationView.setCentreButtonRippleColor(ContextCompat.getColor(this, R.color.yourColor));
+spaceNavigationView.setCentreButtonRippleColor(ContextCompat.getColor(this, R.color.yourColor));
 ```
 
 Now you can change centre button icon if space navigation view already set up
 ```java
-      spaceNavigationView.changeCenterButtonIcon(R.drawable.yourDrawable);
+spaceNavigationView.changeCenterButtonIcon(R.drawable.yourDrawable);
 ```
 
 Also you can change item text and icon  if space navigation view already set up
 ```java
-      spaceNavigationView.changeItemTextAtPosition(0, "NEW TEXT");
-      spaceNavigationView.changeItemIconAtPosition(1, R.drawable.yourDrawable);
+spaceNavigationView.changeItemTextAtPosition(0, "NEW TEXT");
+spaceNavigationView.changeItemIconAtPosition(1, R.drawable.yourDrawable);
 ```
 
 Now you can change space navigation view background color if it already set up
 ```java
-      spaceNavigationView.changeSpaceBackgroundColor(ContextCompat.getColor(context,R.color.yourColor));
+ spaceNavigationView.changeSpaceBackgroundColor(ContextCompat.getColor(context,R.color.yourColor));
 ```
 ![](screens/gif3.gif)
 
 If you want to show full badge text or show 9+
 ```java
-      spaceNavigationView.shouldShowFullBadgeText(true);
+spaceNavigationView.shouldShowFullBadgeText(true);
+```
+
+Set centre button icon color
+```java
+spaceNavigationView.setCentreButtonIconColor(ContextCompat.getColor(context,R.color.yourColor));
 ```
 
 [10]: https://github.com/armcha/Space-Navigation-View/issues/16
 [11]: https://github.com/armcha/Space-Navigation-View/issues/18
+[12]: https://github.com/armcha/Space-Navigation-View/issues/17
 
 ##Versions
+
+##1.3.2
+* Added method centreButtonIconColor [#17][12]
 
 ##1.3.1
 * Added method shouldShowFullBadgeText

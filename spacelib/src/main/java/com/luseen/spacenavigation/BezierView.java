@@ -52,7 +52,7 @@ class BezierView extends RelativeLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setBackgroundColor(ContextCompat.getColor(context, R.color.transparent));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.space_transparent));
     }
 
     @Override

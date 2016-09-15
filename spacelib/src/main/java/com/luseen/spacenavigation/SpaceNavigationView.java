@@ -20,10 +20,12 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -111,6 +113,8 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private int centreButtonColor = NOT_DEFINED;
 
+    private int centreButtonIconColor = NOT_DEFINED;
+
     private int centreButtonIcon = NOT_DEFINED;
 
     private int activeSpaceItemColor = NOT_DEFINED;
@@ -162,10 +166,11 @@ public class SpaceNavigationView extends RelativeLayout {
             spaceItemIconOnlySize = typedArray.getDimensionPixelSize(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_space_item_icon_only_size, resources.getDimensionPixelSize(com.luseen.spacenavigation.R.dimen.space_item_icon_only_size));
             spaceItemTextSize = typedArray.getDimensionPixelSize(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_space_item_text_size, resources.getDimensionPixelSize(com.luseen.spacenavigation.R.dimen.space_item_text_default_size));
             spaceItemIconOnlySize = typedArray.getDimensionPixelSize(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_space_item_icon_only_size, resources.getDimensionPixelSize(com.luseen.spacenavigation.R.dimen.space_item_icon_only_size));
-            spaceBackgroundColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_space_background_color, resources.getColor(com.luseen.spacenavigation.R.color.default_color));
+            spaceBackgroundColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_space_background_color, resources.getColor(com.luseen.spacenavigation.R.color.space_default_color));
             centreButtonColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_centre_button_color, resources.getColor(com.luseen.spacenavigation.R.color.centre_button_color));
-            activeSpaceItemColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_active_item_color, resources.getColor(com.luseen.spacenavigation.R.color.white));
+            activeSpaceItemColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_active_item_color, resources.getColor(com.luseen.spacenavigation.R.color.space_white));
             inActiveSpaceItemColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_inactive_item_color, resources.getColor(com.luseen.spacenavigation.R.color.default_inactive_item_color));
+            centreButtonIconColor = typedArray.getColor(R.styleable.SpaceNavigationView_centre_button_icon_color, resources.getColor(R.color.space_white));
 
             typedArray.recycle();
         }
@@ -179,7 +184,7 @@ public class SpaceNavigationView extends RelativeLayout {
          * Set default colors and sizes
          */
         if (spaceBackgroundColor == NOT_DEFINED)
-            spaceBackgroundColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.default_color);
+            spaceBackgroundColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.space_default_color);
 
         if (centreButtonColor == NOT_DEFINED)
             centreButtonColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.centre_button_color);
@@ -188,7 +193,7 @@ public class SpaceNavigationView extends RelativeLayout {
             centreButtonIcon = R.drawable.near_me;
 
         if (activeSpaceItemColor == NOT_DEFINED)
-            activeSpaceItemColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.white);
+            activeSpaceItemColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.space_white);
 
         if (inActiveSpaceItemColor == NOT_DEFINED)
             inActiveSpaceItemColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.default_inactive_item_color);
@@ -205,13 +210,16 @@ public class SpaceNavigationView extends RelativeLayout {
         if (centreButtonRippleColor == NOT_DEFINED)
             centreButtonRippleColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.colorBackgroundHighlightWhite);
 
+        if (centreButtonIconColor == NOT_DEFINED)
+            centreButtonIconColor = ContextCompat.getColor(context, R.color.space_white);
+
         /**
          * Set main layout size and color
          */
         ViewGroup.LayoutParams params = getLayoutParams();
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = spaceNavigationHeight;
-        setBackgroundColor(ContextCompat.getColor(context, R.color.transparent));
+        setBackgroundColor(ContextCompat.getColor(context, R.color.space_transparent));
         setLayoutParams(params);
     }
 
@@ -279,6 +287,7 @@ public class SpaceNavigationView extends RelativeLayout {
         fab.setRippleColor(centreButtonRippleColor);
         fab.setBackgroundTintList(ColorStateList.valueOf(centreButtonColor));
         fab.setImageResource(centreButtonIcon);
+        fab.getDrawable().setColorFilter(centreButtonIconColor, PorterDuff.Mode.SRC_IN);
         fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -982,5 +991,9 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void shouldShowFullBadgeText(boolean shouldShowBadgeWithNinePlus) {
         this.shouldShowBadgeWithNinePlus = shouldShowBadgeWithNinePlus;
+    }
+
+    public void setCentreButtonIconColor(@ColorInt int color) {
+        centreButtonIconColor = color;
     }
 }
