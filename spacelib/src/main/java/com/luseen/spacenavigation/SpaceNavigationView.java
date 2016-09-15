@@ -57,6 +57,8 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private static final String SPACE_BACKGROUND_COLOR_KEY = "backgroundColorKey";
 
+    private static final String BADGE_FULL_TEXT_KEY = "badgeFullTextKey";
+
     private static final int NOT_DEFINED = -777; //random number, not - 1 because it is Color.WHITE
 
     private static final int MAX_SPACE_ITEM_SIZE = 4;
@@ -126,6 +128,8 @@ public class SpaceNavigationView extends RelativeLayout {
     private boolean isIconOnlyMode = false;
 
     private boolean isCustomFont = false;
+
+    private boolean shouldShowBadgeWithNinePlus = true;
 
     /**
      * Constructors
@@ -584,11 +588,21 @@ public class SpaceNavigationView extends RelativeLayout {
     @SuppressWarnings("unchecked")
     private void restoreBadges() {
         Bundle restoredBundle = savedInstanceState;
-        if (restoredBundle != null && restoredBundle.containsKey(BUDGES_ITEM_BUNDLE_KEY)) {
-            badgeSaveInstanceHashMap = (HashMap<Integer, Object>) savedInstanceState.getSerializable(BUDGES_ITEM_BUNDLE_KEY);
-            if (badgeSaveInstanceHashMap != null) {
-                for (Integer integer : badgeSaveInstanceHashMap.keySet()) {
-                    BadgeHelper.forceShowBadge(badgeList.get(integer), (BadgeItem) badgeSaveInstanceHashMap.get(integer));
+
+        if (restoredBundle != null) {
+            if (restoredBundle.containsKey(BADGE_FULL_TEXT_KEY)) {
+                shouldShowBadgeWithNinePlus = restoredBundle.getBoolean(BADGE_FULL_TEXT_KEY);
+            }
+
+            if (restoredBundle.containsKey(BUDGES_ITEM_BUNDLE_KEY)) {
+                badgeSaveInstanceHashMap = (HashMap<Integer, Object>) savedInstanceState.getSerializable(BUDGES_ITEM_BUNDLE_KEY);
+                if (badgeSaveInstanceHashMap != null) {
+                    for (Integer integer : badgeSaveInstanceHashMap.keySet()) {
+                        BadgeHelper.forceShowBadge(
+                                badgeList.get(integer),
+                                (BadgeItem) badgeSaveInstanceHashMap.get(integer),
+                                shouldShowBadgeWithNinePlus);
+                    }
                 }
             }
         }
@@ -667,6 +681,7 @@ public class SpaceNavigationView extends RelativeLayout {
         outState.putInt(CURRENT_SELECTED_ITEM_BUNDLE_KEY, currentSelectedItem);
         outState.putInt(CENTRE_BUTTON_ICON_KEY, centreButtonIcon);
         outState.putInt(SPACE_BACKGROUND_COLOR_KEY, spaceBackgroundColor);
+        outState.putBoolean(BADGE_FULL_TEXT_KEY, shouldShowBadgeWithNinePlus);
 
         if (badgeSaveInstanceHashMap.size() > 0)
             outState.putSerializable(BUDGES_ITEM_BUNDLE_KEY, badgeSaveInstanceHashMap);
@@ -831,7 +846,7 @@ public class SpaceNavigationView extends RelativeLayout {
             }
 
             BadgeItem badgeItem = new BadgeItem(itemIndex, badgeText, badgeColor);
-            BadgeHelper.showBadge(badgeView, badgeItem);
+            BadgeHelper.showBadge(badgeView, badgeItem, shouldShowBadgeWithNinePlus);
             badgeSaveInstanceHashMap.put(itemIndex, badgeItem);
         }
     }
@@ -872,7 +887,10 @@ public class SpaceNavigationView extends RelativeLayout {
                 (((BadgeItem) badgeSaveInstanceHashMap.get(badgeIndex)).getIntBadgeText() != badgeText)) {
             BadgeItem currentBadgeItem = (BadgeItem) badgeSaveInstanceHashMap.get(badgeIndex);
             BadgeItem badgeItemForSave = new BadgeItem(badgeIndex, badgeText, currentBadgeItem.getBadgeColor());
-            BadgeHelper.forceShowBadge(badgeList.get(badgeIndex), badgeItemForSave);
+            BadgeHelper.forceShowBadge(
+                    badgeList.get(badgeIndex),
+                    badgeItemForSave,
+                    shouldShowBadgeWithNinePlus);
             badgeSaveInstanceHashMap.put(badgeIndex, badgeItemForSave);
         }
     }
@@ -954,5 +972,15 @@ public class SpaceNavigationView extends RelativeLayout {
         spaceBackgroundColor = color;
         setBackgroundColors();
         centreContent.changeBackgroundColor(color);
+    }
+
+
+    /**
+     * If you want to show full badge text or show 9+
+     *
+     * @param shouldShowBadgeWithNinePlus false for full text
+     */
+    public void shouldShowFullBadgeText(boolean shouldShowBadgeWithNinePlus) {
+        this.shouldShowBadgeWithNinePlus = shouldShowBadgeWithNinePlus;
     }
 }

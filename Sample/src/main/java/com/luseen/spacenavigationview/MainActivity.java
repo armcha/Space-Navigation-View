@@ -34,23 +34,22 @@ public class MainActivity extends AppCompatActivity {
         //spaceNavigationView.addSpaceItem(new SpaceItem("LIKE", R.drawable.bell));
         //spaceNavigationView.addSpaceItem(new SpaceItem("ACCOUNT", R.drawable.account));
         //spaceNavigationView.showIconOnly();
+        spaceNavigationView.shouldShowFullBadgeText(true);
 
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
             public void onCentreButtonClick() {
-                spaceNavigationView.changeSpaceBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.colorAccent));
                 Log.d("onCentreButtonClick ", "onCentreButtonClick");
+                spaceNavigationView.shouldShowFullBadgeText(true);
             }
 
             @Override
             public void onItemClick(int itemIndex, String itemName) {
-                spaceNavigationView.changeCenterButtonIcon(R.drawable.magnify);
                 Log.d("onItemClick ", "" + itemIndex + " " + itemName);
             }
 
             @Override
             public void onItemReselected(int itemIndex, String itemName) {
-                spaceNavigationView.changeSpaceBackgroundColor(ContextCompat.getColor(MainActivity.this,R.color.colorPrimary));
                 Log.d("onItemReselected ", "" + itemIndex + " " + itemName);
             }
         });
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(int position) {
                 if (position == 0) {
-                    spaceNavigationView.showBadgeAtIndex(1, 4, ContextCompat.getColor(MainActivity.this, R.color.badge_background_color));
+                    spaceNavigationView.showBadgeAtIndex(1, 54, ContextCompat.getColor(MainActivity.this, R.color.badge_background_color));
                 } else if (position == 1) {
                     spaceNavigationView.hideBudgeAtIndex(1);
                 }

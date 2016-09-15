@@ -28,14 +28,14 @@ Download sample [apk][7]
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:SpaceNavigationView:1.3.0'
+compile 'com.github.armcha:SpaceNavigationView:1.3.1'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>SpaceNavigationView</artifactId>
-  <version>1.3.0</version>
+  <version>1.3.1</version>
   <type>pom</type>
 </dependency>
 ```
@@ -255,8 +255,19 @@ Now you can change space navigation view background color if it already set up
 ```
 ![](screens/gif3.gif)
 
+If you want to show full badge text or show 9+
+```java
+      spaceNavigationView.shouldShowFullBadgeText(true);
+```
+
+[10]: https://github.com/armcha/Space-Navigation-View/issues/16
+[11]: https://github.com/armcha/Space-Navigation-View/issues/18
 
 ##Versions
+
+##1.4.0
+* Added method shouldShowFullBadgeText
+* Fixed issue [#16][10] , [#18][11]
 
 ##1.3.0
 * Added SpaceOnLongClickListener

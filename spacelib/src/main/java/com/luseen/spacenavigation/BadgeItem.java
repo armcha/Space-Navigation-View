@@ -46,6 +46,10 @@ class BadgeItem implements Serializable {
         return badgeText;
     }
 
+    String getFullBadgeText() {
+        return String.valueOf(badgeText);
+    }
+
     String getBadgeText() {
         String badgeStringText;
         if (badgeText > BADGE_TEXT_MAX_NUMBER) {
