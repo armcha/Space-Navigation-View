@@ -265,7 +265,7 @@ If you want to show full badge text or show 9+
 
 ##Versions
 
-##1.4.0
+##1.3.1
 * Added method shouldShowFullBadgeText
 * Fixed issue [#16][10] , [#18][11]
 
