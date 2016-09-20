@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
         //spaceNavigationView.setCentreButtonIconColor(ContextCompat.getColor(this,R.color.colorPrimary));
 
+        //spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
+        //spaceNavigationView.setCentreButtonIcon(R.mipmap.ic_launcher);
+
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
             public void onCentreButtonClick() {

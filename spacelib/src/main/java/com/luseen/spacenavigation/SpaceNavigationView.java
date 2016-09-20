@@ -25,7 +25,6 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -132,6 +131,8 @@ public class SpaceNavigationView extends RelativeLayout {
     private boolean isIconOnlyMode = false;
 
     private boolean isCustomFont = false;
+
+    private boolean isCentreButtonIconColorFilterEnabled = true;
 
     private boolean shouldShowBadgeWithNinePlus = true;
 
@@ -287,7 +288,10 @@ public class SpaceNavigationView extends RelativeLayout {
         fab.setRippleColor(centreButtonRippleColor);
         fab.setBackgroundTintList(ColorStateList.valueOf(centreButtonColor));
         fab.setImageResource(centreButtonIcon);
-        fab.getDrawable().setColorFilter(centreButtonIconColor, PorterDuff.Mode.SRC_IN);
+
+        if(isCentreButtonIconColorFilterEnabled)
+            fab.getDrawable().setColorFilter(centreButtonIconColor, PorterDuff.Mode.SRC_IN);
+
         fab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -912,6 +916,10 @@ public class SpaceNavigationView extends RelativeLayout {
     public void setFont(Typeface customFont) {
         isCustomFont = true;
         this.customFont = customFont;
+    }
+
+    public void setCentreButtonIconColorFilterEnabled(boolean enabled) {
+        isCentreButtonIconColorFilterEnabled = enabled;
     }
 
     /**
