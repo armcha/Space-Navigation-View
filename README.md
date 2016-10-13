@@ -277,8 +277,8 @@ spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
 ##Versions
 
 ##1.4.0
-*Added method do disable centre button default color filter
-*Fixed issue [#25][13]
+* Added method do disable centre button default color filter
+* Fixed issue [#25][13]
 
 ##1.3.2
 * Added method setCentreButtonIconColor [#17][12]
