@@ -26,15 +26,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-        spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
+        spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.account));
         spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.magnify));
         //spaceNavigationView.addSpaceItem(new SpaceItem("LIKE", R.drawable.bell));
         //spaceNavigationView.addSpaceItem(new SpaceItem("ACCOUNT", R.drawable.account));
         //spaceNavigationView.showIconOnly();
         spaceNavigationView.shouldShowFullBadgeText(true);
+        spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
 
         //spaceNavigationView.setCentreButtonIconColor(ContextCompat.getColor(this,R.color.colorPrimary));
 
@@ -71,6 +71,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        setUpRecyclerView();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        spaceNavigationView.onSaveInstanceState(outState);
+    }
+
+    private void setUpRecyclerView() {
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         RecyclerAdapter adapter = new RecyclerAdapter(dummyStrings());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
@@ -85,13 +96,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        spaceNavigationView.onSaveInstanceState(outState);
     }
 
     private List<String> dummyStrings() {
