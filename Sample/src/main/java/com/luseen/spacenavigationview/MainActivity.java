@@ -1,6 +1,7 @@
 package com.luseen.spacenavigationview;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCentreButtonClick() {
                 Log.d("onCentreButtonClick ", "onCentreButtonClick");
                 spaceNavigationView.shouldShowFullBadgeText(true);
+                //Snackbar.make(spaceNavigationView,"Deleted Saved Selection.", Snackbar.LENGTH_LONG).show();
             }
 
             @Override

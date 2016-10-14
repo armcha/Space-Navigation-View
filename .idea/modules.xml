@@ -3,10 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Sample/Sample.iml" filepath="$PROJECT_DIR$/Sample/Sample.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Sample/Sample.iml" filepath="$PROJECT_DIR$/Sample/Sample.iml" />
       <module fileurl="file://$PROJECT_DIR$/Space-Navigation-View.iml" filepath="$PROJECT_DIR$/Space-Navigation-View.iml" />
       <module fileurl="file://$PROJECT_DIR$/SpaceNavigationView.iml" filepath="$PROJECT_DIR$/SpaceNavigationView.iml" />
-      <module fileurl="file://$PROJECT_DIR$/spacelib/spacelib.iml" filepath="$PROJECT_DIR$/spacelib/spacelib.iml" />
       <module fileurl="file://$PROJECT_DIR$/spacelib/spacelib.iml" filepath="$PROJECT_DIR$/spacelib/spacelib.iml" />
     </modules>
   </component>
