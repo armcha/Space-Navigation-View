@@ -173,6 +173,7 @@ public class SpaceNavigationView extends RelativeLayout {
             centreButtonColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_centre_button_color, resources.getColor(com.luseen.spacenavigation.R.color.centre_button_color));
             activeSpaceItemColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_active_item_color, resources.getColor(com.luseen.spacenavigation.R.color.space_white));
             inActiveSpaceItemColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_inactive_item_color, resources.getColor(com.luseen.spacenavigation.R.color.default_inactive_item_color));
+            centreButtonIcon = typedArray.getResourceId(R.styleable.SpaceNavigationView_centre_button_icon, R.drawable.near_me);
             centreButtonIconColor = typedArray.getColor(R.styleable.SpaceNavigationView_centre_button_icon_color, resources.getColor(R.color.space_white));
 
             typedArray.recycle();
@@ -328,6 +329,7 @@ public class SpaceNavigationView extends RelativeLayout {
          */
         LayoutParams centreContentParams = new LayoutParams(centreContentWight, spaceNavigationHeight);
         centreContentParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        centreContentParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
         /**
          * Centre Background View content size and position
