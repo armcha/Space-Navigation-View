@@ -25,6 +25,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+//@CoordinatorLayout.DefaultBehavior(SpaceNavigationViewBehavior.class)
 public class SpaceNavigationView extends RelativeLayout {
 
     private static final String TAG = "SpaceNavigationView";

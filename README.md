@@ -28,14 +28,14 @@ Download sample [apk][7]
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:SpaceNavigationView:1.3.2'
+compile 'com.github.armcha:SpaceNavigationView:1.4.0'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>SpaceNavigationView</artifactId>
-  <version>1.3.2</version>
+  <version>1.4.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -264,12 +264,21 @@ Set centre button icon color
 ```java
 spaceNavigationView.setCentreButtonIconColor(ContextCompat.getColor(context,R.color.yourColor));
 ```
+If you want to disable default white color filter, just call
+```java
+spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
+```
 
 [10]: https://github.com/armcha/Space-Navigation-View/issues/16
 [11]: https://github.com/armcha/Space-Navigation-View/issues/18
 [12]: https://github.com/armcha/Space-Navigation-View/issues/17
+[13]: https://github.com/armcha/Space-Navigation-View/issues/25
 
 ##Versions
+
+##1.4.0
+* Added method do disable centre button default color filter
+* Fixed issue [#25][13]
 
 ##1.3.2
 * Added method setCentreButtonIconColor [#17][12]
