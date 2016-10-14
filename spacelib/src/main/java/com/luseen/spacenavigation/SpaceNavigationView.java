@@ -327,6 +327,7 @@ public class SpaceNavigationView extends RelativeLayout {
          */
         LayoutParams centreContentParams = new LayoutParams(centreContentWight, spaceNavigationHeight);
         centreContentParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        centreContentParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
         /**
          * Centre Background View content size and position
