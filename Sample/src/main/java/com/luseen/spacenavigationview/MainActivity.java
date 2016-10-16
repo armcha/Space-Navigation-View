@@ -31,23 +31,14 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.account));
         spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.magnify));
-        //spaceNavigationView.addSpaceItem(new SpaceItem("LIKE", R.drawable.bell));
-        //spaceNavigationView.addSpaceItem(new SpaceItem("ACCOUNT", R.drawable.account));
-        //spaceNavigationView.showIconOnly();
         spaceNavigationView.shouldShowFullBadgeText(true);
         spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
-
-        //spaceNavigationView.setCentreButtonIconColor(ContextCompat.getColor(this,R.color.colorPrimary));
-
-        //spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
-        //spaceNavigationView.setCentreButtonIcon(R.mipmap.ic_launcher);
 
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
             public void onCentreButtonClick() {
                 Log.d("onCentreButtonClick ", "onCentreButtonClick");
                 spaceNavigationView.shouldShowFullBadgeText(true);
-                //Snackbar.make(spaceNavigationView,"Deleted Saved Selection.", Snackbar.LENGTH_LONG).show();
             }
 
             @Override

@@ -28,14 +28,14 @@ Download sample [apk][7]
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:SpaceNavigationView:1.4.0'
+compile 'com.github.armcha:SpaceNavigationView:1.4.1'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>SpaceNavigationView</artifactId>
-  <version>1.4.0</version>
+  <version>1.4.1</version>
   <type>pom</type>
 </dependency>
 ```
@@ -134,6 +134,7 @@ Customize with xml
         app:centre_button_color="@color/centre_button_color"
         app:inactive_item_color="@color/white"
         app:space_background_color="@color/colorPrimary"
+        app:centre_button_icon="@drawable/my_drawable"
         app:space_item_icon_size="@dimen/space_item_icon_default_size"
         app:space_item_icon_only_size="@dimen/space_item_icon_only_size"
         app:space_item_text_size="@dimen/space_item_text_default_size" />
@@ -148,6 +149,7 @@ Customize with xml
 | space_item_icon_size | item icon size |
 | space_item_icon_only_size | item icon size on ```showIconOnly()``` mode |
 | space_item_text_size | item text size |
+| centre_button_icon | allow changing center icon from layout |
 
 Change space navigation background
 ```java
@@ -273,8 +275,14 @@ spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
 [11]: https://github.com/armcha/Space-Navigation-View/issues/18
 [12]: https://github.com/armcha/Space-Navigation-View/issues/17
 [13]: https://github.com/armcha/Space-Navigation-View/issues/25
+[14]: https://github.com/armcha/Space-Navigation-View/issues/29
+[15]: https://github.com/ankitpopli1891
 
 ##Versions
+
+##1.4.1
+* Changing center icon from layout
+* Fixed issue [#29][14] Thanks to [ankitpopli1891][15]
 
 ##1.4.0
 * Added method do disable centre button default color filter

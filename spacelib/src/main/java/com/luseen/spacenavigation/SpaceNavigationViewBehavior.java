@@ -3,18 +3,13 @@ package com.luseen.spacenavigation;
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPropertyAnimatorCompat;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.Interpolator;
 
 /**
  * Created by Chatikyan on 13.10.2016.
  */
-
-public class SpaceNavigationViewBehavior<V extends View> extends CoordinatorLayout.Behavior<V> {
+class SpaceNavigationViewBehavior<V extends View> extends CoordinatorLayout.Behavior<V> {
 
     public SpaceNavigationViewBehavior(Context context, AttributeSet attrs) {
         super();
