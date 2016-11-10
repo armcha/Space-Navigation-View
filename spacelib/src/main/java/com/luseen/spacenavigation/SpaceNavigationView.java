@@ -82,7 +82,7 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private Bundle savedInstanceState;
 
-    private FloatingActionButton fab;
+    private CentreButton centreButton;
 
     private RelativeLayout centreBackgroundView;
 
@@ -283,24 +283,24 @@ public class SpaceNavigationView extends RelativeLayout {
 
         centreContent = buildBezierView();
 
-        fab = new FloatingActionButton(context);
-        fab.setSize(FloatingActionButton.SIZE_NORMAL);
-        fab.setUseCompatPadding(false);
-        fab.setRippleColor(centreButtonRippleColor);
-        fab.setBackgroundTintList(ColorStateList.valueOf(centreButtonColor));
-        fab.setImageResource(centreButtonIcon);
+        centreButton = new CentreButton(context);
+        centreButton.setSize(FloatingActionButton.SIZE_NORMAL);
+        centreButton.setUseCompatPadding(false);
+        centreButton.setRippleColor(centreButtonRippleColor);
+        centreButton.setBackgroundTintList(ColorStateList.valueOf(centreButtonColor));
+        centreButton.setImageResource(centreButtonIcon);
 
         if (isCentreButtonIconColorFilterEnabled)
-            fab.getDrawable().setColorFilter(centreButtonIconColor, PorterDuff.Mode.SRC_IN);
+            centreButton.getDrawable().setColorFilter(centreButtonIconColor, PorterDuff.Mode.SRC_IN);
 
-        fab.setOnClickListener(new OnClickListener() {
+        centreButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (spaceOnClickListener != null)
                     spaceOnClickListener.onCentreButtonClick();
             }
         });
-        fab.setOnLongClickListener(new OnLongClickListener() {
+        centreButton.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if (spaceOnLongClickListener != null)
@@ -358,7 +358,7 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Adding view to centreContent
          */
-        centreContent.addView(fab, fabParams);
+        centreContent.addView(centreButton, fabParams);
 
         /**
          * Adding views to mainContent
@@ -644,7 +644,7 @@ public class SpaceNavigationView extends RelativeLayout {
 
             if (restoredBundle.containsKey(CENTRE_BUTTON_ICON_KEY)) {
                 centreButtonIcon = restoredBundle.getInt(CENTRE_BUTTON_ICON_KEY);
-                fab.setImageResource(centreButtonIcon);
+                centreButton.setImageResource(centreButtonIcon);
             }
 
             if (restoredBundle.containsKey(SPACE_BACKGROUND_COLOR_KEY)) {
@@ -930,11 +930,11 @@ public class SpaceNavigationView extends RelativeLayout {
      * @param icon Target icon to change
      */
     public void changeCenterButtonIcon(int icon) {
-        if (fab == null) {
+        if (centreButton == null) {
             Log.e(TAG, "You should call setCentreButtonIcon() instead, " +
                     "changeCenterButtonIcon works if space navigation already set up");
         } else {
-            fab.setImageResource(icon);
+            centreButton.setImageResource(icon);
             centreButtonIcon = icon;
         }
     }
