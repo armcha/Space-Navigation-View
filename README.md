@@ -28,14 +28,14 @@ Download sample [apk][7]
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:SpaceNavigationView:1.4.1'
+compile 'com.github.armcha:SpaceNavigationView:1.4.2'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>SpaceNavigationView</artifactId>
-  <version>1.4.1</version>
+  <version>1.4.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -276,9 +276,13 @@ spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
 [12]: https://github.com/armcha/Space-Navigation-View/issues/17
 [13]: https://github.com/armcha/Space-Navigation-View/issues/25
 [14]: https://github.com/armcha/Space-Navigation-View/issues/29
+[16]: https://github.com/armcha/Space-Navigation-View/issues/34
 [15]: https://github.com/ankitpopli1891
 
 ##Versions
+
+##1.4.2
+* Fixed issue [#34][16]
 
 ##1.4.1
 * Changing center icon from layout
@@ -327,6 +331,7 @@ Please fell free to contact me if there is any problem when using the library.
 
 - **Email**: armcha01@gmail.com
 - **Facebook**: https://web.facebook.com/chatikyana
+- **Twitter**: https://twitter.com/ArmanChatikyan
 - **Google +**: https://plus.google.com/112011638040018774140
 - **Website**: http://luseen.com/
 
