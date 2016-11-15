@@ -65,43 +65,24 @@ public class SpaceNavigationView extends RelativeLayout {
     private static final int MAX_SPACE_ITEM_SIZE = 4;
 
     private static final int MIN_SPACE_ITEM_SIZE = 2;
-
-    private List<SpaceItem> spaceItems = new ArrayList<>();
-
-    private List<View> spaceItemList = new ArrayList<>();
-
-    private List<RelativeLayout> badgeList = new ArrayList<>();
-
-    private HashMap<Integer, Object> badgeSaveInstanceHashMap = new HashMap<>();
-
-    private HashMap<Integer, SpaceItem> changedItemAndIconHashMap = new HashMap<>();
-
-    private SpaceOnClickListener spaceOnClickListener;
-
-    private SpaceOnLongClickListener spaceOnLongClickListener;
-
-    private Bundle savedInstanceState;
-
-    private CentreButton centreButton;
-
-    private RelativeLayout centreBackgroundView;
-
-    private LinearLayout leftContent, rightContent;
-
-    private BezierView centreContent;
-
-    private Typeface customFont;
-
-    private Context context;
-
     private final int spaceNavigationHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_navigation_height);
-
     private final int mainContentHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.main_content_height);
-
     private final int centreContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.centre_content_width);
-
     private final int centreButtonSize = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_centre_button_default_size);
-
+    private List<SpaceItem> spaceItems = new ArrayList<>();
+    private List<View> spaceItemList = new ArrayList<>();
+    private List<RelativeLayout> badgeList = new ArrayList<>();
+    private HashMap<Integer, Object> badgeSaveInstanceHashMap = new HashMap<>();
+    private HashMap<Integer, SpaceItem> changedItemAndIconHashMap = new HashMap<>();
+    private SpaceOnClickListener spaceOnClickListener;
+    private SpaceOnLongClickListener spaceOnLongClickListener;
+    private Bundle savedInstanceState;
+    private CentreButton centreButton;
+    private RelativeLayout centreBackgroundView;
+    private LinearLayout leftContent, rightContent;
+    private BezierView centreContent;
+    private Typeface customFont;
+    private Context context;
     private int spaceItemIconSize = NOT_DEFINED;
 
     private int spaceItemIconOnlySize = NOT_DEFINED;
@@ -112,7 +93,9 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private int centreButtonColor = NOT_DEFINED;
 
-    private int centreButtonIconColor = NOT_DEFINED;
+    private int activeCentreButtonIconColor = NOT_DEFINED;
+
+    private int inActiveCentreButtonIconColor = NOT_DEFINED;
 
     private int centreButtonIcon = NOT_DEFINED;
 
@@ -125,6 +108,8 @@ public class SpaceNavigationView extends RelativeLayout {
     private int currentSelectedItem = 0;
 
     private int contentWidth;
+
+    private boolean isCentreButtonSelectable = false;
 
     private boolean isTextOnlyMode = false;
 
@@ -172,7 +157,8 @@ public class SpaceNavigationView extends RelativeLayout {
             activeSpaceItemColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_active_item_color, resources.getColor(com.luseen.spacenavigation.R.color.space_white));
             inActiveSpaceItemColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_inactive_item_color, resources.getColor(com.luseen.spacenavigation.R.color.default_inactive_item_color));
             centreButtonIcon = typedArray.getResourceId(R.styleable.SpaceNavigationView_centre_button_icon, R.drawable.near_me);
-            centreButtonIconColor = typedArray.getColor(R.styleable.SpaceNavigationView_centre_button_icon_color, resources.getColor(R.color.space_white));
+            activeCentreButtonIconColor = typedArray.getColor(R.styleable.SpaceNavigationView_active_centre_button_icon_color, resources.getColor(R.color.space_white));
+            inActiveCentreButtonIconColor = typedArray.getColor(R.styleable.SpaceNavigationView_inactive_centre_button_icon_color, resources.getColor(com.luseen.spacenavigation.R.color.default_inactive_item_color));
 
             typedArray.recycle();
         }
@@ -212,8 +198,11 @@ public class SpaceNavigationView extends RelativeLayout {
         if (centreButtonRippleColor == NOT_DEFINED)
             centreButtonRippleColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.colorBackgroundHighlightWhite);
 
-        if (centreButtonIconColor == NOT_DEFINED)
-            centreButtonIconColor = ContextCompat.getColor(context, R.color.space_white);
+        if (activeCentreButtonIconColor == NOT_DEFINED)
+            activeCentreButtonIconColor = ContextCompat.getColor(context, R.color.space_white);
+
+        if (inActiveCentreButtonIconColor == NOT_DEFINED)
+            inActiveCentreButtonIconColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.default_inactive_item_color);
 
         /**
          * Set main layout size and color
@@ -290,14 +279,16 @@ public class SpaceNavigationView extends RelativeLayout {
         centreButton.setBackgroundTintList(ColorStateList.valueOf(centreButtonColor));
         centreButton.setImageResource(centreButtonIcon);
 
-        if (isCentreButtonIconColorFilterEnabled)
-            centreButton.getDrawable().setColorFilter(centreButtonIconColor, PorterDuff.Mode.SRC_IN);
+        if (isCentreButtonIconColorFilterEnabled || isCentreButtonSelectable)
+            centreButton.getDrawable().setColorFilter(inActiveSpaceItemColor, PorterDuff.Mode.SRC_IN);
 
         centreButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (spaceOnClickListener != null)
                     spaceOnClickListener.onCentreButtonClick();
+                if (isCentreButtonSelectable)
+                    updateSpaceItems(-1);
             }
         });
         centreButton.setOnLongClickListener(new OnLongClickListener() {
@@ -526,10 +517,28 @@ public class SpaceNavigationView extends RelativeLayout {
          * return if item already selected
          */
         if (currentSelectedItem == selectedIndex) {
-            if (spaceOnClickListener != null)
+            if (spaceOnClickListener != null && selectedIndex >= 0)
                 spaceOnClickListener.onItemReselected(selectedIndex, spaceItems.get(selectedIndex).getItemName());
 
             return;
+        }
+
+        if (isCentreButtonSelectable) {
+            /**
+             * Selects the centre button as current
+             */
+            if (selectedIndex == -1) {
+                if (centreButton != null)
+                    centreButton.getDrawable().setColorFilter(activeCentreButtonIconColor, PorterDuff.Mode.SRC_IN);
+            }
+
+            /**
+             * Removes selection from centre button
+             */
+            if (currentSelectedItem == -1) {
+                if (centreButton != null)
+                    centreButton.getDrawable().setColorFilter(inActiveCentreButtonIconColor, PorterDuff.Mode.SRC_IN);
+            }
         }
 
         /**
@@ -556,7 +565,7 @@ public class SpaceNavigationView extends RelativeLayout {
          *
          * @param listener a listener for monitoring changes in item selection
          */
-        if (spaceOnClickListener != null)
+        if (spaceOnClickListener != null && selectedIndex >= 0)
             spaceOnClickListener.onItemClick(selectedIndex, spaceItems.get(selectedIndex).getItemName());
 
         /**
@@ -800,12 +809,29 @@ public class SpaceNavigationView extends RelativeLayout {
     }
 
     /**
+     * Makes centre button selectable
+     */
+    public void setCentreButtonSelectable(boolean isSelectable) {
+        this.isCentreButtonSelectable = isSelectable;
+    }
+
+    /**
      * Add space item to navigation
      *
      * @param spaceItem item to add
      */
     public void addSpaceItem(SpaceItem spaceItem) {
         spaceItems.add(spaceItem);
+    }
+
+    /**
+     * Change current selected item to centre button
+     */
+    public void setCentreButtonSelected() {
+        if (!isCentreButtonSelectable)
+            throw new ArrayIndexOutOfBoundsException("Please be more careful, you must set the centre button selectable");
+        else
+            updateSpaceItems(-1);
     }
 
     /**
@@ -828,11 +854,12 @@ public class SpaceNavigationView extends RelativeLayout {
 
     /**
      * Change current selected item to given index
+     * Note: -1 represents the centre button
      *
      * @param indexToChange given index
      */
     public void changeCurrentItem(int indexToChange) {
-        if (indexToChange < 0 || indexToChange > spaceItems.size())
+        if (indexToChange < -1 || indexToChange > spaceItems.size())
             throw new ArrayIndexOutOfBoundsException("Please be more careful, we do't have such item : " + indexToChange);
         else {
             updateSpaceItems(indexToChange);
@@ -1004,11 +1031,20 @@ public class SpaceNavigationView extends RelativeLayout {
     }
 
     /**
-     * set centre button color
+     * set active centre button color
      *
      * @param color target color
      */
-    public void setCentreButtonIconColor(@ColorInt int color) {
-        centreButtonIconColor = color;
+    public void setActiveCentreButtonIconColor(@ColorInt int color) {
+        activeCentreButtonIconColor = color;
+    }
+
+    /**
+     * set inactive centre button color
+     *
+     * @param color target color
+     */
+    public void setInActiveCentreButtonIconColor(@ColorInt int color) {
+        inActiveCentreButtonIconColor = color;
     }
 }
