@@ -97,6 +97,8 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private int inActiveCentreButtonIconColor = NOT_DEFINED;
 
+    private int activeCentreButtonBackgroundColor = NOT_DEFINED;
+
     private int centreButtonIcon = NOT_DEFINED;
 
     private int activeSpaceItemColor = NOT_DEFINED;
@@ -159,6 +161,7 @@ public class SpaceNavigationView extends RelativeLayout {
             centreButtonIcon = typedArray.getResourceId(R.styleable.SpaceNavigationView_centre_button_icon, R.drawable.near_me);
             activeCentreButtonIconColor = typedArray.getColor(R.styleable.SpaceNavigationView_active_centre_button_icon_color, resources.getColor(R.color.space_white));
             inActiveCentreButtonIconColor = typedArray.getColor(R.styleable.SpaceNavigationView_inactive_centre_button_icon_color, resources.getColor(com.luseen.spacenavigation.R.color.default_inactive_item_color));
+            activeCentreButtonBackgroundColor = typedArray.getColor(R.styleable.SpaceNavigationView_active_centre_button_background_color, resources.getColor(com.luseen.spacenavigation.R.color.centre_button_color));
 
             typedArray.recycle();
         }
@@ -528,16 +531,26 @@ public class SpaceNavigationView extends RelativeLayout {
              * Selects the centre button as current
              */
             if (selectedIndex == -1) {
-                if (centreButton != null)
+                if (centreButton != null) {
                     centreButton.getDrawable().setColorFilter(activeCentreButtonIconColor, PorterDuff.Mode.SRC_IN);
+
+                    if (activeCentreButtonBackgroundColor != NOT_DEFINED) {
+                        centreButton.setBackgroundTintList(ColorStateList.valueOf(activeCentreButtonBackgroundColor));
+                    }
+                }
             }
 
             /**
              * Removes selection from centre button
              */
             if (currentSelectedItem == -1) {
-                if (centreButton != null)
+                if (centreButton != null) {
                     centreButton.getDrawable().setColorFilter(inActiveCentreButtonIconColor, PorterDuff.Mode.SRC_IN);
+
+                    if (activeCentreButtonBackgroundColor != NOT_DEFINED) {
+                        centreButton.setBackgroundTintList(ColorStateList.valueOf(centreButtonColor));
+                    }
+                }
             }
         }
 
@@ -738,6 +751,15 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void setCentreButtonIcon(int centreButtonIcon) {
         this.centreButtonIcon = centreButtonIcon;
+    }
+
+    /**
+     * Set active centre button color
+     *
+     * @param activeCentreButtonBackgroundColor color to change
+     */
+    public void setActiveCentreButtonBackgroundColor(@ColorInt int activeCentreButtonBackgroundColor) {
+        this.activeCentreButtonBackgroundColor = activeCentreButtonBackgroundColor;
     }
 
     /**
