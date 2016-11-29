@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setUpRecyclerView();
+
+       // spaceNavigationView.showBadgeAtIndex(1, 54, ContextCompat.getColor(MainActivity.this, R.color.badge_background_color));
     }
 
     @Override

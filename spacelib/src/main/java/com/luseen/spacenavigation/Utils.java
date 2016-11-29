@@ -16,6 +16,8 @@
  */
 package com.luseen.spacenavigation;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
@@ -74,6 +76,13 @@ class Utils {
         });
         imageTintChangeAnimation.setDuration(150);
         imageTintChangeAnimation.start();
+    }
+
+    static void makeTranslationYAnimation(View view, float value) {
+        view.animate()
+                .translationY(value)
+                .setDuration(150)
+                .start();
     }
 
     // TODO: 15.08.2016 add ripple effect programmatically
