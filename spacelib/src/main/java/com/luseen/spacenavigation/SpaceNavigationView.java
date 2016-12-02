@@ -60,6 +60,8 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private static final String BADGE_FULL_TEXT_KEY = "badgeFullTextKey";
 
+    private static final String VISIBILITY = "visibilty";
+
     private static final int NOT_DEFINED = -777; //random number, not - 1 because it is Color.WHITE
 
     private static final int MAX_SPACE_ITEM_SIZE = 4;
@@ -258,6 +260,12 @@ public class SpaceNavigationView extends RelativeLayout {
          * Redraw main view to make subviews visible
          */
         postRequestLayout();
+
+        /**
+         * Retore Translation height
+         */
+
+        restoreTranslation();
     }
 
     //private methods
@@ -333,16 +341,18 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Left content size
          */
-        LayoutParams leftContentParams = new LayoutParams(contentWidth, ViewGroup.LayoutParams.MATCH_PARENT);
+        LayoutParams leftContentParams = new LayoutParams(contentWidth,mainContentHeight);
         leftContentParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         leftContentParams.addRule(LinearLayout.HORIZONTAL);
+        leftContentParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
         /**
          * Right content size
          */
-        LayoutParams rightContentParams = new LayoutParams(contentWidth, ViewGroup.LayoutParams.MATCH_PARENT);
+        LayoutParams rightContentParams = new LayoutParams(contentWidth, mainContentHeight);
         rightContentParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         rightContentParams.addRule(LinearLayout.HORIZONTAL);
+        rightContentParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
         /**
          * Adding views background colors
@@ -357,8 +367,9 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Adding views to mainContent
          */
-        mainContent.addView(leftContent, leftContentParams);
-        mainContent.addView(rightContent, rightContentParams);
+        addView(leftContent, leftContentParams);
+        addView(rightContent, rightContentParams);
+
 
         /**
          * Adding views to mainView
@@ -719,6 +730,7 @@ public class SpaceNavigationView extends RelativeLayout {
         outState.putInt(CENTRE_BUTTON_ICON_KEY, centreButtonIcon);
         outState.putInt(SPACE_BACKGROUND_COLOR_KEY, spaceBackgroundColor);
         outState.putBoolean(BADGE_FULL_TEXT_KEY, shouldShowBadgeWithNinePlus);
+        outState.putFloat(VISIBILITY, this.getTranslationY());
 
         if (badgeSaveInstanceHashMap.size() > 0)
             outState.putSerializable(BUDGES_ITEM_BUNDLE_KEY, badgeSaveInstanceHashMap);
@@ -912,6 +924,21 @@ public class SpaceNavigationView extends RelativeLayout {
             BadgeItem badgeItem = new BadgeItem(itemIndex, badgeText, badgeColor);
             BadgeHelper.showBadge(badgeView, badgeItem, shouldShowBadgeWithNinePlus);
             badgeSaveInstanceHashMap.put(itemIndex, badgeItem);
+        }
+    }
+
+    /**
+     * Restore translation height from saveInstance
+     */
+    @SuppressWarnings("unchecked")
+    private void restoreTranslation() {
+        Bundle restoredBundle = savedInstanceState;
+
+        if (restoredBundle != null) {
+            if (restoredBundle.containsKey(VISIBILITY)) {
+                this.setTranslationY(restoredBundle.getFloat(VISIBILITY));
+            }
+
         }
     }
 
