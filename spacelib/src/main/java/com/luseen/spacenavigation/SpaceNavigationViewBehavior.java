@@ -33,7 +33,7 @@ class SpaceNavigationViewBehavior<V extends View> extends CoordinatorLayout.Beha
     }
 
     @Override
-    public boolean onStartNestedScroll (CoordinatorLayout coordinatorLayout, V child, View directTargetChild, View target, int nestedScrollAxes) {
+    public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, V child, View directTargetChild, View target, int nestedScrollAxes) {
         // Ensure we react to vertical scrolling
         return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL
                 || super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
@@ -44,10 +44,10 @@ class SpaceNavigationViewBehavior<V extends View> extends CoordinatorLayout.Beha
                                final View target, final int dxConsumed, final int dyConsumed,
                                final int dxUnconsumed, final int dyUnconsumed) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-        if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
-            child.setVisibility(View.GONE);  
-        } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
-            child.setVisibility(View.VISIBLE);
+        if (dyConsumed > 0) {
+            Utils.makeTranslationYAnimation(child, child.getHeight());
+        } else if (dyConsumed < 0) {
+            Utils.makeTranslationYAnimation(child, 0);
         }
     }
 }

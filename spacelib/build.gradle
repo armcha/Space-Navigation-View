@@ -3,7 +3,7 @@ apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    buildToolsVersion "25.0.1"
 
     defaultConfig {
         minSdkVersion 14
@@ -24,15 +24,15 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:25.0.0'
-    compile 'com.android.support:support-v4:25.0.0'
-    compile 'com.android.support:design:25.0.0'
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.android.support:support-v4:25.0.1'
+    compile 'com.android.support:design:25.0.1'
 }
 
 publish {
     groupId = 'com.github.armcha'
     artifactId = 'SpaceNavigationView'
-    publishVersion = '1.4.2'
+    publishVersion = '1.5.0'
     desc = 'Spaces Navigation View'
     licences = ['MIT']
     website = 'https://github.com/armcha/Space-Navigation-View'

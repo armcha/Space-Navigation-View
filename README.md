@@ -28,14 +28,14 @@ Download sample [apk][7]
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:SpaceNavigationView:1.4.2'
+compile 'com.github.armcha:SpaceNavigationView:1.5.0'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>SpaceNavigationView</artifactId>
-  <version>1.4.2</version>
+  <version>1.5.0</version>
   <type>pom</type>
 </dependency>
 ```
@@ -271,15 +271,45 @@ If you want to disable default white color filter, just call
 spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
 ```
 
+Add recycler view scroll behavior
+```groovy
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.luseen.spacenavigationview.MainActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.luseen.spacenavigation.SpaceNavigationView
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_behavior="com.luseen.spacenavigation.SpaceNavigationViewBehavior" />
+</android.support.design.widget.CoordinatorLayout>
+```
+
 [10]: https://github.com/armcha/Space-Navigation-View/issues/16
 [11]: https://github.com/armcha/Space-Navigation-View/issues/18
 [12]: https://github.com/armcha/Space-Navigation-View/issues/17
 [13]: https://github.com/armcha/Space-Navigation-View/issues/25
 [14]: https://github.com/armcha/Space-Navigation-View/issues/29
 [16]: https://github.com/armcha/Space-Navigation-View/issues/34
+[17]: https://github.com/armcha/Space-Navigation-View/issues/32
 [15]: https://github.com/ankitpopli1891
 
 ##Versions
+
+##1.5.0
+* Added SpaceNavigationViewBehavior
+* Fixed issue [#32][17]
 
 ##1.4.2
 * Fixed issue [#34][16]
