@@ -283,7 +283,7 @@ public class SpaceNavigationView extends RelativeLayout {
         centreButton.setImageResource(centreButtonIcon);
 
         if (isCentreButtonIconColorFilterEnabled || isCentreButtonSelectable)
-            centreButton.getDrawable().setColorFilter(inActiveSpaceItemColor, PorterDuff.Mode.SRC_IN);
+            centreButton.getDrawable().setColorFilter(inActiveCentreButtonIconColor, PorterDuff.Mode.SRC_IN);
 
         centreButton.setOnClickListener(new OnClickListener() {
             @Override
