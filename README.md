@@ -28,14 +28,14 @@ Download sample [apk][7]
 
 Gradle:
 ```groovy
-compile 'com.github.armcha:SpaceNavigationView:1.5.0'
+compile 'com.github.armcha:SpaceNavigationView:1.6.0'
 ```
 Maven:
 ```xml
 <dependency>
   <groupId>com.github.armcha</groupId>
   <artifactId>SpaceNavigationView</artifactId>
-  <version>1.5.0</version>
+  <version>1.6.0</version>
   <type>pom</type>
 </dependency>
 ```
