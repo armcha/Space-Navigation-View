@@ -216,13 +216,13 @@ spaceNavigationView.showBadgeAtIndex(int itemIndexToShowBadge, int badgeCountTex
 
 Hide badge at index
 ```java
-spaceNavigationView.hideBudgeAtIndex(int itemIndexToHideBudge);
+spaceNavigationView.hideBadgeAtIndex(int itemIndexToHideBadge);
 ```
 ![](screens/gif2.gif)
 
 Hide all badges
 ```java
-spaceNavigationView.hideAllBudges();
+spaceNavigationView.hideAllBadges();
 ```
 
 Change badge text
@@ -303,9 +303,18 @@ Add recycler view scroll behavior
 [14]: https://github.com/armcha/Space-Navigation-View/issues/29
 [16]: https://github.com/armcha/Space-Navigation-View/issues/34
 [17]: https://github.com/armcha/Space-Navigation-View/issues/32
+[20]: https://github.com/armcha/Space-Navigation-View/issues/41
 [15]: https://github.com/ankitpopli1891
+[18]: https://github.com/akiraspeirs
+[19]: https://github.com/nextdimension
 
 ##Versions
+
+##1.6.0
+* Added saving translation height on rotation. Thanks to [akiraspeirs][18]
+* Fixed requestLayout being improperly called. Thanks to [akiraspeirs][18]
+* Fixed inActiveCentreButtonIconColor not being used initially. Thanks to [nextdimension][19]
+* Fixed issue [#41][20]
 
 ##1.5.0
 * Added SpaceNavigationViewBehavior

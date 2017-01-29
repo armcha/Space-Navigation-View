@@ -48,7 +48,7 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private static final String CURRENT_SELECTED_ITEM_BUNDLE_KEY = "currentItem";
 
-    private static final String BUDGES_ITEM_BUNDLE_KEY = "budgeItem";
+    private static final String BADGES_ITEM_BUNDLE_KEY = "badgeItem";
 
     private static final String CHANGED_ICON_AND_TEXT_BUNDLE_KEY = "changedIconAndText";
 
@@ -642,8 +642,8 @@ public class SpaceNavigationView extends RelativeLayout {
                 shouldShowBadgeWithNinePlus = restoredBundle.getBoolean(BADGE_FULL_TEXT_KEY);
             }
 
-            if (restoredBundle.containsKey(BUDGES_ITEM_BUNDLE_KEY)) {
-                badgeSaveInstanceHashMap = (HashMap<Integer, Object>) savedInstanceState.getSerializable(BUDGES_ITEM_BUNDLE_KEY);
+            if (restoredBundle.containsKey(BADGES_ITEM_BUNDLE_KEY)) {
+                badgeSaveInstanceHashMap = (HashMap<Integer, Object>) savedInstanceState.getSerializable(BADGES_ITEM_BUNDLE_KEY);
                 if (badgeSaveInstanceHashMap != null) {
                     for (Integer integer : badgeSaveInstanceHashMap.keySet()) {
                         BadgeHelper.forceShowBadge(
@@ -712,7 +712,7 @@ public class SpaceNavigationView extends RelativeLayout {
 
     /**
      * Initialization with savedInstanceState to save current selected
-     * position and current budges
+     * position and current badges
      *
      * @param savedInstanceState bundle to saveInstance
      */
@@ -721,7 +721,7 @@ public class SpaceNavigationView extends RelativeLayout {
     }
 
     /**
-     * Save budges and current position
+     * Save badges and current position
      *
      * @param outState bundle to saveInstance
      */
@@ -733,7 +733,7 @@ public class SpaceNavigationView extends RelativeLayout {
         outState.putFloat(VISIBILITY, this.getTranslationY());
 
         if (badgeSaveInstanceHashMap.size() > 0)
-            outState.putSerializable(BUDGES_ITEM_BUNDLE_KEY, badgeSaveInstanceHashMap);
+            outState.putSerializable(BADGES_ITEM_BUNDLE_KEY, badgeSaveInstanceHashMap);
         if (changedItemAndIconHashMap.size() > 0)
             outState.putSerializable(CHANGED_ICON_AND_TEXT_BUNDLE_KEY, changedItemAndIconHashMap);
     }
@@ -946,10 +946,26 @@ public class SpaceNavigationView extends RelativeLayout {
      * Hide badge at index
      *
      * @param index badge index
+     * @deprecated Use {@link #hideBadgeAtIndex(int index)} instead.
      */
+    @Deprecated
     public void hideBudgeAtIndex(final int index) {
         if (badgeList.get(index).getVisibility() == GONE) {
-            Log.d(TAG, "Budge at index: " + index + " already hidden");
+            Log.d(TAG, "Badge at index: " + index + " already hidden");
+        } else {
+            BadgeHelper.hideBadge(badgeList.get(index));
+            badgeSaveInstanceHashMap.remove(index);
+        }
+    }
+
+    /**
+     * Hide badge at index
+     *
+     * @param index badge index
+     */
+    public void hideBadgeAtIndex(final int index) {
+        if (badgeList.get(index).getVisibility() == GONE) {
+            Log.d(TAG, "Badge at index: " + index + " already hidden");
         } else {
             BadgeHelper.hideBadge(badgeList.get(index));
             badgeSaveInstanceHashMap.remove(index);
@@ -958,8 +974,21 @@ public class SpaceNavigationView extends RelativeLayout {
 
     /**
      * Hiding all available badges
+     * @deprecated Use {@link #hideAllBadges()} instead.
      */
+    @Deprecated
     public void hideAllBudges() {
+        for (RelativeLayout badge : badgeList) {
+            if (badge.getVisibility() == VISIBLE)
+                BadgeHelper.hideBadge(badge);
+        }
+        badgeSaveInstanceHashMap.clear();
+    }
+
+    /**
+     * Hiding all available badges
+     */
+    public void hideAllBadges() {
         for (RelativeLayout badge : badgeList) {
             if (badge.getVisibility() == VISIBLE)
                 BadgeHelper.hideBadge(badge);
