@@ -16,7 +16,6 @@ import com.luseen.spacenavigation.SpaceOnLongClickListener;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private SpaceNavigationView spaceNavigationView;
@@ -28,8 +27,11 @@ public class MainActivity extends AppCompatActivity {
 
         spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-        spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.account));
+        spaceNavigationView.setTextPosition(SpaceNavigationView.TEXT_IN_BOTTOM);
+        spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.home));
         spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.magnify));
+        spaceNavigationView.addSpaceItem(new SpaceItem("HEART", R.drawable.heart));
+        spaceNavigationView.addSpaceItem(new SpaceItem("ME", R.drawable.account));
         spaceNavigationView.shouldShowFullBadgeText(true);
         spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
 
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         setUpRecyclerView();
     }
 
@@ -82,9 +86,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(int position) {
                 if (position == 0) {
-                    spaceNavigationView.showBadgeAtIndex(1, 54, ContextCompat.getColor(MainActivity.this, R.color.badge_background_color));
+                    spaceNavigationView.showBadgeAtIndex(0, 13, ContextCompat.getColor(MainActivity.this, R.color.badge_background_color));
+                    spaceNavigationView.showBadgeAtIndex(1, 29, ContextCompat.getColor(MainActivity.this, R.color.badge_background_color));
+                    spaceNavigationView.showBadgeAtIndex(2, 53, ContextCompat.getColor(MainActivity.this, R.color.badge_background_color));
+                    spaceNavigationView.showBadgeAtIndex(3, 99, ContextCompat.getColor(MainActivity.this, R.color.badge_background_color));
                 } else if (position == 1) {
-                    spaceNavigationView.hideBudgeAtIndex(1);
+                    spaceNavigationView.hideBadgeAtIndex(1);
                 }
             }
         });

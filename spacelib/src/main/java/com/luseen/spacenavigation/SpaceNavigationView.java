@@ -73,7 +73,7 @@ public class SpaceNavigationView extends RelativeLayout {
     private final int centreButtonSize = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_centre_button_default_size);
     private List<SpaceItem> spaceItems = new ArrayList<>();
     private List<View> spaceItemList = new ArrayList<>();
-    private List<RelativeLayout> badgeList = new ArrayList<>();
+    private List<TextView> badgeList = new ArrayList<>();
     private HashMap<Integer, Object> badgeSaveInstanceHashMap = new HashMap<>();
     private HashMap<Integer, SpaceItem> changedItemAndIconHashMap = new HashMap<>();
     private SpaceOnClickListener spaceOnClickListener;
@@ -124,6 +124,19 @@ public class SpaceNavigationView extends RelativeLayout {
     private boolean isCentreButtonIconColorFilterEnabled = true;
 
     private boolean shouldShowBadgeWithNinePlus = true;
+
+    public static final int TEXT_IN_RIGHT = 0;
+    public static final int TEXT_IN_BOTTOM = 1;
+
+    private int textPosition = TEXT_IN_RIGHT;
+
+    public int getTextPosition() {
+        return textPosition;
+    }
+
+    public void setTextPosition(int textPosition) {
+        this.textPosition = textPosition;
+    }
 
     /**
      * Constructors
@@ -367,8 +380,8 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Adding views to mainContent
          */
-        addView(leftContent, leftContentParams);
-        addView(rightContent, rightContentParams);
+        mainContent.addView(leftContent, leftContentParams);
+        mainContent.addView(rightContent, rightContentParams);
 
 
         /**
@@ -426,17 +439,29 @@ public class SpaceNavigationView extends RelativeLayout {
                 targetWidth = contentWidth;
             }
 
-            RelativeLayout.LayoutParams textAndIconContainerParams = new RelativeLayout.LayoutParams(
-                    targetWidth, mainContentHeight);
+            RelativeLayout.LayoutParams textAndIconContainerParams = new RelativeLayout.LayoutParams(targetWidth, mainContentHeight);
             RelativeLayout textAndIconContainer = (RelativeLayout) inflater.inflate(R.layout.space_item_view, this, false);
             textAndIconContainer.setLayoutParams(textAndIconContainerParams);
 
             ImageView spaceItemIcon = (ImageView) textAndIconContainer.findViewById(R.id.space_icon);
             TextView spaceItemText = (TextView) textAndIconContainer.findViewById(R.id.space_text);
-            RelativeLayout badgeContainer = (RelativeLayout) textAndIconContainer.findViewById(R.id.badge_container);
+            TextView badgeContainer = (TextView) textAndIconContainer.findViewById(R.id.badge_text_view);
             spaceItemIcon.setImageResource(spaceItems.get(i).getItemIcon());
             spaceItemText.setText(spaceItems.get(i).getItemName());
             spaceItemText.setTextSize(TypedValue.COMPLEX_UNIT_PX, spaceItemTextSize);
+
+            LinearLayout main_content = (LinearLayout) textAndIconContainer.findViewById(R.id.main_content);
+            switch (textPosition) {
+                case TEXT_IN_RIGHT:
+                    main_content.setOrientation(LinearLayout.HORIZONTAL);
+                    break;
+                case TEXT_IN_BOTTOM:
+                    main_content.setOrientation(LinearLayout.VERTICAL);
+                    break;
+                default:
+                    main_content.setOrientation(LinearLayout.HORIZONTAL);
+                    break;
+            }
 
             /**
              * Set custom font to space item textView
@@ -602,9 +627,9 @@ public class SpaceNavigationView extends RelativeLayout {
      * Set views background colors
      */
     private void setBackgroundColors() {
+        leftContent.setBackgroundColor(spaceBackgroundColor);
         rightContent.setBackgroundColor(spaceBackgroundColor);
         centreBackgroundView.setBackgroundColor(spaceBackgroundColor);
-        leftContent.setBackgroundColor(spaceBackgroundColor);
     }
 
     /**
@@ -910,7 +935,7 @@ public class SpaceNavigationView extends RelativeLayout {
         if (itemIndex < 0 || itemIndex > spaceItems.size()) {
             throwArrayIndexOutOfBoundsException(itemIndex);
         } else {
-            RelativeLayout badgeView = badgeList.get(itemIndex);
+            TextView badgeView = badgeList.get(itemIndex);
 
             /**
              * Set circle background to badge view
@@ -978,7 +1003,7 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     @Deprecated
     public void hideAllBudges() {
-        for (RelativeLayout badge : badgeList) {
+        for (TextView badge : badgeList) {
             if (badge.getVisibility() == VISIBLE)
                 BadgeHelper.hideBadge(badge);
         }
@@ -989,7 +1014,7 @@ public class SpaceNavigationView extends RelativeLayout {
      * Hiding all available badges
      */
     public void hideAllBadges() {
-        for (RelativeLayout badge : badgeList) {
+        for (TextView badge : badgeList) {
             if (badge.getVisibility() == VISIBLE)
                 BadgeHelper.hideBadge(badge);
         }
@@ -1075,8 +1100,8 @@ public class SpaceNavigationView extends RelativeLayout {
         } else {
             SpaceItem spaceItem = spaceItems.get(itemIndex);
             RelativeLayout textAndIconContainer = (RelativeLayout) spaceItemList.get(itemIndex);
-            TextView spaceItemIcon = (TextView) textAndIconContainer.findViewById(R.id.space_text);
-            spaceItemIcon.setText(newText);
+            TextView spaceItemText = (TextView) textAndIconContainer.findViewById(R.id.space_text);
+            spaceItemText.setText(newText);
             spaceItem.setItemName(newText);
             changedItemAndIconHashMap.put(itemIndex, spaceItem);
         }

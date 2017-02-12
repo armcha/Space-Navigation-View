@@ -22,7 +22,6 @@ import android.os.Build;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 class BadgeHelper {
@@ -30,22 +29,20 @@ class BadgeHelper {
     /**
      * Show badge
      *
-     * @param view      target badge
+     * @param badgeTextView      target badge
      * @param badgeItem BadgeItem object
      */
-    static void showBadge(RelativeLayout view, BadgeItem badgeItem, boolean shouldShowBadgeWithNinePlus) {
-
-        Utils.changeViewVisibilityVisible(view);
-        TextView badgeTextView = (TextView) view.findViewById(R.id.badge_text_view);
+    static void showBadge(TextView badgeTextView, BadgeItem badgeItem, boolean shouldShowBadgeWithNinePlus) {
+        Utils.changeViewVisibilityVisible(badgeTextView);
         if (shouldShowBadgeWithNinePlus)
             badgeTextView.setText(badgeItem.getBadgeText());
         else
             badgeTextView.setText(badgeItem.getFullBadgeText());
 
-        view.setScaleX(0);
-        view.setScaleY(0);
+        badgeTextView.setScaleX(0);
+        badgeTextView.setScaleY(0);
 
-        ViewCompat.animate(view)
+        ViewCompat.animate(badgeTextView)
                 .setDuration(200)
                 .scaleX(1)
                 .scaleY(1)
@@ -80,17 +77,17 @@ class BadgeHelper {
     /**
      * Force show badge without animation
      *
-     * @param view      target budge
+     * @param badgeTextView      target budge
      * @param badgeItem BadgeItem object
      */
-    static void forceShowBadge(RelativeLayout view, BadgeItem badgeItem, boolean shouldShowBadgeWithNinePlus) {
-        Utils.changeViewVisibilityVisible(view);
+    static void forceShowBadge(TextView badgeTextView, BadgeItem badgeItem, boolean shouldShowBadgeWithNinePlus) {
+        Utils.changeViewVisibilityVisible(badgeTextView);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            view.setBackground(makeShapeDrawable(badgeItem.getBadgeColor()));
+            badgeTextView.setBackground(makeShapeDrawable(badgeItem.getBadgeColor()));
         } else {
-            view.setBackgroundDrawable(makeShapeDrawable(badgeItem.getBadgeColor()));
+            badgeTextView.setBackgroundDrawable(makeShapeDrawable(badgeItem.getBadgeColor()));
         }
-        TextView badgeTextView = (TextView) view.findViewById(R.id.badge_text_view);
+
         if (shouldShowBadgeWithNinePlus)
             badgeTextView.setText(badgeItem.getBadgeText());
         else
