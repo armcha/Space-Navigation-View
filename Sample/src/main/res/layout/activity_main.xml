@@ -17,5 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        app:centre_part_linear="true"
         app:layout_behavior="com.luseen.spacenavigation.SpaceNavigationViewBehavior" />
 </android.support.design.widget.CoordinatorLayout>

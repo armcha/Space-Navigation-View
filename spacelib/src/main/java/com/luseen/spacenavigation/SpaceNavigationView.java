@@ -115,6 +115,8 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private boolean isCentreButtonSelectable = false;
 
+    private boolean isCentrePartLinear = false;
+
     private boolean isTextOnlyMode = false;
 
     private boolean isIconOnlyMode = false;
@@ -161,6 +163,7 @@ public class SpaceNavigationView extends RelativeLayout {
             activeSpaceItemColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_active_item_color, resources.getColor(com.luseen.spacenavigation.R.color.space_white));
             inActiveSpaceItemColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_inactive_item_color, resources.getColor(com.luseen.spacenavigation.R.color.default_inactive_item_color));
             centreButtonIcon = typedArray.getResourceId(R.styleable.SpaceNavigationView_centre_button_icon, R.drawable.near_me);
+            isCentrePartLinear = typedArray.getBoolean(R.styleable.SpaceNavigationView_centre_part_linear, false);
             activeCentreButtonIconColor = typedArray.getColor(R.styleable.SpaceNavigationView_active_centre_button_icon_color, resources.getColor(R.color.space_white));
             inActiveCentreButtonIconColor = typedArray.getColor(R.styleable.SpaceNavigationView_inactive_centre_button_icon_color, resources.getColor(com.luseen.spacenavigation.R.color.default_inactive_item_color));
             activeCentreButtonBackgroundColor = typedArray.getColor(R.styleable.SpaceNavigationView_active_centre_button_background_color, resources.getColor(com.luseen.spacenavigation.R.color.centre_button_color));
@@ -694,7 +697,7 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     private BezierView buildBezierView() {
         BezierView bezierView = new BezierView(context, spaceBackgroundColor);
-        bezierView.build(centreContentWight, spaceNavigationHeight - mainContentHeight);
+        bezierView.build(centreContentWight, spaceNavigationHeight - mainContentHeight,isCentrePartLinear);
         return bezierView;
     }
 

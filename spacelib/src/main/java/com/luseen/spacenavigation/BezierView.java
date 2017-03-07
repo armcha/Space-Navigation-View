@@ -37,6 +37,8 @@ class BezierView extends RelativeLayout {
 
     private Context context;
 
+    private boolean isLinear=false;
+
 
     BezierView(Context context, int backgroundColor) {
         super(context);
@@ -73,15 +75,16 @@ class BezierView extends RelativeLayout {
          */
         path.moveTo(0, bezierHeight);
 
-        /**
-         * Seth half path of bezier view
-         */
-        path.cubicTo(bezierWidth / 4, bezierHeight, bezierWidth / 4, 0, bezierWidth / 2, 0);
-
-        /**
-         * Seth second part of bezier view
-         */
-        path.cubicTo((bezierWidth / 4) * 3, 0, (bezierWidth / 4) * 3, bezierHeight, bezierWidth, bezierHeight);
+        if(!isLinear){
+            /**
+             * Seth half path of bezier view
+             */
+            path.cubicTo(bezierWidth / 4, bezierHeight, bezierWidth / 4, 0, bezierWidth / 2, 0);
+            /**
+             * Seth second part of bezier view
+             */
+            path.cubicTo((bezierWidth / 4) * 3, 0, (bezierWidth / 4) * 3, bezierHeight, bezierWidth, bezierHeight);
+        }
 
         /**
          * Draw our bezier view
@@ -94,10 +97,12 @@ class BezierView extends RelativeLayout {
      *
      * @param bezierWidth  Given width
      * @param bezierHeight Given height
+     * @param isLinear True, if curves are not needed
      */
-    void build(int bezierWidth, int bezierHeight) {
+    void build(int bezierWidth, int bezierHeight,boolean isLinear) {
         this.bezierWidth = bezierWidth;
         this.bezierHeight = bezierHeight;
+        this.isLinear=isLinear;
     }
 
     /**
