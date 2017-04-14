@@ -13,6 +13,7 @@
         <attr name="active_centre_button_icon_color" format="color" />
         <attr name="inactive_centre_button_icon_color" format="color" />
         <attr name="active_centre_button_background_color" format="color"/>
+        <attr name="centre_part_linear" format="boolean" />
     </declare-styleable>
 
 </resources>
