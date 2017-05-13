@@ -356,6 +356,7 @@ Add recycler view scroll behavior
 * Initial release
 
 ##Apps using the Space Navigation View
+* [Book Share - Share Ebooks and files](https://play.google.com/store/apps/details?id=com.rvnd.bookshare)
 * [WiFi FTP Server +File Transfer](https://play.google.com/store/apps/details?id=com.transfer.file)
 
 Kindly please let me know if you used or planning to use the library in your projects
