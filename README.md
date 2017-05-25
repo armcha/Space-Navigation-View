@@ -2,7 +2,7 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Space--Navigation--View-green.svg?style=true)](https://android-arsenal.com/details/1/4180)
 <a href='https://ko-fi.com/A654L70' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=f' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a> 
 
-##Introduction
+## Introduction
 ------------
 Space Navigation is a library allowing easily integrate fully customizable Google [Spaces][1] like navigation to your app.
 [1]: https://play.google.com/store/apps/details?id=com.google.android.apps.social.spaces
@@ -16,14 +16,14 @@ The current minSDK version is API level 14 Android 4.0 (ICE CREAM SANDWICH).
 Download sample [apk][7]
 [7]: https://github.com/armcha/Space-Navigation-View/raw/master/SpaceNavigationView.apk
 
-#YouTube demos 
+# YouTube demos 
 
-##Demo 1    
+## Demo 1    
 [![Demo 1](https://img.youtube.com/vi/LY-7abfJV2o/2.jpg)](https://www.youtube.com/watch?v=LY-7abfJV2o)    
-##Demo 2     
+## Demo 2     
 [![Demo 2](https://img.youtube.com/vi/rA1NMMLJ4TE/2.jpg)](https://www.youtube.com/watch?v=rA1NMMLJ4TE)      
 
-#Download magic
+# Download magic
 -----------------------
 
 
@@ -317,45 +317,45 @@ Add recycler view scroll behavior
 * Fixed inActiveCentreButtonIconColor not being used initially. Thanks to [nextdimension][19]
 * Fixed issue [#41][20]
 
-##1.5.0
+## 1.5.0
 * Added SpaceNavigationViewBehavior
 * Fixed issue [#32][17]
 
-##1.4.2
+## 1.4.2
 * Fixed issue [#34][16]
 
-##1.4.1
+## 1.4.1
 * Changing center icon from layout
 * Fixed issue [#29][14] Thanks to [ankitpopli1891][15]
 
-##1.4.0
+## 1.4.0
 * Added method do disable centre button default color filter
 * Fixed issue [#25][13]
 
-##1.3.2
+## 1.3.2
 * Added method setCentreButtonIconColor [#17][12]
 
-##1.3.1
+## 1.3.1
 * Added method shouldShowFullBadgeText
 * Fixed issue [#16][10] , [#18][11]
 
-##1.3.0
+## 1.3.0
 * Added SpaceOnLongClickListener
 * Added changeSpaceBackgroundColor method
 * Fixed rendering problem when view is in edit mode
 
-##1.2.0
+## 1.2.0
 * Fixed centre button issue
 * Added API 14+ support
 
-##1.1.0 
+## 1.1.0 
 * Added ```changeItemTextAtPosition, changeItemIconAtPosition, changeCenterButtonIcon,setCentreButtonRippleColor``` methods
 * Now you can set onItemReselect listener
 
-##1.0.0
+## 1.0.0
 * Initial release
 
-##Apps using the Space Navigation View
+## Apps using the Space Navigation View
 * [Book Share - Share Ebooks and files](https://play.google.com/store/apps/details?id=com.rvnd.bookshare)
 * [WiFi FTP Server +File Transfer](https://play.google.com/store/apps/details?id=com.transfer.file)
 
