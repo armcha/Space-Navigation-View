@@ -374,7 +374,7 @@ Please fell free to contact me if there is any problem when using the library.
 - **Facebook**: https://web.facebook.com/chatikyana
 - **Twitter**: https://twitter.com/ArmanChatikyan
 - **Google +**: https://plus.google.com/112011638040018774140
-- **Website**: http://luseen.com/
+- **Website**: https://armcha.github.io/
 
 License
 --------
