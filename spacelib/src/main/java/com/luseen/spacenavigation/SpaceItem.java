@@ -24,9 +24,17 @@ public class SpaceItem implements Serializable {
 
     private int itemIcon;
 
+    private Integer itemLayout = null;
+
     public SpaceItem(String itemName, int itemIcon) {
         this.itemName = itemName;
         this.itemIcon = itemIcon;
+    }
+
+    public SpaceItem(String itemName, int itemIcon, int itemLayout) {
+        this.itemName = itemName;
+        this.itemIcon = itemIcon;
+        this.itemLayout = itemLayout;
     }
 
     String getItemName() {
@@ -43,5 +51,13 @@ public class SpaceItem implements Serializable {
 
     void setItemIcon(int itemIcon) {
         this.itemIcon = itemIcon;
+    }
+
+    Integer getItemLayout() {
+        return itemLayout;
+    }
+
+    void setItemLayout(int itemLayout) {
+        this.itemLayout = itemLayout;
     }
 }

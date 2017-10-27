@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/white_ripple"
+    android:clickable="true">
+
+    <LinearLayout
+        android:id="@+id/main_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/space_icon"
+            android:layout_width="@dimen/space_item_icon_default_size"
+            android:layout_height="@dimen/space_item_icon_default_size"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/space_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:lines="1"
+            android:textSize="@dimen/space_item_text_default_size"
+            tools:text="Label One" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/badge_container"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/badge_left_margin"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/main_content"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/badge_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>
