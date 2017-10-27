@@ -113,6 +113,8 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private int contentWidth;
 
+    private int itemLayout = NOT_DEFINED;
+
     private boolean isCentreButtonSelectable = false;
 
     private boolean isCentrePartLinear = false;
@@ -163,6 +165,7 @@ public class SpaceNavigationView extends RelativeLayout {
             activeSpaceItemColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_active_item_color, resources.getColor(com.luseen.spacenavigation.R.color.space_white));
             inActiveSpaceItemColor = typedArray.getColor(com.luseen.spacenavigation.R.styleable.SpaceNavigationView_inactive_item_color, resources.getColor(com.luseen.spacenavigation.R.color.default_inactive_item_color));
             centreButtonIcon = typedArray.getResourceId(R.styleable.SpaceNavigationView_centre_button_icon, R.drawable.near_me);
+            itemLayout = typedArray.getResourceId(R.styleable.SpaceNavigationView_space_item_layout, R.layout.space_item_view);
             isCentrePartLinear = typedArray.getBoolean(R.styleable.SpaceNavigationView_centre_part_linear, false);
             activeCentreButtonIconColor = typedArray.getColor(R.styleable.SpaceNavigationView_active_centre_button_icon_color, resources.getColor(R.color.space_white));
             inActiveCentreButtonIconColor = typedArray.getColor(R.styleable.SpaceNavigationView_inactive_centre_button_icon_color, resources.getColor(com.luseen.spacenavigation.R.color.default_inactive_item_color));
@@ -187,6 +190,9 @@ public class SpaceNavigationView extends RelativeLayout {
 
         if (centreButtonIcon == NOT_DEFINED)
             centreButtonIcon = R.drawable.near_me;
+
+        if (itemLayout == NOT_DEFINED)
+            itemLayout = R.layout.space_item_view;
 
         if (activeSpaceItemColor == NOT_DEFINED)
             activeSpaceItemColor = ContextCompat.getColor(context, com.luseen.spacenavigation.R.color.space_white);
@@ -429,9 +435,12 @@ public class SpaceNavigationView extends RelativeLayout {
                 targetWidth = contentWidth;
             }
 
+            Integer itemLayout = spaceItems.get(i).getItemLayout();
+            if (itemLayout == null) itemLayout = this.itemLayout;
+
             RelativeLayout.LayoutParams textAndIconContainerParams = new RelativeLayout.LayoutParams(
                     targetWidth, mainContentHeight);
-            RelativeLayout textAndIconContainer = (RelativeLayout) inflater.inflate(R.layout.space_item_view, this, false);
+            RelativeLayout textAndIconContainer = (RelativeLayout) inflater.inflate(itemLayout, this, false);
             textAndIconContainer.setLayoutParams(textAndIconContainerParams);
 
             ImageView spaceItemIcon = (ImageView) textAndIconContainer.findViewById(R.id.space_icon);
@@ -766,6 +775,15 @@ public class SpaceNavigationView extends RelativeLayout {
      */
     public void setCentreButtonIcon(int centreButtonIcon) {
         this.centreButtonIcon = centreButtonIcon;
+    }
+
+    /**
+     * Set space item layout
+     *
+     * @param itemLayout target layout
+     */
+    public void setItemLayout(int itemLayout) {
+        this.itemLayout = itemLayout;
     }
 
     /**
