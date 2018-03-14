@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -16,7 +17,9 @@
         <ImageView
             android:id="@+id/space_icon"
             android:layout_width="@dimen/space_item_icon_default_size"
-            android:layout_height="@dimen/space_item_icon_default_size" />
+            android:layout_height="@dimen/space_item_icon_default_size"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/near_me" />
 
         <TextView
             android:id="@+id/space_text"
@@ -26,6 +29,7 @@
             android:layout_marginLeft="10dp"
             android:lines="1"
             android:textSize="@dimen/space_item_text_default_size"
+            android:visibility="gone"
             tools:text="Label One" />
     </LinearLayout>
 
@@ -34,11 +38,11 @@
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="@dimen/badge_left_margin"
-        android:layout_marginRight="2dp"
+        android:layout_marginLeft="0dp"
+
         android:layout_marginTop="3dp"
         android:layout_toRightOf="@+id/main_content"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/badge_text_view"
