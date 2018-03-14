@@ -1,11 +1,14 @@
 package com.luseen.spacenavigationview;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.luseen.spacenavigation.SpaceItem;
@@ -24,7 +27,19 @@ public class ActivityWithBadge extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_badge);
+
+        Button btnShowBadge = (Button) findViewById(R.id.btnBadge);
+        btnShowBadge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spaceNavigationView.shouldShowFullBadgeText(true);
+                spaceNavigationView.showBadgeAtIndex(0, 2, Color.RED);
+                spaceNavigationView.showBadgeAtIndex(1, 3, Color.CYAN);
+                spaceNavigationView.showBadgeAtIndex(2, 4, Color.MAGENTA);
+                spaceNavigationView.showBadgeAtIndex(3, 23, Color.BLUE);
+            }
+        });
 
         spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
@@ -39,9 +54,6 @@ public class ActivityWithBadge extends AppCompatActivity {
             @Override
             public void onCentreButtonClick() {
                 Log.d("onCentreButtonClick ", "onCentreButtonClick");
-                spaceNavigationView.shouldShowFullBadgeText(true);
-                spaceNavigationView.showBadgeAtIndex(1, 23, getResources().getColor(R.color.colorPrimary));
-                spaceNavigationView.showBadgeAtIndex(2, 23, getResources().getColor(R.color.colorPrimary));
             }
 
             @Override
