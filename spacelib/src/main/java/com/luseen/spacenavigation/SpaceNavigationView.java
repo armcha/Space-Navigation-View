@@ -70,6 +70,7 @@ public class SpaceNavigationView extends RelativeLayout {
     private final int spaceNavigationHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_navigation_height);
     private final int mainContentHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.main_content_height);
     private final int centreContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.centre_content_width);
+    private final int itemContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.item_content_width);
     private final int centreButtonSize = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_centre_button_default_size);
     private List<SpaceItem> spaceItems = new ArrayList<>();
     private List<View> spaceItemList = new ArrayList<>();
@@ -337,7 +338,7 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Centre Background View content size and position
          */
-        LayoutParams centreBackgroundViewParams = new LayoutParams(centreContentWight, mainContentHeight);
+        LayoutParams centreBackgroundViewParams = new LayoutParams(itemContentWight, mainContentHeight);
         centreBackgroundViewParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         centreBackgroundViewParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 

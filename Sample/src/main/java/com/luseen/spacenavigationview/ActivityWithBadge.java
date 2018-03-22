@@ -1,12 +1,14 @@
 package com.luseen.spacenavigationview;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.luseen.spacenavigation.SpaceItem;
@@ -18,29 +20,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class ActivityWithBadge extends AppCompatActivity {
 
     private SpaceNavigationView spaceNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_badge);
 
-        Toast.makeText(getApplicationContext(), "Long press center button to show badge example", Toast.LENGTH_LONG).show();
+        Button btnShowBadge = (Button) findViewById(R.id.btnBadge);
+        btnShowBadge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spaceNavigationView.shouldShowFullBadgeText(true);
+                spaceNavigationView.showBadgeAtIndex(0, 2, Color.RED);
+                spaceNavigationView.showBadgeAtIndex(1, 3, Color.DKGRAY);
+                spaceNavigationView.showBadgeAtIndex(2, 4, Color.MAGENTA);
+                spaceNavigationView.showBadgeAtIndex(3, 23, Color.BLUE);
+            }
+        });
 
         spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
         spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.account));
         spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.magnify));
-        spaceNavigationView.shouldShowFullBadgeText(true);
+        spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.account));
+        spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.magnify));
+        spaceNavigationView.shouldShowFullBadgeText(false);
         spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
 
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             @Override
             public void onCentreButtonClick() {
                 Log.d("onCentreButtonClick ", "onCentreButtonClick");
-                spaceNavigationView.shouldShowFullBadgeText(true);
             }
 
             @Override
@@ -57,17 +70,15 @@ public class MainActivity extends AppCompatActivity {
         spaceNavigationView.setSpaceOnLongClickListener(new SpaceOnLongClickListener() {
             @Override
             public void onCentreButtonLongClick() {
-//                Toast.makeText(MainActivity.this, "onCentreButtonLongClick", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MainActivity.this, ActivityWithBadge.class);
-                startActivity(intent);
+                Toast.makeText(ActivityWithBadge.this, "onCentreButtonLongClick", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onItemLongClick(int itemIndex, String itemName) {
-                Toast.makeText(MainActivity.this, itemIndex + " " + itemName, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ActivityWithBadge.this, itemIndex + " " + itemName, Toast.LENGTH_SHORT).show();
             }
         });
-
+        spaceNavigationView.showIconOnly();
         setUpRecyclerView();
     }
 
@@ -87,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(int position) {
                 if (position == 0) {
-                    spaceNavigationView.showBadgeAtIndex(1, 54, ContextCompat.getColor(MainActivity.this, R.color.badge_background_color));
+                    spaceNavigationView.showBadgeAtIndex(1, 54, ContextCompat.getColor(ActivityWithBadge.this, R.color.badge_background_color));
                 } else if (position == 1) {
                     spaceNavigationView.hideBudgeAtIndex(1);
                 }
