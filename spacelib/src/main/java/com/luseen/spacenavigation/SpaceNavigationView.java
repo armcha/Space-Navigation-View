@@ -25,6 +25,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
+import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -70,6 +71,7 @@ public class SpaceNavigationView extends RelativeLayout {
     private final int spaceNavigationHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_navigation_height);
     private final int mainContentHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.main_content_height);
     private final int centreContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.centre_content_width);
+    private final int itemContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.item_content_width);
     private final int centreButtonSize = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_centre_button_default_size);
     private List<SpaceItem> spaceItems = new ArrayList<>();
     private List<View> spaceItemList = new ArrayList<>();
@@ -92,6 +94,8 @@ public class SpaceNavigationView extends RelativeLayout {
     private int spaceItemTextSize = NOT_DEFINED;
 
     private int spaceBackgroundColor = NOT_DEFINED;
+
+    private int centreButtonId = NOT_DEFINED;
 
     private int centreButtonColor = NOT_DEFINED;
 
@@ -287,6 +291,11 @@ public class SpaceNavigationView extends RelativeLayout {
         centreContent = buildBezierView();
 
         centreButton = new CentreButton(context);
+
+        if (centreButtonId != NOT_DEFINED) {
+            centreButton.setId(centreButtonId);
+        }
+
         centreButton.setSize(FloatingActionButton.SIZE_NORMAL);
         centreButton.setUseCompatPadding(false);
         centreButton.setRippleColor(centreButtonRippleColor);
@@ -337,7 +346,7 @@ public class SpaceNavigationView extends RelativeLayout {
         /**
          * Centre Background View content size and position
          */
-        LayoutParams centreBackgroundViewParams = new LayoutParams(centreContentWight, mainContentHeight);
+        LayoutParams centreBackgroundViewParams = new LayoutParams(itemContentWight, mainContentHeight);
         centreBackgroundViewParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
         centreBackgroundViewParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
@@ -440,6 +449,12 @@ public class SpaceNavigationView extends RelativeLayout {
             spaceItemIcon.setImageResource(spaceItems.get(i).getItemIcon());
             spaceItemText.setText(spaceItems.get(i).getItemName());
             spaceItemText.setTextSize(TypedValue.COMPLEX_UNIT_PX, spaceItemTextSize);
+
+            /**
+             * Set a custom id to the item
+             */
+            if (spaceItems.get(i).getId() != -1)
+                textAndIconContainer.setId(spaceItems.get(i).getId());
 
             /**
              * Set custom font to space item textView
@@ -739,6 +754,10 @@ public class SpaceNavigationView extends RelativeLayout {
             outState.putSerializable(BADGES_ITEM_BUNDLE_KEY, badgeSaveInstanceHashMap);
         if (changedItemAndIconHashMap.size() > 0)
             outState.putSerializable(CHANGED_ICON_AND_TEXT_BUNDLE_KEY, changedItemAndIconHashMap);
+    }
+
+    public void setCentreButtonId(@IdRes int id) {
+        this.centreButtonId = id;
     }
 
     /**
