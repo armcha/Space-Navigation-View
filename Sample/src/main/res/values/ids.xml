@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="navigation_first" type="id"/>
+    <item name="navigation_second" type="id"/>
+    <item name="navigation_third" type="id"/>
+    <item name="navigation_forth" type="id"/>
+    <item name="navigation_centre" type="id"/>
+</resources>

@@ -43,11 +43,13 @@ public class ActivityWithBadge extends AppCompatActivity {
 
         spaceNavigationView = (SpaceNavigationView) findViewById(R.id.space);
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState);
-        spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.account));
-        spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.magnify));
-        spaceNavigationView.addSpaceItem(new SpaceItem("HOME", R.drawable.account));
-        spaceNavigationView.addSpaceItem(new SpaceItem("SEARCH", R.drawable.magnify));
+        spaceNavigationView.addSpaceItem(new SpaceItem(R.id.navigation_first,"HOME", R.drawable.account));
+        spaceNavigationView.addSpaceItem(new SpaceItem(R.id.navigation_second, "SEARCH", R.drawable.magnify));
+        spaceNavigationView.addSpaceItem(new SpaceItem(R.id.navigation_third, "HOME", R.drawable.account));
+        spaceNavigationView.addSpaceItem(new SpaceItem(R.id.navigation_forth, "SEARCH", R.drawable.magnify));
         spaceNavigationView.shouldShowFullBadgeText(false);
+
+        spaceNavigationView.setCentreButtonId(R.id.navigation_centre);
         spaceNavigationView.setCentreButtonIconColorFilterEnabled(false);
 
         spaceNavigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
