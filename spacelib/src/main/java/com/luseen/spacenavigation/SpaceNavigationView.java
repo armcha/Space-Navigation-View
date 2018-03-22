@@ -454,7 +454,7 @@ public class SpaceNavigationView extends RelativeLayout {
              * Set a custom id to the item
              */
             if (spaceItems.get(i).getId() != -1)
-                spaceItemText.setId(spaceItems.get(i).getId());
+                textAndIconContainer.setId(spaceItems.get(i).getId());
 
             /**
              * Set custom font to space item textView
