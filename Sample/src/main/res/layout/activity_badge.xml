@@ -40,6 +40,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom"
                 app:centre_part_linear="false"
+                app:space_background_color="@color/space_white"
                 app:layout_behavior="com.luseen.spacenavigation.SpaceNavigationViewBehavior" />
         </RelativeLayout>
     </LinearLayout>

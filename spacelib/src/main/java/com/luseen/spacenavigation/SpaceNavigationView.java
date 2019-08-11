@@ -69,10 +69,12 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private static final int MIN_SPACE_ITEM_SIZE = 2;
     private final int spaceNavigationHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_navigation_height);
+    private final int spaceNavigationShadowHeight = (int) Math.ceil(getResources().getDimension(R.dimen.space_navigation_shadow_width));
     private final int mainContentHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.main_content_height);
     private final int centreContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.centre_content_width);
     private final int itemContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.item_content_width);
     private final int centreButtonSize = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_centre_button_default_size);
+    private int spaceNavigationWidth;
     private List<SpaceItem> spaceItems = new ArrayList<>();
     private List<View> spaceItemList = new ArrayList<>();
     private List<RelativeLayout> badgeList = new ArrayList<>();
@@ -85,6 +87,7 @@ public class SpaceNavigationView extends RelativeLayout {
     private RelativeLayout centreBackgroundView;
     private LinearLayout leftContent, rightContent;
     private BezierView centreContent;
+    private NavigationViewShadow navigationViewBorderLine;
     private Typeface customFont;
     private Context context;
     private int spaceItemIconSize = NOT_DEFINED;
@@ -221,7 +224,8 @@ public class SpaceNavigationView extends RelativeLayout {
          */
         ViewGroup.LayoutParams params = getLayoutParams();
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        params.height = spaceNavigationHeight;
+        // width increase by shadow width to allow shadow be visible, otherwise shadow will be clipped
+        params.height = spaceNavigationHeight+spaceNavigationShadowHeight;
         setBackgroundColor(ContextCompat.getColor(context, R.color.space_transparent));
         setLayoutParams(params);
     }
@@ -229,6 +233,8 @@ public class SpaceNavigationView extends RelativeLayout {
     @Override
     protected void onSizeChanged(int width, int height, int oldWidth, int oldHeight) {
         super.onSizeChanged(width, height, oldWidth, oldHeight);
+
+        spaceNavigationWidth = width;
 
         /**
          * Restore current item index from savedInstance
@@ -289,6 +295,7 @@ public class SpaceNavigationView extends RelativeLayout {
         rightContent = new LinearLayout(context);
 
         centreContent = buildBezierView();
+        navigationViewBorderLine = buildBezierBorderline();
 
         centreButton = new CentreButton(context);
 
@@ -344,6 +351,13 @@ public class SpaceNavigationView extends RelativeLayout {
         centreContentParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
         /**
+         * Borderline params
+         */
+        LayoutParams borderLineParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, spaceNavigationHeight);
+        borderLineParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        borderLineParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+
+        /**
          * Centre Background View content size and position
          */
         LayoutParams centreBackgroundViewParams = new LayoutParams(itemContentWight, mainContentHeight);
@@ -370,6 +384,11 @@ public class SpaceNavigationView extends RelativeLayout {
          * Adding views background colors
          */
         setBackgroundColors();
+
+        /**
+         * Adding shadow first, so it appears under all views
+         */
+        addView(navigationViewBorderLine, borderLineParams);
 
         /**
          * Adding view to centreContent
@@ -438,7 +457,7 @@ public class SpaceNavigationView extends RelativeLayout {
                 targetWidth = contentWidth;
             }
 
-            RelativeLayout.LayoutParams textAndIconContainerParams = new RelativeLayout.LayoutParams(
+            LayoutParams textAndIconContainerParams = new LayoutParams(
                     targetWidth, mainContentHeight);
             RelativeLayout textAndIconContainer = (RelativeLayout) inflater.inflate(R.layout.space_item_view, this, false);
             textAndIconContainer.setLayoutParams(textAndIconContainerParams);
@@ -714,6 +733,17 @@ public class SpaceNavigationView extends RelativeLayout {
         BezierView bezierView = new BezierView(context, spaceBackgroundColor);
         bezierView.build(centreContentWight, spaceNavigationHeight - mainContentHeight,isCentrePartLinear);
         return bezierView;
+    }
+
+    /**
+     * Creating borderline with params
+     *
+     * @return created borderline view
+     */
+    private NavigationViewShadow buildBezierBorderline() {
+        NavigationViewShadow borderline = new NavigationViewShadow(context);
+        borderline.build(spaceNavigationWidth, centreContentWight, spaceNavigationHeight - mainContentHeight,isCentrePartLinear);
+        return borderline;
     }
 
     /**
