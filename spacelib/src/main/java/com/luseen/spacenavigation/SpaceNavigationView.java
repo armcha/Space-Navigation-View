@@ -69,6 +69,7 @@ public class SpaceNavigationView extends RelativeLayout {
 
     private static final int MIN_SPACE_ITEM_SIZE = 2;
     private final int spaceNavigationHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.space_navigation_height);
+    private final int spaceNavigationShadowHeight = (int) Math.ceil(getResources().getDimension(R.dimen.space_navigation_shadow_width));
     private final int mainContentHeight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.main_content_height);
     private final int centreContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.centre_content_width);
     private final int itemContentWight = (int) getResources().getDimension(com.luseen.spacenavigation.R.dimen.item_content_width);
@@ -223,8 +224,8 @@ public class SpaceNavigationView extends RelativeLayout {
          */
         ViewGroup.LayoutParams params = getLayoutParams();
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        // width increase by 8 to allow shadow be visible, otherwise shadow will be clipped
-        params.height = spaceNavigationHeight+8;
+        // width increase by shadow width to allow shadow be visible, otherwise shadow will be clipped
+        params.height = spaceNavigationHeight+spaceNavigationShadowHeight;
         setBackgroundColor(ContextCompat.getColor(context, R.color.space_transparent));
         setLayoutParams(params);
     }

@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
 
 @SuppressLint("ViewConstructor")
 public class NavigationViewShadow extends RelativeLayout {
+    private final int spaceNavigationShadowHeight = (int) Math.ceil(getResources().getDimension(R.dimen.space_navigation_shadow_width));
+
     private Paint paint;
 
     private int bezierWidth, bezierHeight, navigationWidth;
@@ -19,7 +21,7 @@ public class NavigationViewShadow extends RelativeLayout {
 
     private boolean isLinear=false;
 
-    int [] alphaArray = new int[]{25, 23, 18, 15, 13, 8, 5, 3};
+    int [] alphaArray = new int[]{11, 9, 7, 6, 5, 4, 3, 2, 1, 0};
 
     NavigationViewShadow(Context context) {
         super(context);
@@ -38,14 +40,21 @@ public class NavigationViewShadow extends RelativeLayout {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // translate canvas by shaow width (8 width of shadow). Otherwise canvas clips top part bezier curve
-        canvas.translate(0, 8);
+        // translate canvas by shadow width. Otherwise canvas clips top part bezier curve
+        canvas.translate(0, spaceNavigationShadowHeight);
 
-        for (int i = 0; i<8; i++){
+        // Should draw paths "spaceNavigationShadowHeight" times
+        for (int i = 0; i<spaceNavigationShadowHeight; i++){
             /**
              * Draw shadow
              */
-            canvas.drawPath(drawPathWithOffset(alphaArray[i], i), paint);
+            // If path count exceeds alpha array size then assign alpha level of zero to the rest of paths
+            if (i >= alphaArray.length){
+                canvas.drawPath(drawPathWithOffset(0, i), paint);
+            }else {
+                canvas.drawPath(drawPathWithOffset(alphaArray[i], i), paint);
+            }
+
         }
     }
 
