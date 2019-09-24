@@ -309,9 +309,9 @@ Add recycler view scroll behavior
 [18]: https://github.com/akiraspeirs
 [19]: https://github.com/nextdimension
 
-##Versions
+## Versions
 
-##1.6.0
+## 1.6.0
 * Added saving translation height on rotation. Thanks to [akiraspeirs][18]
 * Fixed requestLayout being improperly called. Thanks to [akiraspeirs][18]
 * Fixed inActiveCentreButtonIconColor not being used initially. Thanks to [nextdimension][19]
